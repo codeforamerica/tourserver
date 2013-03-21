@@ -1,0 +1,33 @@
+<%= form_for(@tour) do |f| %>
+  <% if @tour.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@tour.errors.count, "error") %> prohibited this tour from being saved:</h2>
+
+      <ul>
+      <% @tour.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :difficulty %><br />
+    <%= f.text_field :difficulty %>
+  </div>
+  <div class="field">
+    <%= f.label :tourtime %><br />
+    <%= f.number_field :tourtime %>
+  </div>
+  <div class="field">
+    <%= f.label :path %><br />
+    <%= f.text_field :path %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

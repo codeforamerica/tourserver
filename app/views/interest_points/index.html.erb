@@ -1,0 +1,25 @@
+<h1>Listing interest_points</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Location</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @interest_points.each do |interest_point| %>
+  <tr>
+    <td><%= interest_point.name %></td>
+    <td><%= interest_point.location %></td>
+    <td><%= link_to 'Show', interest_point %></td>
+    <td><%= link_to 'Edit', edit_interest_point_path(interest_point) %></td>
+    <td><%= link_to 'Destroy', interest_point, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Interest point', new_interest_point_path %>

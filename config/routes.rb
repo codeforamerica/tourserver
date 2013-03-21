@@ -1,4 +1,10 @@
 Tourtesting::Application.routes.draw do
+  resources :interest_points
+
+
+  resources :tours
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
