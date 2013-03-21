@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  tour_id: 1
+  interest_point_id: 1
+  sequence: 1
+
+two:
+  tour_id: 1
+  interest_point_id: 1
+  sequence: 1
