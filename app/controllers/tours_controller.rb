@@ -1,4 +1,14 @@
 class ToursController < ApplicationController
+
+  before_filter :convert_wkt, :only => [:create, :update]
+
+  def convert_wkt
+    parser = RGeo::WKRep::WKTParser.new(nil, :support_ewkt => true)
+    logger.info(params[:tour][:path])
+    params[:tour][:path] = parser.parse(params[:tour][:path])
+    logger.info(params)
+  end
+
   # GET /tours
   # GET /tours.json
   def index

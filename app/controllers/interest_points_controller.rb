@@ -1,4 +1,14 @@
 class InterestPointsController < ApplicationController
+
+  before_filter :convert_wkt, :only => [:create, :update]
+
+  def convert_wkt
+    parser = RGeo::WKRep::WKTParser.new(nil, :support_ewkt => true)
+    logger.info(params[:interest_point][:location])
+    params[:interest_point][:location] = parser.parse(params[:interest_point][:location])
+    logger.info(params)
+  end
+
   # GET /interest_points
   # GET /interest_points.json
   def index
