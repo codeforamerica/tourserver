@@ -1,21 +1,21 @@
 "use strict";
+
 $(function() {
+  //uncomment the following for PhoneGap (and the closing punct at the bottom)
   //$(document).bind('deviceready', function (){ 
   var request;
   var tour = {
     path: []
   };
-
+  var points;
 
   $("#postpoint").click(function(event) {
     event.preventDefault();
     var point;
     var $button = $(this);
-
     if (request) {
       request.abort();
     }
-
     navigator.geolocation.getCurrentPosition(geoClickSuccess, geoClickError, {
       enableHighAccuracy: true
     });
@@ -25,29 +25,31 @@ $(function() {
     }
 
     function geoClickSuccess(position) {
-      if (position.coords.accuracy < 10) {
+      if (position.coords.accuracy < 30) {
         $button.prop("disabled", true);
-        pointWKT = "POINT (" + position.coords.longitude + " " + position.coords.latitude + ")";
-        point = {
-          "interest_point": {
-            "location": pointWKT
-          }
-        };
-        var request = $.ajax({
-          type: "post",
-          url: "http://127.0.0.1:3000/interest_points",
-          dataType: "json",
-          beforeSend: function(xhr) {
-            xhr.setRequestHeader("Accept", "application/json")
-          },
-          data: point
-        }).fail(function(jqXHR, textStatus, errorThrown) {
-          alert(errorThrown);
-        }).done(function(response, textStatus, jqXHR) {
-          alert(response);
-        }).always(function() {
-          $button.prop("disabled", false)
-        });
+        savePoint(position);
+      } else {
+        alert(position.coords.accuracy + " Go outside!");
+      }
+    }
+  });
+
+
+  $("#markpoint").click(function(event) {
+    event.preventDefault();
+    var point;
+    navigator.geolocation.getCurrentPosition(geoClickSuccess, geoClickError, {
+      enableHighAccuracy: true
+    });
+
+    function geoClickError() {
+      console.log(error);
+    }
+
+    function geoClickSuccess(position) {
+      if (position.coords.accuracy < 30) {
+        $button.prop("disabled", true);
+        notePoint(position);
       } else {
         alert(position.coords.accuracy + " Go outside!");
       }
@@ -70,13 +72,42 @@ $(function() {
       beforeSend: function(xhr) {
         xhr.setRequestHeader("Accept", "application/json")
       },
-      data: { tour: tour }
+      data: {
+        tour: tour
+      }
     }).fail(function(jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
     }).done(function(response, textStatus, jqXHR) {
       alert(response);
     });
   });
+
+  function savePoint(position, $elements) {
+    //shouldn't have $elements here, should prob be called async with a callback that deals with $elements
+    var pointWKT = "POINT (" + position.coords.longitude + " " + position.coords.latitude + ")";
+    var point = {
+      "interest_point": {
+        "location": pointWKT
+      }
+    };
+    var request = $.ajax({
+      type: "post",
+      url: "http://127.0.0.1:3000/interest_points",
+      dataType: "json",
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader("Accept", "application/json")
+      },
+      data: point
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    }).done(function(response, textStatus, jqXHR) {
+      alert(response);
+    }).always(function() {
+      if (typeof $elements != 'undefined') {
+        $elements.prop("disabled", false)
+      }
+    });
+  }
 
 
   function currentPosition() {
@@ -97,7 +128,7 @@ $(function() {
     }
   }
 
-  var interval = setInterval(currentPosition, 1000);
+  var interval;
   $("#togglelocation").submit(function(event) {
     event.preventDefault();
     if (interval) {
@@ -107,6 +138,6 @@ $(function() {
       interval = setInterval(currentPosition, 1000);
     }
   });
-
+  //uncomment this for PhoneGap
   //});
 });
