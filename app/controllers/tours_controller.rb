@@ -4,8 +4,10 @@ class ToursController < ApplicationController
 
   def convert_wkt
     parser = RGeo::WKRep::WKTParser.new(nil, :support_ewkt => true)
-    logger.info(params[:tour][:path])
+    logger = Logger.new(STDOUT)
+    logger.info(params[:tour])
     params[:tour][:path] = parser.parse(params[:tour][:path])
+    params[:tour].delete(:pathpoints);
     logger.info(params)
   end
 

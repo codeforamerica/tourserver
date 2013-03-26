@@ -3,13 +3,17 @@
 <head>
   <title>Point POST test</title>
   <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-  <script type="text/javascript" src="cordova-2.5.0.js"></script>
-  <script src="js/pointposttest.js"></script>
+  <!-- <script type="text/javascript" src="cordova-2.5.0.js"></script> -->
+  <script src="pointposttest.js"></script>
 
 </head>
 <body>
-  <form id="pointpostform">
-    <input type="submit" value="send" />
+  <input id="postpoint" type="button" value="post point">
+
+    <input id="createtour" type="button" value="create tour">
+
+  <form id="togglelocation">
+    <input type="submit" value="toggle geolocation">
   </form>
   <div id="location"></div>
 </body>
