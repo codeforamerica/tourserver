@@ -16,5 +16,10 @@ chapter.interest_point = interest_point
 
 tour.chapters << chapter
 
+chapter = Chapter.new
+chapter.interest_point = interest_point
+
+tour.chapters << chapter
+
 puts tour.interest_points
 

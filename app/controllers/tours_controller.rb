@@ -22,7 +22,7 @@ class ToursController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @tours }
+      format.json { render json: @tours, :include => :chapters }
     end
   end
 
@@ -33,7 +33,7 @@ class ToursController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @tour.as_json(:include => :chapters )}
+      format.json { render :json => @tour, :include => :interest_points }
     end
   end
 
