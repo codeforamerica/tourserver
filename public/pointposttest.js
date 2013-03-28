@@ -48,13 +48,16 @@ $(function() {
 
     function geoClickSuccess(position) {
       if (position.coords.accuracy < 30) {
-        $button.prop("disabled", true);
         notePoint(position);
       } else {
         alert(position.coords.accuracy + " Go outside!");
       }
     }
   });
+
+  function notePoint(position) {
+    tour.interest_points
+  }
 
   $("#createtour").click(function(event) {
     event.preventDefault();
