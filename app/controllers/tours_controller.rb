@@ -6,11 +6,11 @@ class ToursController < ApplicationController
     parser = RGeo::WKRep::WKTParser.new(nil, :support_ewkt => true)
     logger = Logger.new(STDOUT)
     logger.info(params[:tour])
-    tour = ActiveSupport::JSON.decode(params[:tour])
-    logger.info(tour)
+    params[:tour] = JSON.parse(params[:tour], {:symbolize_names => true})
+
     params[:tour][:path] = parser.parse(params[:tour][:path])
     params[:tour].delete(:pathpoints);
-
+    logger.info("tour: " + params[:tour].inspect)
   #   @tour = ActiveSupport::JSON.decode(params)
   #   logger.info(@tour)
    end
@@ -22,7 +22,7 @@ class ToursController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @tours, :include => :chapters }
+      format.json { render json: @tours, :include => {:chapters => {:include => :interest_point}}}
     end
   end
 

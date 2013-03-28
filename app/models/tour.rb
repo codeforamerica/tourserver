@@ -1,5 +1,5 @@
 class Tour < ActiveRecord::Base
-  attr_accessible :difficulty, :name, :path, :tourtime, :interest_points, :chapters
+  attr_accessible :difficulty, :name, :path, :tourtime, :interest_points, :chapters, :interest_points_attributes
 
 
 
