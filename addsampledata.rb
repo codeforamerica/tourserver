@@ -10,7 +10,11 @@ interest_point = InterestPoint.new
 interest_point.location = parser.parse('SRID=4326;POINT(-122.4136547 37.7754748)')
 interest_point.name = "PointOfInterest"
 puts tour.save
-tour.interest_points << interest_point
 
-puts tour.inspect
+chapter = Chapter.new
+chapter.interest_point = interest_point
+
+tour.chapters << chapter
+
+puts tour.interest_points
 

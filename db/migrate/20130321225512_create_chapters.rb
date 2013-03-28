@@ -3,7 +3,7 @@ class CreateChapters < ActiveRecord::Migration
     create_table :chapters do |t|
       t.integer :tour_id
       t.integer :interest_point_id
-      t.integer :sequence
+      t.integer :position
 
       t.timestamps
     end

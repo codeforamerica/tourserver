@@ -1,8 +1,11 @@
 Tourtesting::Application.routes.draw do
   resources :interest_points
 
+  resources :chapters
 
-  resources :tours
+  resources :tours do
+    resources :interest_points
+  end
 
 
   # The priority is based upon order of creation:

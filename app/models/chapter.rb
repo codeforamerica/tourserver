@@ -3,5 +3,6 @@ class Chapter < ActiveRecord::Base
 
   belongs_to :tour
   belongs_to :interest_point
-  
+  acts_as_list :scope => :tour_id
+  #default_scope :order => "sequence ASC"
 end

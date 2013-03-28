@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(:version => 20130321225512) do
   create_table "chapters", :force => true do |t|
     t.integer  "tour_id"
     t.integer  "interest_point_id"
-    t.integer  "sequence"
+    t.integer  "position"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
   end

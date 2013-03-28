@@ -5,6 +5,7 @@ $(function() {
   //$(document).bind('deviceready', function (){ 
   var request;
   var tour = {
+    interest_points_attributes: [],
     path: []
   };
   var points;
@@ -56,13 +57,17 @@ $(function() {
   });
 
   function notePoint(position) {
-    tour.interest_points
+    var newInterestPoint = {};
+    newInterestPoint.location = positionToWKT(position);
+    tour.interest_points_attributes.push(newInterestPoint);
+    console.log(tour);
   }
 
   $("#createtour").click(function(event) {
     event.preventDefault();
     tour.name = "testName";
     tour.path = "LINESTRING" + "(" + tour.pathpoints.join(", ") + ")";
+    console.log(tour);
     console.log("createtour clicked");
     var $button = $(this);
     if (request) {
@@ -76,7 +81,7 @@ $(function() {
         xhr.setRequestHeader("Accept", "application/json")
       },
       data: {
-        tour: tour
+        tour: JSON.stringify(tour)
       }
     }).fail(function(jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
@@ -87,7 +92,7 @@ $(function() {
 
   function savePoint(position, $elements) {
     //shouldn't have $elements here, should prob be called async with a callback that deals with $elements
-    var pointWKT = "POINT (" + position.coords.longitude + " " + position.coords.latitude + ")";
+    var pointWKT = positionToWKT(position);
     var point = {
       "interest_point": {
         "location": pointWKT
@@ -141,6 +146,11 @@ $(function() {
       interval = setInterval(currentPosition, 1000);
     }
   });
+
+  function positionToWKT(position) {
+    var pointWKT = "POINT (" + position.coords.longitude + " " + position.coords.latitude + ")";
+    return pointWKT;
+  }
   //uncomment this for PhoneGap
   //});
 });
