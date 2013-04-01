@@ -29,7 +29,7 @@ $(function() {
     function geoClickSuccess(position) {
       if (position.coords.accuracy <= minAccuracy) {
         $button.prop("disabled", true);
-        savePoint(position);
+        savePoint(position, $button);
       } else {
         alert(position.coords.accuracy + " Go outside!");
       }
