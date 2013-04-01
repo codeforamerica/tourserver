@@ -10,7 +10,7 @@
   <table>
     <tr>
       <td>
-        GET /tours
+        List Tours
       </td>
       <td>
         <button id="getTours">GET /tours</button>
@@ -18,7 +18,7 @@
     </tr>
     <tr>
       <td>
-        GET /tours/1
+        Get one tour
       </td>
       <td>
         <button id="getTour">GET /tours/1</button>
@@ -26,12 +26,37 @@
     </tr>
     <tr>
       <td>
-        POST /tours
+        Create a new tour (deep &mdash; with points and chapters)
       </td>
       <td>
         <button id="postTour">POST /tours</button>
       </td>
     </tr>
+    <tr>
+      <td>
+        List all points
+      </td>
+      <td>
+        <button id="getPoints">GET /interest_points</button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Get one point
+      </td>
+      <td>
+        <button id="getPoint">GET /interest_points/1</button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Create new point (shallow &mdash; no tour)
+      </td>
+      <td>
+        <button id="postPoint">POST /interest_points</button>
+      </td>
+    </tr>
+
 
   </table>
   <div id="results"></div>

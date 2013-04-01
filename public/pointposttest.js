@@ -106,7 +106,7 @@ $(function() {
       beforeSend: function(xhr) {
         xhr.setRequestHeader("Accept", "application/json")
       },
-      data: point
+      data: JSON.stringify(point)
     }).fail(function(jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
     }).done(function(response, textStatus, jqXHR) {
