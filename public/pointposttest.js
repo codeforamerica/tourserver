@@ -3,6 +3,7 @@
 $(function() {
   //uncomment the following for PhoneGap (and the closing punct at the bottom)
   //$(document).bind('deviceready', function (){ 
+  var minAccuracy = 20;
   var request;
   var tour = {
     interest_points_attributes: [],
@@ -26,7 +27,7 @@ $(function() {
     }
 
     function geoClickSuccess(position) {
-      if (position.coords.accuracy < 30) {
+      if (position.coords.accuracy <= minAccuracy) {
         $button.prop("disabled", true);
         savePoint(position);
       } else {
@@ -35,20 +36,19 @@ $(function() {
     }
   });
 
-
   $("#markpoint").click(function(event) {
     event.preventDefault();
     var point;
-    navigator.geolocation.getCurrentPosition(geoClickSuccess, geoClickError, {
+    navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
       enableHighAccuracy: true
     });
 
-    function geoClickError() {
+    function geoError() {
       console.log(error);
     }
 
-    function geoClickSuccess(position) {
-      if (position.coords.accuracy < 30) {
+    function geoSuccess(position) {
+      if (position.coords.accuracy <= minAccuracy) {
         notePoint(position);
       } else {
         alert(position.coords.accuracy + " Go outside!");
@@ -67,6 +67,7 @@ $(function() {
     event.preventDefault();
     tour.name = "testName";
     tour.path = "LINESTRING" + "(" + tour.pathpoints.join(", ") + ")";
+    var myData = { tour: tour};
     console.log(tour);
     console.log("createtour clicked");
     var $button = $(this);
@@ -77,14 +78,13 @@ $(function() {
       type: "post",
       url: "http://127.0.0.1:3000/tours",
       dataType: "json",
+      contentType: "application/json; charset=utf-8",
       beforeSend: function(xhr) {
         xhr.setRequestHeader("Accept", "application/json")
       },
-      data: {
-        tour: JSON.stringify(tour)
-      }
+      data: JSON.stringify(myData)
     }).fail(function(jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
+      alert("error: " + errorThrown);
     }).done(function(response, textStatus, jqXHR) {
       alert(response);
     });
@@ -102,6 +102,7 @@ $(function() {
       type: "post",
       url: "http://127.0.0.1:3000/interest_points",
       dataType: "json",
+      contentType: "application/json; charset=utf-8",
       beforeSend: function(xhr) {
         xhr.setRequestHeader("Accept", "application/json")
       },
@@ -117,7 +118,6 @@ $(function() {
     });
   }
 
-
   function currentPosition() {
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
       enableHighAccuracy: true
@@ -128,7 +128,7 @@ $(function() {
       var newPathLocation = position.coords.longitude + " " + position.coords.latitude;
       tour.pathpoints = tour.pathpoints || [];
       tour.pathpoints.push(newPathLocation);
-      console.log(tour.pathpoints);
+      console.log(tour.pathpoints.length);
     }
 
     function geoError(data) {

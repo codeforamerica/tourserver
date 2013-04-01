@@ -4,16 +4,9 @@ class ToursController < ApplicationController
 
   def convert_wkt
     parser = RGeo::WKRep::WKTParser.new(nil, :support_ewkt => true)
-    logger = Logger.new(STDOUT)
-    logger.info(params[:tour])
-    params[:tour] = JSON.parse(params[:tour], {:symbolize_names => true})
-
     params[:tour][:path] = parser.parse(params[:tour][:path])
-    params[:tour].delete(:pathpoints);
-    logger.info("tour: " + params[:tour].inspect)
-  #   @tour = ActiveSupport::JSON.decode(params)
-  #   logger.info(@tour)
-   end
+    params[:tour].delete(:pathpoints)
+  end
 
   # GET /tours
   # GET /tours.json
