@@ -68,7 +68,7 @@ $(function() {
     tour.name = "testName";
     tour.path = "LINESTRING" + "(" + tour.pathpoints.join(", ") + ")";
     var myData = { tour: tour};
-    console.log(tour);
+    console.log(myData);
     console.log("createtour clicked");
     var $button = $(this);
     if (request) {
@@ -124,7 +124,7 @@ $(function() {
     });
 
     function geoSuccess(position) {
-      $('#location').text(position.coords.longitude + " " + position.coords.latitude + " " + position.coords.accuracy);
+      $('#location').text(position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + " " + position.coords.accuracy + "m");
       var newPathLocation = position.coords.longitude + " " + position.coords.latitude;
       tour.pathpoints = tour.pathpoints || [];
       tour.pathpoints.push(newPathLocation);
@@ -142,13 +142,15 @@ $(function() {
     if (interval) {
       clearInterval(interval);
       interval = null;
+      $("#togglelocationbtn").prop('value', 'Start Tour');
     } else {
       interval = setInterval(currentPosition, 1000);
+      $("#togglelocationbtn").prop('value', 'Pause Tour');
     }
   });
 
   function positionToWKT(position) {
-    var pointWKT = "POINT (" + position.coords.longitude + " " + position.coords.latitude + ")";
+    var pointWKT = "SRID=4326;POINT (" + position.coords.longitude + " " + position.coords.latitude + ")";
     return pointWKT;
   }
   //uncomment this for PhoneGap
