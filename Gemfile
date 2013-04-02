@@ -10,7 +10,7 @@ gem 'activerecord-postgis-adapter'
 gem 'acts_as_list'
 gem 'rgeo'
 gem 'rgeo-geojson'
-
+gem 'pry-rails',  :group => :development
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

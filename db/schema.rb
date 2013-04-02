@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(:version => 20130402033659) do
   create_table "interest_point_items", :force => true do |t|
     t.integer  "interest_point_id"
     t.integer  "interp_item_id"
-    t.integer  "sequence"
+    t.integer  "position"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
   end
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(:version => 20130402033659) do
 
   create_table "interp_items", :force => true do |t|
     t.string   "name"
-    t.string   "type"
+    t.string   "itemtype"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

@@ -3,7 +3,7 @@ class CreateInterestPointItems < ActiveRecord::Migration
     create_table :interest_point_items do |t|
       t.integer :interest_point_id
       t.integer :interp_item_id
-      t.integer :sequence
+      t.integer :position
 
       t.timestamps
     end
