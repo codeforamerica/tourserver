@@ -1,5 +1,5 @@
 class InterestPoint < ActiveRecord::Base
-  attr_accessible :location, :name, :tours, :chapters, :tours_attributes
+  attr_accessible :location, :name, :tours_attributes
 
   set_rgeo_factory_for_column(:location, RGeo::Geographic.spherical_factory(:srid => 3785))
 

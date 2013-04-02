@@ -1,5 +1,5 @@
 class Tour < ActiveRecord::Base
-  attr_accessible :difficulty, :name, :path, :tourtime, :interest_points, :chapters, :interest_points_attributes
+  attr_accessible :difficulty, :name, :path, :tourtime, :interest_points_attributes
 
   set_rgeo_factory_for_column(:path,
                               RGeo::Geographic.spherical_factory(:srid => 3785))
