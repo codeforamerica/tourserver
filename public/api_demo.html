@@ -50,14 +50,36 @@
     </tr>
     <tr>
       <td>
-        Create new point (shallow &mdash; no tour)
+        Create new point (shallow &mdash; no tour, no interp item)
       </td>
       <td>
         <button id="postPoint">POST /interest_points</button>
       </td>
     </tr>
-
-
+    <tr>
+      <td>
+        List interpretive items
+      </td>
+      <td>
+        <button id="getInterpItems">GET /interp_items</button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Get one interpretive item
+      </td>
+      <td>
+        <button id="getInterpItem">GET /interp_items/1</button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Create new interp item (shallow &mdash; no interest point, no media)
+      </td>
+      <td>
+        <button id="postInterpItem">POST /interp_items</button>
+      </td>
+    </tr>
   </table>
   <div id="results"></div>
 </body>

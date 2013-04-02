@@ -47,11 +47,35 @@ $(function() {
   $("#postPoint").click(function(event) {
     event.preventDefault();
     var callData = {type: "POST", path: "/interest_points" };
-    callData.data =  {
-                  interest_point: {
-                    location: "POINT (-122.41369089999999 37.7756713)"
-                  }
-                };
+    callData.data =   {
+                        interest_point: {
+                          location: "POINT (-122.41369089999999 37.7756713)"
+                        }
+                      };
+    makeAPICall(callData);
+  });
+
+  $("#getInterpItems").click(function(event) {
+    event.preventDefault();
+    var callData = { type: "GET", path: "/interp_items" };
+    makeAPICall(callData);
+  });
+
+  $("#getInterpItem").click(function(event) {
+    event.preventDefault();
+    var callData = { type: "GET", path: "/interp_items/1" };
+    makeAPICall(callData);
+  });
+
+  $("#postInterpItem").click(function(event) {
+    event.preventDefault();
+    var callData = { type: "POST", path: "/interp_items"};
+    callData.data = {
+                      interp_item: {
+                        itemtype: "audio/mpeg",
+                        name: "Test Interp Item"
+                      }
+                    };
     makeAPICall(callData);
   });
 
