@@ -25,7 +25,7 @@ class InterestPointsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @interest_point, :include => {:chapters => {:include => :tour} }}
+      format.json { render :json => @interest_point, :include => {:interest_point_items => {:include => :interp_item} }}
     end
   end
 
