@@ -13,7 +13,7 @@ interest_point.name = "PointOfInterest"
 # make interp_item to add
 interp_item = InterpItem.new
 interp_item.name = "Test Interp Item"
-interp_item.itemtype = "audio"
+interp_item.itemtype = "audio/mpeg"
 puts interp_item.save
 
 
