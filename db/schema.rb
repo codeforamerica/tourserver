@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130321225512) do
+ActiveRecord::Schema.define(:version => 20130402033659) do
 
   create_table "chapters", :force => true do |t|
     t.integer  "tour_id"
@@ -21,11 +21,26 @@ ActiveRecord::Schema.define(:version => 20130321225512) do
     t.datetime "updated_at",        :null => false
   end
 
+  create_table "interest_point_items", :force => true do |t|
+    t.integer  "interest_point_id"
+    t.integer  "interp_item_id"
+    t.integer  "sequence"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
   create_table "interest_points", :force => true do |t|
     t.string   "name"
     t.datetime "created_at",                                          :null => false
     t.datetime "updated_at",                                          :null => false
     t.spatial  "location",   :limit => {:srid=>3785, :type=>"point"}
+  end
+
+  create_table "interp_items", :force => true do |t|
+    t.string   "name"
+    t.string   "type"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "tours", :force => true do |t|

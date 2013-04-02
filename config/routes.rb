@@ -1,4 +1,9 @@
 Tourtesting::Application.routes.draw do
+
+
+  resources :interp_items
+
+
   resources :interest_points
 
   resources :chapters

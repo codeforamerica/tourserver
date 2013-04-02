@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  interest_point_id: 
+  interp_item_id: 
+  sequence: 
+
+two:
+  interest_point_id: 
+  interp_item_id: 
+  sequence: 

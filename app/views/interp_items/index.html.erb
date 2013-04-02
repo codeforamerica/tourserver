@@ -1,0 +1,21 @@
+<h1>Listing interp_items</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @interp_items.each do |interp_item| %>
+  <tr>
+    <td><%= link_to 'Show', interp_item %></td>
+    <td><%= link_to 'Edit', edit_interp_item_path(interp_item) %></td>
+    <td><%= link_to 'Destroy', interp_item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Interp item', new_interp_item_path %>
