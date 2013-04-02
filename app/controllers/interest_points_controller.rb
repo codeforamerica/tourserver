@@ -5,7 +5,6 @@ class InterestPointsController < ApplicationController
   def convert_wkt
     parser = RGeo::WKRep::WKTParser.new(nil, :support_ewkt => true)
     params[:interest_point][:location] = parser.parse(params[:interest_point][:location])
-    logger.info(params)
   end
 
   # GET /interest_points
