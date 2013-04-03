@@ -10,7 +10,12 @@ gem 'activerecord-postgis-adapter'
 gem 'acts_as_list'
 gem 'rgeo'
 gem 'rgeo-geojson'
-gem 'pry-rails',  :group => :development
+gem 'paperclip', '~> 3.0'
+
+group :development do
+  gem 'webrick', '~> 1.3.1'
+  gem 'pry-rails'
+end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

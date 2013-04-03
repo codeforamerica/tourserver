@@ -1,0 +1,34 @@
+<%= form_for(@media_item, :html => { :multipart => true }) do |f| %>
+  <% if @media_item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@media_item.errors.count, "error") %> prohibited this media_item from being saved:</h2>
+
+      <ul>
+      <% @media_item.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :position %><br />
+    <%= f.number_field :position %>
+  </div>
+  <div class="field">
+    <%= f.label :mimetype %><br />
+    <%= f.text_field :mimetype %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+
+    <%= f.file_field :item %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

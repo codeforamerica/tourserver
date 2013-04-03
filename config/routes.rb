@@ -1,6 +1,9 @@
 Tourtesting::Application.routes.draw do
 
 
+  resources :media_items
+
+
   resources :interp_items
 
 

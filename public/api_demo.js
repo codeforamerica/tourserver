@@ -72,11 +72,42 @@ $(function() {
     var callData = { type: "POST", path: "/interp_items"};
     callData.data = {
                       interp_item: {
-                        itemtype: "audio/mpeg",
                         name: "Test Interp Item"
                       }
                     };
     makeAPICall(callData);
+  });
+
+  $("#getMediaItems").click(function(event) {
+    event.preventDefault();
+    var callData = { type: "get", path: "/media_items"};
+    makeAPICall(callData);
+  });
+
+  $("#getMediaItem").click(function(event) {
+    event.preventDefault();
+    var callData = { type: "get", path: "/media_items/1"};
+    makeAPICall(callData);  
+  });
+
+  $("#postMediaItem").click(function(event) {
+    event.preventDefault();
+    var callData = { type: "post", path: "/media_items/"};
+    callData.data = { 
+                      name: "Test Media Item",
+                      mimetype: "audio/mpeg"
+                    };
+    makeAPICall(callData);
+  });
+
+  $("#postFullMediaItem").click(function(event) {
+    var media_item = { media_item: 
+                          { 
+                            name: "Test full item",
+                            item: "This is a test item"
+                          }
+                     }
+
   });
 
   function makeAPICall(callData) {
@@ -90,9 +121,9 @@ $(function() {
       url: url,
       dataType: "json",
       contentType: "application/json; charset=utf-8",
-      beforeSend: function(xhr) {
-        xhr.setRequestHeader("Accept", "application/json")
-      },
+      //beforeSend: function(xhr) {
+      //  xhr.setRequestHeader("Accept", "application/json")
+      //},
       data: callData.data
       //data: JSON.stringify(data)
     }).fail(function(jqXHR, textStatus, errorThrown) {

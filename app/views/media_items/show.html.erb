@@ -1,0 +1,22 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Position:</b>
+  <%= @media_item.position %>
+</p>
+
+<p>
+  <b>Mimetype:</b>
+  <%= @media_item.mimetype %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @media_item.name %>
+</p>
+
+<%= image_tag @media_item.item.url %>
+
+
+<%= link_to 'Edit', edit_media_item_path(@media_item) %> |
+<%= link_to 'Back', media_items_path %>

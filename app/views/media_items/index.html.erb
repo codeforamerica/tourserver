@@ -1,0 +1,27 @@
+<h1>Listing media_items</h1>
+
+<table>
+  <tr>
+    <th>Position</th>
+    <th>Mimetype</th>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @media_items.each do |media_item| %>
+  <tr>
+    <td><%= media_item.position %></td>
+    <td><%= media_item.mimetype %></td>
+    <td><%= media_item.name %></td>
+    <td><%= link_to 'Show', media_item %></td>
+    <td><%= link_to 'Edit', edit_media_item_path(media_item) %></td>
+    <td><%= link_to 'Destroy', media_item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Media item', new_media_item_path %>

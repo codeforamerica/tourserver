@@ -17,7 +17,7 @@ class InterpItemsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @interp_item }
+      format.json { render :json => @interp_item, :include => :media_items }
     end
   end
 

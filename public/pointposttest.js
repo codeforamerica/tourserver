@@ -3,8 +3,9 @@
 $(function() {
   //uncomment the following for PhoneGap (and the closing punct at the bottom)
   //$(document).bind('deviceready', function (){ 
-  var minAccuracy = 20;
+  var minAccuracy = 30;
   var request;
+  var timeout;
   var tour = {
     interest_points_attributes: [],
     path: []
@@ -76,7 +77,7 @@ $(function() {
     }
     var request = $.ajax({
       type: "post",
-      url: "http://127.0.0.1:3000/tours",
+      url: "http://localhost:3000/tours",
       dataType: "json",
       contentType: "application/json; charset=utf-8",
       beforeSend: function(xhr) {
@@ -93,20 +94,29 @@ $(function() {
   function savePoint(position, $elements) {
     //shouldn't have $elements here, should prob be called async with a callback that deals with $elements
     var pointWKT = positionToWKT(position);
-    var point = {
-      "interest_point": {
-        "location": pointWKT
+    var data = {
+      interest_point: 
+      {
+        location: pointWKT,
+        interp_items_attributes: 
+        [{ 
+          name: "test name",
+          media_items_attributes: 
+          [{
+            name: "test text"
+          }]
+        }]
       }
     };
     var request = $.ajax({
       type: "post",
-      url: "http://127.0.0.1:3000/interest_points",
+      url: "http://localhost:3000/interest_points",
       dataType: "json",
       contentType: "application/json; charset=utf-8",
       beforeSend: function(xhr) {
         xhr.setRequestHeader("Accept", "application/json")
       },
-      data: JSON.stringify(point)
+      data: JSON.stringify(data)
     }).fail(function(jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
     }).done(function(response, textStatus, jqXHR) {
@@ -119,11 +129,15 @@ $(function() {
   }
 
   function currentPosition() {
+    console.log("currentPosition");
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
-      enableHighAccuracy: true
+      enableHighAccuracy: true, timeout: 1000
     });
 
+    timeout = setTimeout(currentPosition, 2000);
+    
     function geoSuccess(position) {
+      console.log("geoSuccess");
       $('#location').text(position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + " " + position.coords.accuracy + "m");
       var newPathLocation = position.coords.longitude + " " + position.coords.latitude;
       tour.pathpoints = tour.pathpoints || [];
@@ -132,20 +146,21 @@ $(function() {
     }
 
     function geoError(data) {
-      alert("geoerror: " + data);
+      console.log(data);
     }
+
   }
 
-  var interval;
+  
   $("#togglelocation").submit(function(event) {
+    //console.log(timeout);
     event.preventDefault();
-    if (interval) {
-      clearInterval(interval);
-      interval = null;
+    if ($("#togglelocationbtn").prop('value') == 'Pause Tour') {
+      clearTimeout(timeout);
       $("#togglelocationbtn").prop('value', 'Start Tour');
     } else {
-      interval = setInterval(currentPosition, 1000);
       $("#togglelocationbtn").prop('value', 'Pause Tour');
+      currentPosition();
     }
   });
 

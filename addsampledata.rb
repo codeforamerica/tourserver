@@ -13,29 +13,26 @@ interest_point.name = "PointOfInterest"
 # make interp_item to add
 interp_item = InterpItem.new
 interp_item.name = "Test Interp Item"
-interp_item.itemtype = "audio/mpeg"
 puts interp_item.save
 
-
 chapter = Chapter.new
 chapter.interest_point = interest_point
-
 tour.chapters << chapter
 
 chapter = Chapter.new
 chapter.interest_point = interest_point
-
 tour.chapters << chapter
 
 
-puts "1"
 interest_point_item = InterestPointItem.new
-puts "2"
 interest_point_item.interp_item = interp_item
-puts "3"
-
 interest_point.interest_point_items << interest_point_item
 
+media_item = MediaItem.new
+media_item.name = "Test Media Item"
+puts media_item.save
+
+interp_item.media_items << media_item
 
 #puts tour.interest_points
 

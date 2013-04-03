@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130402033659) do
+ActiveRecord::Schema.define(:version => 20130402202245) do
 
   create_table "chapters", :force => true do |t|
     t.integer  "tour_id"
@@ -38,9 +38,21 @@ ActiveRecord::Schema.define(:version => 20130402033659) do
 
   create_table "interp_items", :force => true do |t|
     t.string   "name"
-    t.string   "itemtype"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "media_items", :force => true do |t|
+    t.integer  "position"
+    t.string   "mimetype"
+    t.string   "name"
+    t.integer  "interp_item_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.string   "item_file_name"
+    t.string   "item_content_type"
+    t.integer  "item_file_size"
+    t.datetime "item_updated_at"
   end
 
   create_table "tours", :force => true do |t|

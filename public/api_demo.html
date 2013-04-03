@@ -4,80 +4,122 @@
   <title>API test</title>
   <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
   <script src="api_demo.js"></script>
+  <style type="text/css">
+  caption {text-align: left; font-weight: bold; font-family: sans-serif; font-size: 1.5em} 
+  table { padding-bottom: 30px }
+  #results { font-family: courier;}
+  </style> 
 </head>
 
 <body>
   <table>
+    <caption>Tours</caption>
     <tr>
-      <td>
-        List Tours
-      </td>
       <td>
         <button id="getTours">GET /tours</button>
       </td>
+      <td>
+        List Tours
+      </td>
     </tr>
     <tr>
-      <td>
-        Get one tour
-      </td>
       <td>
         <button id="getTour">GET /tours/1</button>
       </td>
+      <td>
+        Get one tour
+      </td>
     </tr>
     <tr>
-      <td>
-        Create a new tour (deep &mdash; with points and chapters)
-      </td>
       <td>
         <button id="postTour">POST /tours</button>
       </td>
-    </tr>
-    <tr>
       <td>
-        List all points
+        Create a new tour (deep &mdash; with points and chapters)
       </td>
+    </tr>
+  </table>
+  <table>
+    <caption>Interest Points</caption>
+    <tr>
       <td>
         <button id="getPoints">GET /interest_points</button>
       </td>
+
+      <td>
+        List all points
+      </td>
     </tr>
     <tr>
-      <td>
-        Get one point
-      </td>
       <td>
         <button id="getPoint">GET /interest_points/1</button>
       </td>
+
+      <td>
+        Get one point
+      </td>
     </tr>
     <tr>
-      <td>
-        Create new point (shallow &mdash; no tour, no interp item)
-      </td>
       <td>
         <button id="postPoint">POST /interest_points</button>
       </td>
-    </tr>
-    <tr>
+
       <td>
-        List interpretive items
+        Create new point (shallow &mdash; no tour, no interp item)
       </td>
+    </tr>
+  </table>
+  <table>
+    <caption>Interpretive Items</caption>
+    <tr>
       <td>
         <button id="getInterpItems">GET /interp_items</button>
       </td>
+      <td>
+        List interpretive items
+      </td>
     </tr>
     <tr>
-      <td>
-        Get one interpretive item
-      </td>
       <td>
         <button id="getInterpItem">GET /interp_items/1</button>
       </td>
+      <td>
+        Get one interpretive item
+      </td>
     </tr>
     <tr>
       <td>
-        Create new interp item (shallow &mdash; no interest point, no media)
+        <button id="postInterpItem">POST /interp_items</button>
       </td>
       <td>
-        <button id="postInterpItem">POST /interp_items</button>
+        Create new interp item (shallow &mdash; no interest point, one media item)
+      </td>
+    </tr>
+  </table>
+  <table>
+    <caption>Media Items</caption>
+    <tr>
+      <td>
+        <button id="getMediaItems">GET /media_items</button>
+      </td>
+      <td>
+        List media items
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button id="getMediaItem">GET /media_items/1</button>
+      </td>
+      <td>
+        Get one media item
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button id="postMediaItem">POST /media_items</button>
+      </td>
+      <td>
+        Create new media item (empty &mdash; no interp item, no media!)
       </td>
     </tr>
   </table>
