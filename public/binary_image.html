@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>Get binary image data from remote image</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+	<script type="text/javascript">
+	$().ready(function(){
+		$('#form').submit(function(){
+			if ($('#image').val()) {
+				// create a new image object to hold the remote image
+				var img = new Image();
+				img.src = $('#image').val();
+
+				// force load image
+				$(img).load(function(){
+
+					// create a canvas object
+					var canvas = document.createElement("canvas");
+					canvas.width = img.width;
+					canvas.height = img.height;
+
+					// copy image contents to canvas
+					var ctx = canvas.getContext("2d");
+					ctx.drawImage(img, 0, 0);
+
+					// get data from canvas object
+					var data = canvas.toDataURL("image/png");
+
+					// set results
+					$('#result_data').text(data);
+					$('#result_image').text('').append(canvas);
+				})
+			} else {
+				alert('Enter a valid image path');
+			}
+			return false;
+		})
+	});
+	</script>
+</head>
+<body>
+	<h1>Get binary image data from remote image</h1>
+	<form id="form">
+		<input type="text" id="image" size="100" style="padding:5px" value="http://localhost:3000/assets/rails.png"/>
+		<input type="submit" value="GET!"/>
+	</form>
+	<h2>Data</h2>
+	<textarea id="result_data" style="width:500px;height:200px"></textarea>
+	<h2>Image</h2>
+	<div id="result_image"></div>
+</body>
+</html>

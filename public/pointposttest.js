@@ -3,7 +3,7 @@
 $(function() {
   //uncomment the following for PhoneGap (and the closing punct at the bottom)
   //$(document).bind('deviceready', function (){ 
-  var minAccuracy = 30;
+  var minAccuracy = 80;
   var request;
   var timeout;
   var tour = {
@@ -77,7 +77,7 @@ $(function() {
     }
     var request = $.ajax({
       type: "post",
-      url: "http://localhost:3000/tours",
+      url: "/tours",
       dataType: "json",
       contentType: "application/json; charset=utf-8",
       beforeSend: function(xhr) {
@@ -94,6 +94,7 @@ $(function() {
   function savePoint(position, $elements) {
     //shouldn't have $elements here, should prob be called async with a callback that deals with $elements
     var pointWKT = positionToWKT(position);
+    var textToSubmit = $("pointText").text;
     var data = {
       interest_point: 
       {
@@ -103,14 +104,14 @@ $(function() {
           name: "test name",
           media_items_attributes: 
           [{
-            name: "test text"
+            name: textToSubmit
           }]
         }]
       }
     };
     var request = $.ajax({
       type: "post",
-      url: "http://localhost:3000/interest_points",
+      url: "/interest_points",
       dataType: "json",
       contentType: "application/json; charset=utf-8",
       beforeSend: function(xhr) {
