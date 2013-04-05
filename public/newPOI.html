@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <title>Point creation</title>
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script type="text/javascript" src="cordova-2.5.0.js"></script>
+  <script src="newPOI.js"></script>
+
+</head>
+<body>
+  <div id="tourTitle">
+    <input id="tourName" type="text" placeholder="Tour Name">
+    <button id="startTour" disabled="disabled">start making a tour</button>
+    <div id="tourTitleTextDiv" hidden="true"><span id="tourTitleText">Title!</span></h2></div>
+  </div>
+  <hr>
+    <div id="activeLocation"></div>
+  <button id="makePOI" disabled="disabled">make a point of interest here</button>
+
+
+  <hr>
+  <div id="pointInputArea">
+    <div id="pointsMade">Points Made: <span id="pointsMadeCount"></span></div>
+    
+    <label for="pointText">Title of Point</label>
+    <input id="pointText" style="display:block; width: 80%" type="text" placeholder="Title" disabled="disabled">
+    
+    <label for="pointText">Text for Point</label>
+    <textarea id="pointText" style="display:block; width:90%" rows="3" width="100%" placeholder="Text for Point" disabled="disabled"></textarea>
+    
+    <input id="photoUploadDesktop" class="desktop" type="file" disabled="disabled" hidden="true">
+    
+    <button id="photoUploadPhone" class="phone" disabled="disabled" hidden="true">Upload Photo</button>
+    
+    <button id="photoUploadPhoneCamera" class="phone" hidden="true" disabled="disabled">Take Photo</button>
+    <br>
+    <div id="location"></div>
+    <div id="selectedPhoto"></div>
+    <div id="POIsubmission">
+      <button id="cancelPoint" style="display:block" disabled="disabled">Cancel</button>
+      <button id="submitPoint" disabled="disabled">Add Point</button>
+    </div>
+  </div>    
+
+
+  <hr>
+  <div id="tourSubmission">
+    <button id="cancelTour" style="display:block" disabled="disabled">Cancel Tour</button>
+    <button id="submitTour" disabled="disabled">Submit Tour</button>
+  </div>
+  <div id="currentTourInfo"></div>
+</body>
+</html>
