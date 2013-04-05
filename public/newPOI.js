@@ -29,15 +29,20 @@ function onDeviceReady() {
   });
 
   $("#startTour").click(function(event) {
+    //click on the tour start button,
+    //so disable it and the name field, and enable the point creation button
     event.preventDefault();
     $(this).hide();
     $('#tourName').hide();
     $('#tourTitleTextDiv').html($('#tourName').val()).show();
     $('#makePOI').attr('disabled', false);
+    // and start tracking the path
     currentPosition();
   });
 
   $("#makePOI").click(function(event) {
+    //click on the interest_point create button,
+    //so enable the interest_point data input and mark the location 
     event.preventDefault();
     $("div#pointInputArea :input").attr('disabled', false);
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
@@ -78,7 +83,7 @@ function onDeviceReady() {
     console.log(tour);
   }
 
-  $("#photoUploadPhone").click(function(event) {
+  $("#photoUploadPhoneAlbum").click(function(event) {
     navigator.camera.getPicture(cameraSuccess, cameraError, 
                                 { quality: 100,
                                   destinationType: navigator.camera.DestinationType.FILE_URI,
@@ -121,7 +126,6 @@ function onDeviceReady() {
     options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
     options.mimeType="image/jpeg";
 
-
     var params = new Object();
     params["media_item[mimetype]"] = "test";
     params.value2 = "param";
@@ -142,7 +146,6 @@ function onDeviceReady() {
   }
 
   $("#submitPoint").click(function(event) {
-
     for (var i = 0; i < tour.tourPoints.length; i++) {
       //for each point
       var myPoint = tour.tourPoints[i];
@@ -157,7 +160,7 @@ function onDeviceReady() {
 
   $('#cancelTour').click(function(event) {
     clearTimeout(currentPositionTimeout);
-  })
+  });
 
   function currentPosition() {
     console.log("currentPosition");
