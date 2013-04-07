@@ -7,12 +7,16 @@ Tourtesting::Application.routes.draw do
   resources :interp_items
 
 
-  resources :interest_points
+  resources :interest_points do
+    resources :interp_items
+  end
 
   resources :chapters
 
   resources :tours do
-    resources :interest_points
+    resources :interest_points do
+      resources :interp_items
+    end
   end
 
 

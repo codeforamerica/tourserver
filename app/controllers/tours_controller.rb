@@ -26,7 +26,18 @@ class ToursController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @tour, :include => {:chapters => {:include => :interest_point}} }
+      format.json { render :json => @tour, 
+        :include => 
+        #  {:chapters => 
+        #    {:include => 
+              {:interest_points =>
+                {:include => 
+                  :interp_items
+                }
+              }
+        #    }
+        #  } 
+        }
     end
   end
 
