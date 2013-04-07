@@ -16,15 +16,16 @@
   </div>
   <hr>
     <div id="activeLocation"></div>
-  <button id="makePOI" disabled="disabled">make a point of interest here</button>
-
+    <div id="pointsSaved">Points Saved: <span id="pointsSavedCount"></span></div>
+  <button id="createPOI" disabled="disabled">make a point of interest here</button>
+  
 
   <hr>
   <div id="pointInputArea">
-    <div id="pointsMade">Points Made: <span id="pointsMadeCount"></span></div>
     
-    <label for="pointText">Title of Point</label>
-    <input id="pointText" style="display:block; width: 80%" type="text" placeholder="Title" disabled="disabled">
+    
+    <label for="pointName">Name of Point</label>
+    <input id="pointName" style="display:block; width: 80%" type="text" placeholder="Title" disabled="disabled">
     
     <label for="pointText">Text for Point</label>
     <textarea id="pointText" style="display:block; width:90%" rows="3" width="100%" placeholder="Text for Point" disabled="disabled"></textarea>
@@ -39,7 +40,7 @@
     <div id="selectedPhoto"></div>
     <div id="POIsubmission">
       <button id="cancelPoint" style="display:block" disabled="disabled">Cancel</button>
-      <button id="submitPoint" disabled="disabled">Add Point</button>
+      <button id="savePoint" disabled="disabled">Add Point</button>
     </div>
   </div>    
 
