@@ -22,7 +22,48 @@ $(function() {
                   tour: { 
                     interest_points_attributes:
                       [
-                          {location:"POINT (-122.4137007 37.7756913)"}
+                        {
+                          location:"POINT (-122.4137007 37.7756913)",
+                          name: "API Test Interest Point A",
+                          interp_items_attributes: 
+                            [
+                              { 
+                                name: "API Test Interpretive Item A1",
+                                media_items_attributes: 
+                                  [
+                                    { name: "API Test Media Item" } 
+                                  ]
+                              },
+                              { 
+                                name: "API Test Interpretive Item A2",
+                                media_items_attributes: 
+                                  [
+                                    { name: "API Test Media Item" } 
+                                  ]
+                              }
+                            ]
+                        },
+                        {
+                          location:"POINT (-122.4137007 37.7756913)",
+                          name: "API Test Interest Point B",
+                          interp_items_attributes: 
+                            [
+                              { 
+                                name: "API Test Interpretive Item B1",
+                                media_items_attributes: 
+                                  [
+                                    { name: "API Test Media Item" } 
+                                  ]
+                              },
+                              { 
+                                name: "API Test Interpretive Item B2",
+                                media_items_attributes: 
+                                  [
+                                    { name: "API Test Media Item" } 
+                                  ]
+                              }
+                            ]
+                        }
                       ],
                     path: "LINESTRING(-122.4136841 37.7756653, -122.4136841 37.7756653, -122.4137007 37.7756913)",
                     pathpoints: ["-122.4136841 37.7756653","-122.4136841 37.7756653","-122.4137007 37.7756913"],
