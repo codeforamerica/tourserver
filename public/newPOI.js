@@ -2,12 +2,13 @@
 
 function onDeviceReady() {
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
+  var host = "http://10.0.1.112:3000"
   var minAccuracy = 35;
   var tour = {
     interest_points: []
   };
   var currentPoint = {};
-  var host = "http://10.0.1.112:3000"
+
   var currentPositionTimeout;
   var latestPosition;
 
@@ -43,7 +44,6 @@ function onDeviceReady() {
 
   $("#createPOI").click(function(event) {
     //click on the interest_point create button,
-
     event.preventDefault();
     $("#createPOI").attr('disabled', true);
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
@@ -64,7 +64,7 @@ function onDeviceReady() {
         console.log(position);
         $("div#pointInputArea :input").attr('disabled', false);
         $('#location').text(position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + " " + position.coords.accuracy + "m");
-        addInterestPoint(position);
+        createInterestPoint(position);
       } else {
         $("#createPOI").attr('disabled', false);
         $("div#pointInputArea :input").attr('disabled', true);
@@ -72,19 +72,17 @@ function onDeviceReady() {
         alert(position.coords.accuracy + " Getting a lock on your position. Wait a few seconds and try again.");
       }
     }
+
+    function createInterestPoint(position) {
+      var lon = position.coords.longitude.toFixed(5);
+      var lat = position.coords.latitude.toFixed(5);
+      var interest_point = {
+        location: "POINT(" + lon + " " + lat + ")"
+      };
+      currentPoint = interest_point;
+    }
   });
 
-  function addInterestPoint(position) {
-    var lon = position.coords.longitude.toFixed(5);
-    var lat = position.coords.latitude.toFixed(5);
-    var interest_point = {
-      interest_point: {
-        location: "POINT (" + lon + " " + lat + ")"
-      }
-    };
-    currentPoint = interest_point;
-
-  }
 
   $("#photoUploadPhoneAlbum").click(function(event) {
     navigator.camera.getPicture(cameraSuccess, cameraError, {
@@ -164,6 +162,7 @@ function onDeviceReady() {
   $("#savePoint").click(function(event) {
     currentPoint.name = $('#pointName').val();
     tour.interest_points.push(currentPoint);
+    $('#tourSubmission :input').attr('disabled', false);
     clearCurrentPoint();
     console.log(tour);
   });
@@ -178,26 +177,90 @@ function onDeviceReady() {
   }
 
   $('#saveTour').click(function(event) {
-    for (var i = 0; i < tour.tourPoints.length; i++) {
+    console.log("saveTour");
+    console.log(tour.interest_points.length);
+    for (var i = 0; i < tour.interest_points.length; i++) {
       //for each point
-      var myPoint = tour.tourPoints[i];
-      // save point for tour
+      var myPoint = tour.interest_points[i];
+      console.log(tour.interest_points[i].id);
 
-      // for each media item
-      // save interp_item for interest_point
-      // save media_item for interp_item
-      uploadPhoto(myPoint.photoURL);
-      xs
+    }
+    submitTour(tour, submitMediaItems);
+
+    return;
+
+    function submitMediaItems(tour) {
+      console.log("submitMediaItems");
+      // now, for each saved interp_item (with id field populated)
+      // for each interest point media item, upload media item tied to
+      // interp_item_id
+      // for (var j = 0; j < myPoint.media_items.length; j++ ) {
+      //     var myMediaItem = myPoint[i].media_items[j];
+      //     if (myMediaItem.photoURL) {
+      //       uploadPhoto(myMediaItem.photoURL);
+      //     }
+      getInterestPoints(tour.id, processPoints);     
     }
 
+    function getInterestPoints(tourid, doneCallback) {
+      console.log("tourid: " + tourid);
+      var callData = {type: "GET", path: "/tours/" + tourid + "/interest_points"};
+      makeAPICall(callData, doneCallback);
+    }
+
+    function processPoints(response) {
+      //for each interest point, add media items as subelements of a single interp_item
+      var points = response;
+      for (i = 0; i < points.length; i++) {
+        console.log("point.id: " + points[i].id);
+      }
+    }
+
+    function reformatTourForSubmission(tour) {
+      if (tour.interest_points.interp_items) {
+        tour.interest_points.interp_items_attributes = tour.interest_points.interp_items;
+        delete tour.interest_points.interp_items;
+      }
+      if (tour.interest_points) {
+        tour.interest_points_attributes = tour.interest_points;
+        delete tour.interest_points;
+      }
+      tour.path = "LINESTRING" + "(" + tour.pathpoints.join(", ") + ")";
+      return tour;
+    }
+
+    function submitTour(tour, doneCallback) {
+      console.log("submitTour");
+      var callData = {
+        type: "post",
+        path: "/tours",
+      };
+      callData.data = reformatTourForSubmission(tour);
+      makeAPICall(callData, doneCallback);
+
+      clearCurrentPoint();
+      tour = {
+        interest_points: []
+      };
+    };
+
   });
+
+
 
   $('#cancelTour').click(function(event) {
     clearTimeout(currentPositionTimeout);
+    clearCurrentPoint();
+    tour = {
+      interest_points: []
+    };
   });
 
   function currentPosition() {
-    $("span#pointsSavedCount").text(tour.interest_points.length);
+
+    if (tour.interest_points) {
+      $("span#pointsSavedCount").text(tour.interest_points.length);
+    }
 
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
       enableHighAccuracy: true,
@@ -225,48 +288,41 @@ function onDeviceReady() {
     }
 
   }
-}
 
-
-
-function createTour(tour) {
-  var callData = {
-    type: "POST",
-    path: "/tours"
-  };
-  callData.data = {
-    tour: {
-      // placeholder point info 
-      path: "LINESTRING(-122.4136841 37.7756653, -122.4136841 37.7756653, -122.4137007 37.7756913)",
-      pathpoints: ["-122.4136841 37.7756653", "-122.4136841 37.7756653", "-122.4137007 37.7756913"],
-      name: "Test Tour"
+  function makeAPICall(callData, doneCallback) {
+    if (!($.isEmptyObject(callData.data))) {
+      console.log("stringify");
+      callData.data = JSON.stringify(callData.data);
     }
-  };
-  makeAPICall(callData);
+    var url = host + callData.path;
+    var request = $.ajax({
+      type: callData.type,
+      url: url,
+      dataType: "json",
+      contentType: "application/json; charset=utf-8",
+      //beforeSend: function(xhr) {
+      //  xhr.setRequestHeader("Accept", "application/json")
+      //},
+      data: callData.data
+      //data: JSON.stringify(data)
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+      $("#results").text("error: " + JSON.stringify(errorThrown));
+    }).done(function(response, textStatus, jqXHR) {
+      console.log("response: ");
+      console.log(response);
+      if (typeof doneCallback === 'function') {
+        console.log("calling Callback");
+        console.log(response);
+        //responseObj = JSON.parse(response);
+        //console.log("responseObj: " + responseObj);
+        doneCallback.call(this, response);
+      }
+      $("#results").text(JSON.stringify(response));
+    });
+  }
 }
 
-function makeAPICall(callData) {
-  if (!($.isEmptyObject(callData.data))) {
-    console.log("stringify");
-    callData.data = JSON.stringify(callData.data);
-  }
-  var url = host + callData.path;
-  var request = $.ajax({
-    type: callData.type,
-    url: url,
-    dataType: "json",
-    contentType: "application/json; charset=utf-8",
-    //beforeSend: function(xhr) {
-    //  xhr.setRequestHeader("Accept", "application/json")
-    //},
-    data: callData.data
-    //data: JSON.stringify(data)
-  }).fail(function(jqXHR, textStatus, errorThrown) {
-    $("#results").text("error: " + JSON.stringify(errorThrown));
-  }).done(function(response, textStatus, jqXHR) {
-    $("#results").text(JSON.stringify(response));
-  });
-}
+
 
 $(document).ready(function() {
   // are we running in native app or in browser?
