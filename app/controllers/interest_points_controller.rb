@@ -10,7 +10,12 @@ class InterestPointsController < ApplicationController
   # GET /interest_points
   # GET /interest_points.json
   def index
-    @interest_points = InterestPoint.all
+    if (params[:tour_id]) then
+      @interest_points = InterestPoint.joins(:tours).where('tours.id' => params[:tour_id])
+    else
+      @interest_points = InterestPoint.all
+    end
+
 
     respond_to do |format|
       format.html # index.html.erb

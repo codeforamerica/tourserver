@@ -1,5 +1,9 @@
 Tourtesting::Application.routes.draw do
 
+  resources :tours do
+    resources :interest_points do
+    end
+  end
 
   resources :media_items
 
@@ -13,12 +17,7 @@ Tourtesting::Application.routes.draw do
 
   resources :chapters
 
-  resources :tours do
-    resources :interest_points do
-      resources :interp_items
-    end
-  end
-
+  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
