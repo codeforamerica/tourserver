@@ -142,7 +142,7 @@ function onDeviceReady() {
     options.params = params;
 
     var ft = new FileTransfer();
-    ft.upload(imageURI, "http://10.0.1.12:3000/media_items.json", win, fail, options);
+    ft.upload(imageURI, "/media_items.json", win, fail, options);
 
     function win(r) {
       console.log("Code = " + r.responseCode);
@@ -162,10 +162,14 @@ function onDeviceReady() {
 
   $("#savePoint").click(function(event) {
     currentPoint.name = $('#pointName').val();
+    // add an interp_item. For now, each interest_point will have only one interpretive item.
+    // later, we can use interp_item as a container for groups of media_items
+    currentPoint.interp_items = currentPoint.interp_items || [];
+    currentPoint.interp_items.push( { name: "Passthrough"} );
+
     tour.interest_points.push(currentPoint);
     $('#tourSubmission :input').attr('disabled', false);
     clearCurrentPoint();
-    console.log(tour);
   });
 
   function clearCurrentPoint() {
@@ -183,8 +187,6 @@ function onDeviceReady() {
     for (var i = 0; i < tour.interest_points.length; i++) {
       //for each point
       var myPoint = tour.interest_points[i];
-      console.log(tour.interest_points[i].id);
-
     }
     submitTour(tour, submitMediaItems);
 
@@ -196,37 +198,50 @@ function onDeviceReady() {
     }
 
     function getInterestPoints(tourID, doneCallback) {
-      console.log("tourid: " + tourID);
+      console.log("getInterestPoints for tourid: " + tourID);
       var callData = {type: "GET", path: "/tours/" + tourID + "/interest_points"};
       makeAPICall(callData, doneCallback);
     }
 
     function processPoints(response) {
       //for each interest point, add media items as subelements of a single interp_item
-
       var points = response;
-      for (i = 0; i < points.length; i++) {
+      for (var i = 0; i < points.length; i++) {
         console.log("point.id: " + points[i].id);
-        //getInterpItems(points[i].id, saveMediaItems);
+        getInterpItems(points[i].id, saveMediaItems);
 
       }
     }
 
     function getInterpItems(pointID, doneCallback) {
-      console.log("getInterpItems pointID: " + pointID);
+      // get the interp_items for the supplied point and call doneCallback with the response
+      console.log("getInterpItems for pointID: " + pointID);
       var callData = { type: "GET", path: "/interest_points/" + pointID + "/interp_items"};
       makeAPICall(callData, doneCallback);
     }
 
+    function saveMediaItems(response) {
+      console.log("saveMediaItems");
+      // reponse includes array of interp_items
+      var interp_items = response;
+      for (var i = 0; i< interp_items.length; i++) {
+        console.log("interp_item.id: " + interp_items[i].id);
+      }
+    }
+
     function reformatTourForSubmission(tour) {
-      if (tour.interest_points.interp_items) {
-        tour.interest_points.interp_items_attributes = tour.interest_points.interp_items;
-        delete tour.interest_points.interp_items;
+      // reformatting for Rails. It likes nested resource names to end with _attributes.
+      for (var i = 0; i < tour.interest_points.length; i++) {
+        var myPoint = tour.interest_points[i];
+        myPoint.interp_items_attributes = myPoint.interp_items;
+        delete myPoint.interp_items;
       }
       if (tour.interest_points) {
         tour.interest_points_attributes = tour.interest_points;
         delete tour.interest_points;
       }
+
+      // make the heartbeat WKT path
       tour.path = "LINESTRING" + "(" + tour.pathpoints.join(", ") + ")";
       return tour;
     }
@@ -310,11 +325,7 @@ function onDeviceReady() {
     }).fail(function(jqXHR, textStatus, errorThrown) {
       $("#results").text("error: " + JSON.stringify(errorThrown));
     }).done(function(response, textStatus, jqXHR) {
-      console.log("response: ");
-      console.log(response);
       if (typeof doneCallback === 'function') {
-        console.log("calling Callback");
-        console.log(response);
         //responseObj = JSON.parse(response);
         //console.log("responseObj: " + responseObj);
         doneCallback.call(this, response);
