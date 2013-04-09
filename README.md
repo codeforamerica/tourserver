@@ -12,7 +12,7 @@ Current REST API endpoints (GET, POST, and DELETE supported for all so far). Int
 
 `/media_items` - Media Items. Text, audio, and video. Saved locally using Paperclip.
 
-## Included API test scripts
+## Included API test pages
 
 `/public/api_demo.html` - Shows some basic canned use of the TourServer API
 
