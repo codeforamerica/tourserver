@@ -13,3 +13,9 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+
+
+
+# Ignore paperclip attachments
+/public/system/media_items
