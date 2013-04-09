@@ -11,3 +11,10 @@ Current REST API endpoints (GET, POST, and DELETE supported for all so far). Int
 `/interp_items` - Interpretive Items. Items that can be described with one or more media items. Contains one or more media_items.
 
 `/media_items` - Media Items. Text, audio, and video. Saved locally using Paperclip.
+
+## Include API test scripts
+
+`/public/api_demo.html` - Shows some basic canned use of the TourServer API
+
+`/public/newpoi.html` - Current semi-working (srsly) simple tour webapp. Can run via mobile browser or desktop.
+
