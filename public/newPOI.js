@@ -2,7 +2,8 @@
 
 function onDeviceReady() {
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
-  var host = "http://10.0.1.112:3000"
+  //var host = "http://10.0.1.112:3000";
+  var host = "";
   var minAccuracy = 100;
   var tour = {
     interest_points: []

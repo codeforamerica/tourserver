@@ -1,8 +1,8 @@
 "use strict";
 
 $(function() {
-  var host = "http://localhost:3000";
-
+  //var host = "http://localhost:3000";
+  var host = "";
   $("#getTours").click(function(event) {
     event.preventDefault();
     var callData = { type: "GET", path: "/tours" };
