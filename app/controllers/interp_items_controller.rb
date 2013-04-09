@@ -2,7 +2,11 @@ class InterpItemsController < ApplicationController
   # GET /interp_items
   # GET /interp_items.json
   def index
-    @interp_items = InterpItem.all
+    if (params[:tour_id]) then
+      @interp_items = InterpItem.joins(:interest_points).where('interest_points.id' => params[:interest_point_id])
+    else
+      @interp_items = InterpItem.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb

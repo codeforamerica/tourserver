@@ -3,7 +3,7 @@
 function onDeviceReady() {
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
   var host = "http://10.0.1.112:3000"
-  var minAccuracy = 35;
+  var minAccuracy = 100;
   var tour = {
     interest_points: []
   };
@@ -191,29 +191,30 @@ function onDeviceReady() {
 
     function submitMediaItems(tour) {
       console.log("submitMediaItems");
-      // now, for each saved interp_item (with id field populated)
-      // for each interest point media item, upload media item tied to
-      // interp_item_id
-      // for (var j = 0; j < myPoint.media_items.length; j++ ) {
-      //     var myMediaItem = myPoint[i].media_items[j];
-      //     if (myMediaItem.photoURL) {
-      //       uploadPhoto(myMediaItem.photoURL);
-      //     }
       getInterestPoints(tour.id, processPoints);     
     }
 
-    function getInterestPoints(tourid, doneCallback) {
-      console.log("tourid: " + tourid);
-      var callData = {type: "GET", path: "/tours/" + tourid + "/interest_points"};
+    function getInterestPoints(tourID, doneCallback) {
+      console.log("tourid: " + tourID);
+      var callData = {type: "GET", path: "/tours/" + tourID + "/interest_points"};
       makeAPICall(callData, doneCallback);
     }
 
     function processPoints(response) {
       //for each interest point, add media items as subelements of a single interp_item
+
       var points = response;
       for (i = 0; i < points.length; i++) {
         console.log("point.id: " + points[i].id);
+        //getInterpItems(points[i].id, saveMediaItems);
+
       }
+    }
+
+    function getInterpItems(pointID, doneCallback) {
+      console.log("getInterpItems pointID: " + pointID);
+      var callData = { type: "GET", path: "/interest_points/" + pointID + "/interp_items"};
+      makeAPICall(callData, doneCallback);
     }
 
     function reformatTourForSubmission(tour) {
