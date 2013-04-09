@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Tourtesting::Application.load_tasks
+TourServer::Application.load_tasks

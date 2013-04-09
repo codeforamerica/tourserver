@@ -1,8 +1,8 @@
 # Be sure to restart your server when you modify this file.
 
-Tourtesting::Application.config.session_store :cookie_store, key: '_tourtesting_session'
+TourServer::Application.config.session_store :cookie_store, key: '_TourServer_session'
 
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information
 # (create the session table with "rails generate session_migration")
-# Tourtesting::Application.config.session_store :active_record_store
+# TourServer::Application.config.session_store :active_record_store

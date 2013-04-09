@@ -15,13 +15,13 @@
 development:
   adapter: postgis
   encoding: unicode
-  database: tourtesting_development
+  database: tourserver_development
   schema_search_path: "public, postgis"
   postgis_extension: true
   pool: 5
-  username: tourtesting
+  username: tourserver
   password: iiiiii
-  su_username: tourtesting_su
+  su_username: tourserver_su
   su_password: iiiiii
 
   # Connect on a TCP socket. Omitted by default since the client uses a
@@ -45,23 +45,23 @@ development:
 test:
   adapter: postgis
   encoding: unicode
-  database: tourtesting_test
+  database: tourserver_test
   schema_search_path: "public, postgis"
   postgis_extension: true
   pool: 5
-  username: tourtesting
+  username: tourserver
   password: iiiiii
-  su_username: tourtesting_su
+  su_username: tourserver_su
   su_password: iiiiii
 
 production:
   adapter: postgis
   encoding: unicode
-  database: tourtesting_production
+  database: tourserver_production
   schema_search_path: "public, postgis"
   postgis_extension: true
   pool: 5
-  username: tourtesting
+  username: tourserver
   password: iiiiii
-  su_username: tourtesting_su
+  su_username: tourserver_su
   su_password: iiiiii

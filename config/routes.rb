@@ -1,4 +1,4 @@
-Tourtesting::Application.routes.draw do
+TourServer::Application.routes.draw do
 
   resources :tours do
     resources :interest_points do
