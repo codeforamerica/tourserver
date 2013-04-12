@@ -141,7 +141,7 @@ function onDeviceReady() {
   });
 
   function uploadPhoto(imageURI, uploadCallback) {
-    console.log("uploadPhoto");
+    console.log("uploadPhoto: " + imageURI);
     var options = new FileUploadOptions();
     options.fileKey = "media_item[item]";
     options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
@@ -162,16 +162,118 @@ function onDeviceReady() {
     }
 
     function uploadFail(error) {
-      alert("An error has occurred: Code = " = error.code);
+      alert("An error has occurred: Code = " + error.code);
     }
 
   }
 
+  function uploadAudio(audioURI, uploadCallback) {
+    console.log("uploadAudio: " + audioURI);
+    var options = new FileUploadOptions();
+    options.fileKey = "media_item[item]";
+    options.fileName = audioURI.substr(audioURI.lastIndexOf('/') + 1);
+    //skipping options.mimetype for now
+    var params = new Object();
+    params["media_item[name]"] = "Placeholder Name";
+    options.params = params;
+    
+    var ft = new FileTransfer();
+    ft.upload(audioURI, host + "/media_items.json", uploadWin, uploadFail, options);
 
+    function uploadWin(r) {
+      console.log("Code = " + r.responseCode);
+      uploadCallback(r.response);
+      console.log("Response = " + r.response);
+      console.log("Sent = " + r.bytesSent);
+    }
+
+    function uploadFail(error) {
+      alert("An error has occurred: Code = " + error.code);
+    }
+
+  }
+
+  function writeAndUploadText(text, uploadCallback) {
+    text = text.substr(0, 1500);
+    console.log("uploadText");
+    var fileName = Math.floor(Math.random() * 10000000) + ".txt";
+    window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, gotFS, fail);
+
+    function gotFS(fileSystem) {
+      fileSystem.root.getFile(fileName, {
+        create: true,
+        exclusive: false
+      }, gotFileEntry, fail);
+    }
+
+    function gotFileEntry(fileEntry) {
+      fileEntry.createWriter(gotFileWriter, fail);
+    }
+
+    function gotFileWriter(writer) {
+      console.log("writer.filename: ");
+      console.log(writer.fileName)
+      writer.onwriteend = function(evt) {
+        console.log("evt");
+        console.log(evt);
+        uploadTextItem(writer.fileName, uploadCallback);
+      };
+      writer.write(text);
+    }
+
+    function uploadTextItem(textURI, uploadCallback) {
+      console.log("uploadTextItem: " + textURI);
+      var options = new FileUploadOptions();
+      options.fileKey = "media_item[item]";
+      options.fileName = textURI.substr(textURI.lastIndexOf('/') + 1);
+      options.mimeType = "text/plain";
+
+      var params = new Object();
+      params["media_item[name]"] = options.fileName;
+      options.params = params;
+
+      var ft = new FileTransfer();
+      ft.upload(textURI, host + "/media_items.json", uploadWin, fail, options);
+    }
+
+    function uploadWin(r) {
+      console.log("Response = " + r.response);
+      uploadCallback(r.response);
+    }
+
+    function fail(error) {
+      alert("An error has occurred: Code = " + error.code);
+    }
+  }
 
   $("#cancelPoint").click(function(event) {
     clearCurrentPoint();
     console.log(tour);
+  });
+
+  $("#recordAudio").click(function(event) {
+    navigator.device.capture.captureAudio(captureSuccess, captureError);
+
+    function captureSuccess(mediaFiles) {
+      for (var i = 0; i < mediaFiles.length; i++) {
+        currentPoint.interp_items[0].media_items_attributes = currentPoint.interp_items[0].media_items_attributes || [];
+        console.log("mediaFiles[i]: ");
+        console.log(mediaFiles[0]);
+        mediaFiles[i].getFormatData(function(response) { console.log("gfd"); console.log(response) });
+        var myAudioMediaItem = {
+          type: "audio",
+          data: mediaFiles[i].fullPath
+        };
+        console.log("myAudioMediaItem");
+        console.log(myAudioMediaItem);
+        currentPoint.interp_items[0].media_items_attributes.push(myAudioMediaItem);
+      }
+    }
+
+    function captureError(error) {
+      alert("An error has occurred: Code = " + error.code);
+    }
+
   });
 
   $("#savePoint").click(function(event) {
@@ -179,8 +281,16 @@ function onDeviceReady() {
     // add an interp_item. For now, each interest_point will have only one interpretive item.
     // later, we can use interp_item as a container for groups of media_items
     currentPoint.interp_items = currentPoint.interp_items || [];
-
-
+    currentPoint.interp_items[0].media_items_attributes = currentPoint.interp_items[0].media_items_attributes || [];
+    if ($('#pointText').val()) {
+      var myTextMediaItem = {
+        type: "text",
+        data: $('#pointText').val()
+      };
+      console.log("textmediaitem");
+      console.log(myTextMediaItem);
+      currentPoint.interp_items[0].media_items_attributes.push(myTextMediaItem);
+    }
     tour.interest_points.push(currentPoint);
     $('#tourSubmission :input').attr('disabled', false);
     clearCurrentPoint();
@@ -250,17 +360,38 @@ function onDeviceReady() {
                 for (var k = 0; k < myInterpItem.media_items_attributes.length; k++) {
                   var myMediaItem = myInterpItem.media_items_attributes[k];
                   console.log("myMediaItem: ");
-                  console.log(myMediaItem);                  
+                  console.log(myMediaItem);
                   if (myMediaItem.type == "image") {
                     // submit myMediaItem.data and addMediaItemIDToTour to uploadPhoto somehow
                     mediaSubmitParams.push({
                       data: myMediaItem.data,
+                      mediaUploadFunc: uploadPhoto,
                       callback: function(response) {
                         myMediaItem = addMediaItemIDToTour(response, myMediaItem);
                         console.log("in uploadPhoto.callback");
                         console.log(myMediaItem);
                       }
-                    })
+                    });
+                  }
+                  if (myMediaItem.type == "text") {
+                    mediaSubmitParams.push({
+                      data: myMediaItem.data,
+                      mediaUploadFunc: writeAndUploadText,
+                      callback: function(response) {
+                        myMediaItem = addMediaItemIDToTour(response, myMediaItem);
+                        console.log("in uploadText.callback");
+                      }
+                    });
+                  }
+                  if (myMediaItem.type.indexOf("audio") == 0) {
+                    mediaSubmitParams.push({
+                      data: myMediaItem.data,
+                      mediaUploadFunc: uploadAudio,
+                      callback: function(response) {
+                        myMediaItem = addMediaItemIDToTour(response, myMediaItem);
+                        console.log("in uploadAudio.callback");
+                      }
+                    });
                   }
                 }
               }
@@ -276,7 +407,7 @@ function onDeviceReady() {
           var curMediaItem = mediaSubmitParams[i];
           console.log("mediaSubmitParams: " + i);
           funcArray.push(function(callback) {
-            uploadPhoto(curMediaItem.data, function(response) {
+            curMediaItem.mediaUploadFunc(curMediaItem.data, function(response) {
               console.log("seriesItemCallback");
               curMediaItem.callback(response);
               callback(null, "two");
