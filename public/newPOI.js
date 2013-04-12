@@ -2,8 +2,8 @@
 
 function onDeviceReady() {
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
-  //var host = "http://10.0.1.112:3000";
-  var host = "";
+  var host = "http://10.0.1.112:3000";
+  //var host = "";
   var minAccuracy = 100;
   var tour = {
     interest_points: []
@@ -52,6 +52,8 @@ function onDeviceReady() {
       timeout: 2000
     });
 
+
+
     function geoError(error) {
       console.log("error:");
       alert("Trouble getting your position. Wait a few seconds and try again.");
@@ -81,6 +83,10 @@ function onDeviceReady() {
         location: "POINT(" + lon + " " + lat + ")"
       };
       currentPoint = interest_point;
+      currentPoint.interp_items = currentPoint.interp_items || [];
+      currentPoint.interp_items.push({
+        name: "Passthrough"
+      });
     }
   });
 
@@ -96,9 +102,13 @@ function onDeviceReady() {
       console.log("phone album success")
       $("<img>").attr("src", photoURL).width("100%").appendTo("#selectedPhoto");
       var media_item = {};
-      media_item.photoURL
-      currentPoint.media_items = currentPoint.media_items || {};
-      currentPoint.media_items.photoURL = photoURL;
+
+
+      currentPoint.interp_items[0].media_items_attributes = currentPoint.interp_items[0].media_items_attributes || [];
+      currentPoint.interp_items[0].media_items_attributes.push({
+        type: "image",
+        data: photoURL
+      });
       console.log(photoURL);
     }
 
@@ -109,6 +119,7 @@ function onDeviceReady() {
 
   // need to test this
   $("#photoUploadPhoneCamera").click(function(event) {
+    //TODO: dupe the album fetch code :/
     console.log("camera");
     navigator.camera.getPicture(cameraSuccess, cameraError, {
       quality: 100,
@@ -128,7 +139,7 @@ function onDeviceReady() {
     }
   });
 
-  function uploadPhoto(imageURI, point) {
+  function uploadPhoto(imageURI, uploadCallback) {
     console.log("uploadPhoto");
     var options = new FileUploadOptions();
     options.fileKey = "media_item[item]";
@@ -136,24 +147,26 @@ function onDeviceReady() {
     options.mimeType = "image/jpeg";
 
     var params = new Object();
-    params["media_item[mimetype]"] = "test";
-    params.value2 = "param";
-
+    params["media_item[name]"] = "Placeholder Name";
     options.params = params;
 
     var ft = new FileTransfer();
-    ft.upload(imageURI, "/media_items.json", win, fail, options);
+    ft.upload(imageURI, host + "/media_items.json", uploadWin, uploadFail, options);
 
-    function win(r) {
+    function uploadWin(r) {
       console.log("Code = " + r.responseCode);
+      uploadCallback(r.response);
       console.log("Response = " + r.response);
       console.log("Sent = " + r.bytesSent);
     }
 
-    function fail(error) {
+    function uploadFail(error) {
       alert("An error has occurred: Code = " = error.code);
     }
+
   }
+
+
 
   $("#cancelPoint").click(function(event) {
     clearCurrentPoint();
@@ -165,7 +178,7 @@ function onDeviceReady() {
     // add an interp_item. For now, each interest_point will have only one interpretive item.
     // later, we can use interp_item as a container for groups of media_items
     currentPoint.interp_items = currentPoint.interp_items || [];
-    currentPoint.interp_items.push( { name: "Passthrough"} );
+
 
     tour.interest_points.push(currentPoint);
     $('#tourSubmission :input').attr('disabled', false);
@@ -183,56 +196,156 @@ function onDeviceReady() {
 
   $('#saveTour').click(function(event) {
     console.log("saveTour");
+    console.log(tour);
     console.log(tour.interest_points.length);
     for (var i = 0; i < tour.interest_points.length; i++) {
       //for each point
       var myPoint = tour.interest_points[i];
     }
-    submitTour(tour, submitMediaItems);
+    //change in strategy
+    //submit all of the media items _first_
+    //stick their IDs in the tour object
+    //submit tour object
+    submitMediaItems(tour);
 
+    console.log("return from submitMediaItems");
+    console.log(tour);
     return;
+
+
+    function submitTour(tour) {
+      console.log("submitTour");
+      console.log(tour);
+      var callData = {
+        type: "post",
+        path: "/tours.json",
+      };
+      callData.data = reformatTourForSubmission(tour);
+      makeAPICall(callData);
+
+      clearCurrentPoint();
+      tour = {
+        interest_points: []
+      };
+    };
 
     function submitMediaItems(tour) {
       console.log("submitMediaItems");
-      getInterestPoints(tour.id, processPoints);     
-    }
+      // better way to avoid undefined issues?
+      console.log("tour.interest_points");
+      var mediaItemsSubmissions = new Array();
+      console.log(mediaItemsSubmissions.length);
+      if (tour.interest_points) {
+        for (var i = 0; i < tour.interest_points.length; i++) {
+          var myPoint = tour.interest_points[i];
+          console.log("interp_items");
+          if (myPoint.interp_items) {
+            for (var j = 0; j < myPoint.interp_items.length; j++) {
+              var myInterpItem = myPoint.interp_items[j];
+              console.log("media_items");
+              console.log(myInterpItem.media_items_attributes);
+              if (myInterpItem.media_items_attributes) {
+                for (var k = 0; k < myInterpItem.media_items_attributes.length; k++) {
+                  var myMediaItem = myInterpItem.media_items_attributes[k];
+                  console.log("myMediaItem: ");
+                  console.log(myMediaItem);
+                  var mediaSubmitParams = [];
+                  if (myMediaItem.type == "image") {
+                    // submit myMediaItem.data and addMediaItemIDToTour to uploadPhoto somehow
+                    mediaSubmitParams.push({
+                      data: myMediaItem.data,
+                      callback: function(response) {
+                        myMediaItem = addMediaItemIDToTour(response, myMediaItem);
+                        console.log("in uploadPhoto.callback");
+                        console.log(myMediaItem);
+                      }
+                    })
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
 
-    function getInterestPoints(tourID, doneCallback) {
-      console.log("getInterestPoints for tourid: " + tourID);
-      var callData = {type: "GET", path: "/tours/" + tourID + "/interest_points"};
-      makeAPICall(callData, doneCallback);
-    }
-
-    function processPoints(response) {
-      //for each interest point, add media items as subelements of a single interp_item
-      var points = response;
-      for (var i = 0; i < points.length; i++) {
-        console.log("point.id: " + points[i].id);
-        getInterpItems(points[i].id, saveMediaItems);
+      if (mediaSubmitParams) {
+        var funcArray = [];
+        $.each(mediaSubmitParams, function(index, value) {
+          funcArray.push(function(callback) {
+            uploadPhoto(value.data, function(response) {
+              console.log("seriesItemCallback");
+              value.callback(response);
+              callback(null, "two");
+            });
+          })
+        });
+        async.series(funcArray, asyncCallback);
 
       }
     }
 
-    function getInterpItems(pointID, doneCallback) {
-      // get the interp_items for the supplied point and call doneCallback with the response
-      console.log("getInterpItems for pointID: " + pointID);
-      var callData = { type: "GET", path: "/interest_points/" + pointID + "/interp_items"};
-      makeAPICall(callData, doneCallback);
+    function asyncCallback() {
+      console.log("asyncCallback");
+      console.log(tour);
+      submitTour(tour);
+    }
+
+    function addMediaItemIDToTour(response, mediaItem) {
+      var myResponse = JSON.parse(response);
+      mediaItem.id = myResponse.id;
+      console.log("mediaItem: ");
+      console.log(mediaItem);
+      return mediaItem;
+
     }
 
     function saveMediaItems(response) {
       console.log("saveMediaItems");
       // reponse includes array of interp_items
       var interp_items = response;
-      for (var i = 0; i< interp_items.length; i++) {
+      console.log(response);
+      for (var i = 0; i < interp_items.length; i++) {
+        console.log("looping interp_items");
+        var myInterpItem = interp_items[i];
         console.log("interp_item.id: " + interp_items[i].id);
+        // now submit each media item to Paperclip
+        // including the interp_item_id
+        if (myInterpItem.media_items_attributes) {
+          console.log("looping media_items");
+          for (var j = 0; j < myInterpItem.media_items_attributes.length; j++) {
+            var myMediaItem = myInterpItem.media_items_attributes[j];
+            console.log(myMediaItem);
+            if (myMediaItem.type == "image") {
+              var media_item_options = {
+                interp_item_id: myInterpItem.id
+              };
+              uploadPhoto(myMediaItem.data, media_item_options);
+            }
+          }
+        }
       }
     }
 
     function reformatTourForSubmission(tour) {
+      console.log("reformatTourForSubmission");
       // reformatting for Rails. It likes nested resource names to end with _attributes.
+      console.log(tour.interest_points.length);
       for (var i = 0; i < tour.interest_points.length; i++) {
         var myPoint = tour.interest_points[i];
+        console.log("myPoint");
+        console.log(myPoint);
+        if (myPoint.interp_items) {
+          for (var j = 0; j < myPoint.interp_items.length; j++) {
+            var myInterpItem = myPoint.interp_items[j];
+            if (myInterpItem.media_items_attributes) {
+              for (var k = 0; k < myInterpItem.media_items_attributes.length; k++) {
+                var myMediaItem = myInterpItem.media_items_attributes[k];
+                delete myMediaItem.data;
+                delete myMediaItem.type;
+              }
+            }
+          }
+        }
         myPoint.interp_items_attributes = myPoint.interp_items;
         delete myPoint.interp_items;
       }
@@ -243,27 +356,12 @@ function onDeviceReady() {
 
       // make the heartbeat WKT path
       tour.path = "LINESTRING" + "(" + tour.pathpoints.join(", ") + ")";
+      console.log(tour);
+      console.log("end reformatTourForSubmission");
       return tour;
     }
 
-    function submitTour(tour, doneCallback) {
-      console.log("submitTour");
-      var callData = {
-        type: "post",
-        path: "/tours",
-      };
-      callData.data = reformatTourForSubmission(tour);
-      makeAPICall(callData, doneCallback);
-
-      clearCurrentPoint();
-      tour = {
-        interest_points: []
-      };
-    };
-
   });
-
-
 
   $('#cancelTour').click(function(event) {
     clearTimeout(currentPositionTimeout);

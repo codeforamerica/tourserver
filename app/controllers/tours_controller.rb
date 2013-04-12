@@ -1,3 +1,5 @@
+require 'pry'
+
 class ToursController < ApplicationController
 
   before_filter :convert_wkt, :only => [:create, :update]
@@ -6,7 +8,25 @@ class ToursController < ApplicationController
     parser = RGeo::WKRep::WKTParser.new(nil, :support_ewkt => true)
     params[:tour][:path] = parser.parse(params[:tour][:path])
     params[:tour].delete(:pathpoints)
-  end
+
+    # TODO: need to refactor the need for this away.
+    # removing any media_items from submission because we submit them 
+    # separately.
+    # if (!(params[:tour][:interest_points_attributes]).nil?) then
+    #   params[:tour][:interest_points_attributes].each do |ip|
+    #     logger.info(ip.inspect)
+    #     if (!ip[:interp_items_attributes].nil?) then
+    #       ip[:interp_items_attributes].each do |ii|
+    #         logger.info(ii.inspect)
+    #         if (!ii[:media_items_attributes].nil?) then
+    #           ii.delete(:media_items)
+    #         end
+    #       end
+    #     end
+    #   end
+    # end
+  end 
+
 
   # GET /tours
   # GET /tours.json
@@ -27,17 +47,8 @@ class ToursController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @tour, 
-        :include => 
-        #  {:chapters => 
-        #    {:include => 
-              {:interest_points =>
-                {:include => 
-                  :interp_items
-                }
-              }
-        #    }
-        #  } 
-        }
+        :include => {:interest_points => {:include => {:interp_items => {:include => :media_items} } } }
+      }
     end
   end
 
