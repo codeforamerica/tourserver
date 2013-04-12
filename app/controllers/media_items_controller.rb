@@ -3,7 +3,6 @@ class MediaItemsController < ApplicationController
   before_filter :cleanup, :only => [:create, :update]
 
   def cleanup
-    logger.info("****************************************************")
     logger.info(params.inspect) 
     params[:media_item].delete(:type)
     params[:media_item].delete(:data)

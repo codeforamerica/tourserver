@@ -109,6 +109,7 @@ function onDeviceReady() {
         type: "image",
         data: photoURL
       });
+      console.log("media_items_attributes.length" + currentPoint.interp_items[0].media_items_attributes.length);
       console.log(photoURL);
     }
 
@@ -244,12 +245,12 @@ function onDeviceReady() {
               var myInterpItem = myPoint.interp_items[j];
               console.log("media_items");
               console.log(myInterpItem.media_items_attributes);
+              var mediaSubmitParams = [];
               if (myInterpItem.media_items_attributes) {
                 for (var k = 0; k < myInterpItem.media_items_attributes.length; k++) {
                   var myMediaItem = myInterpItem.media_items_attributes[k];
                   console.log("myMediaItem: ");
-                  console.log(myMediaItem);
-                  var mediaSubmitParams = [];
+                  console.log(myMediaItem);                  
                   if (myMediaItem.type == "image") {
                     // submit myMediaItem.data and addMediaItemIDToTour to uploadPhoto somehow
                     mediaSubmitParams.push({
@@ -270,15 +271,18 @@ function onDeviceReady() {
 
       if (mediaSubmitParams) {
         var funcArray = [];
-        $.each(mediaSubmitParams, function(index, value) {
+        console.log("mediaSubmitParams.length" + mediaSubmitParams.length);
+        for (var i = 0; i < mediaSubmitParams.length; i++) {
+          var curMediaItem = mediaSubmitParams[i];
+          console.log("mediaSubmitParams: " + i);
           funcArray.push(function(callback) {
-            uploadPhoto(value.data, function(response) {
+            uploadPhoto(curMediaItem.data, function(response) {
               console.log("seriesItemCallback");
-              value.callback(response);
+              curMediaItem.callback(response);
               callback(null, "two");
             });
           })
-        });
+        }
         async.series(funcArray, asyncCallback);
 
       }
@@ -297,33 +301,6 @@ function onDeviceReady() {
       console.log(mediaItem);
       return mediaItem;
 
-    }
-
-    function saveMediaItems(response) {
-      console.log("saveMediaItems");
-      // reponse includes array of interp_items
-      var interp_items = response;
-      console.log(response);
-      for (var i = 0; i < interp_items.length; i++) {
-        console.log("looping interp_items");
-        var myInterpItem = interp_items[i];
-        console.log("interp_item.id: " + interp_items[i].id);
-        // now submit each media item to Paperclip
-        // including the interp_item_id
-        if (myInterpItem.media_items_attributes) {
-          console.log("looping media_items");
-          for (var j = 0; j < myInterpItem.media_items_attributes.length; j++) {
-            var myMediaItem = myInterpItem.media_items_attributes[j];
-            console.log(myMediaItem);
-            if (myMediaItem.type == "image") {
-              var media_item_options = {
-                interp_item_id: myInterpItem.id
-              };
-              uploadPhoto(myMediaItem.data, media_item_options);
-            }
-          }
-        }
-      }
     }
 
     function reformatTourForSubmission(tour) {

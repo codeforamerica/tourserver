@@ -2,7 +2,7 @@ class InterpItemsController < ApplicationController
   # GET /interp_items
   # GET /interp_items.json
   def index
-    if (params[:interest_point_id]) then
+    if (params[:interest_point_id]) 
       @interp_items = InterpItem.joins(:interest_points).where('interest_points.id' => params[:interest_point_id])
     else
       @interp_items = InterpItem.all
