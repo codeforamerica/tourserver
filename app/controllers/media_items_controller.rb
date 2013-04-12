@@ -24,9 +24,11 @@ class MediaItemsController < ApplicationController
   def show
     @media_item = MediaItem.find(params[:id])
 
+    @show_media_item = @media_item.clone
+    @show_media_item["fullitem"] = @media_item.item.url
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @media_item }
+      format.json { render json: @show_media_item }
     end
   end
 
