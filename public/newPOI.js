@@ -2,7 +2,7 @@
 
 function onDeviceReady() {
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
-   var host = "http://10.0.1.112:3000";
+  var host = "http://10.0.1.112:3000";
   //var host = "http://10.0.3.14:3000";
   //var host = "";
   var minAccuracy = 100;
@@ -40,7 +40,6 @@ function onDeviceReady() {
     $('#tourTitleTextDiv').html($('#tourName').val()).show();
     $('#createPOI').attr('disabled', false);
     // and start tracking the path
-
     currentPosition();
   });
 
@@ -52,8 +51,6 @@ function onDeviceReady() {
       enableHighAccuracy: true,
       timeout: 2000
     });
-
-
 
     function geoError(error) {
       console.log("error:");
@@ -90,7 +87,6 @@ function onDeviceReady() {
       });
     }
   });
-
 
   $("#photoUploadPhoneAlbum").click(function(event) {
     navigator.camera.getPicture(cameraSuccess, cameraError, {
@@ -142,57 +138,11 @@ function onDeviceReady() {
   });
 
   function uploadPhoto(imageURI, uploadCallback) {
-    console.log("uploadPhoto: " + imageURI);
-    var options = new FileUploadOptions();
-    options.fileKey = "media_item[item]";
-    options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
-    options.mimeType = "image/jpeg";
-
-    var params = new Object();
-    params["media_item[name]"] = "Placeholder Name";
-    options.params = params;
-
-    var ft = new FileTransfer();
-    ft.upload(imageURI, host + "/media_items.json", uploadWin, uploadFail, options);
-
-    function uploadWin(r) {
-      console.log("Code = " + r.responseCode);
-      uploadCallback(r.response);
-      console.log("Response = " + r.response);
-      console.log("Sent = " + r.bytesSent);
-    }
-
-    function uploadFail(error) {
-      alert("An error has occurred: Code = " + error.code);
-    }
-
+    uploadMedia(imageURI, uploadCallback, "image/jpeg");
   }
 
   function uploadAudio(audioURI, uploadCallback) {
-    console.log("uploadAudio: " + audioURI);
-    var options = new FileUploadOptions();
-    options.fileKey = "media_item[item]";
-    options.fileName = audioURI.substr(audioURI.lastIndexOf('/') + 1);
-    //skipping options.mimetype for now
-    options.mimetype = "audio/wav";
-    var params = new Object();
-    params["media_item[name]"] = "Placeholder Name";
-    options.params = params;
-
-    var ft = new FileTransfer();
-    ft.upload(audioURI, host + "/media_items.json", uploadWin, uploadFail, options);
-
-    function uploadWin(r) {
-      console.log("Code = " + r.responseCode);
-      uploadCallback(r.response);
-      console.log("Response = " + r.response);
-      console.log("Sent = " + r.bytesSent);
-    }
-
-    function uploadFail(error) {
-      alert("An error has occurred: Code = " + error.code);
-    }
-
+    uploadMedia(audioURI, uploadCallback, "audio/wav");
   }
 
   function writeAndUploadText(text, uploadCallback) {
@@ -218,29 +168,9 @@ function onDeviceReady() {
       writer.onwriteend = function(evt) {
         console.log("evt");
         console.log(evt);
-        uploadTextItem(writer.fileName, uploadCallback);
+        uploadMedia(writer.fileName, uploadCallback, "text/plain");
       };
       writer.write(text);
-    }
-
-    function uploadTextItem(textURI, uploadCallback) {
-      console.log("uploadTextItem: " + textURI);
-      var options = new FileUploadOptions();
-      options.fileKey = "media_item[item]";
-      options.fileName = textURI.substr(textURI.lastIndexOf('/') + 1);
-      options.mimeType = "text/plain";
-
-      var params = new Object();
-      params["media_item[name]"] = options.fileName;
-      options.params = params;
-
-      var ft = new FileTransfer();
-      ft.upload(textURI, host + "/media_items.json", uploadWin, fail, options);
-    }
-
-    function uploadWin(r) {
-      console.log("Response = " + r.response);
-      uploadCallback(r.response);
     }
 
     function fail(error) {
@@ -248,10 +178,30 @@ function onDeviceReady() {
     }
   }
 
-  $("#cancelPoint").click(function(event) {
-    clearCurrentPoint();
-    console.log(tour);
-  });
+  function uploadMedia(mediaURI, uploadCallback, mimeType) {
+    var options = new FileUploadOptions();
+    options.mimeType = mimeType;
+    options.fileKey = "media_item[item]";
+    options.fileName = mediaURI.substr(mediaURI.lastIndexOf('/') + 1);
+
+    var params = new Object();
+    params["media_item[name]"] = "Placeholder Name";
+    options.params = params;
+
+    var ft = new FileTransfer();
+    ft.upload(mediaURI, host + "/media_items.json", uploadWin, uploadFail, options);
+
+    function uploadWin(r) {
+      console.log("Code = " + r.responseCode);
+      uploadCallback(r.response);
+      console.log("Response = " + r.response);
+      console.log("Sent = " + r.bytesSent);
+    }
+
+    function uploadFail(error) {
+      alert("An error has occurred: Code = " + error.code);
+    }
+  }
 
   $("#recordAudio").click(function(event) {
     navigator.device.capture.captureAudio(captureSuccess, captureError);
@@ -259,8 +209,6 @@ function onDeviceReady() {
     function captureSuccess(mediaFiles) {
       for (var i = 0; i < mediaFiles.length; i++) {
         currentPoint.interp_items[0].media_items_attributes = currentPoint.interp_items[0].media_items_attributes || [];
-        // console.log("mediaFiles[i]: ");
-        // console.log(mediaFiles[0]);
         var myAudioMediaItem = {
           type: "audio",
           data: mediaFiles[i].fullPath
@@ -277,9 +225,14 @@ function onDeviceReady() {
 
   });
 
+  $("#cancelPoint").click(function(event) {
+    clearCurrentPoint();
+    console.log(tour);
+  });
+
   $("#savePoint").click(function(event) {
     currentPoint.name = $('#pointName').val();
-    // add an interp_item. For now, each interest_point will have only one interpretive item.
+    // add an interp_item. For now, each interest_point will have only one interpretive item [0].
     // later, we can use interp_item as a container for groups of media_items
     currentPoint.interp_items = currentPoint.interp_items || [];
     currentPoint.interp_items[0].media_items_attributes = currentPoint.interp_items[0].media_items_attributes || [];
@@ -312,16 +265,11 @@ function onDeviceReady() {
       //for each point
       var myPoint = tour.interest_points[i];
     }
-    //change in strategy
-    //submit all of the media items _first_
-    //stick their IDs in the tour object
-    //submit tour object
-    submitMediaItems(tour);
 
-    console.log("return from submitMediaItems: final tour");
+    // submitMediaItems calls submitTour on completion
+    submitMediaItems(tour);
     console.log(tour);
     return;
-
 
     function submitTour(tour) {
       console.log("submitTour");
@@ -330,30 +278,23 @@ function onDeviceReady() {
         path: "/tours.json",
       };
       callData.data = reformatTourForSubmission(tour);
-      makeAPICall(callData);
-
-      clearCurrentPoint();
-      tour = {
-        interest_points: []
-      };
+      makeAPICall(callData, function() {
+        alert("Tour saved!");
+        window.location.reload(false);
+      });
     };
 
     function submitMediaItems(tour) {
       console.log("submitMediaItems");
-      // better way to avoid undefined issues?
-      console.log("tour.interest_points");
-      console.log(tour.interest_points);
+      // is there a better way to avoid undefined issues?
       var mediaItemsSubmissions = new Array();
       console.log(mediaItemsSubmissions.length);
       if (tour.interest_points) {
         for (var i = 0; i < tour.interest_points.length; i++) {
           var myPoint = tour.interest_points[i];
-          console.log("interp_items");
           if (myPoint.interp_items) {
             for (var j = 0; j < myPoint.interp_items.length; j++) {
               var myInterpItem = myPoint.interp_items[j];
-              console.log("media_items");
-              console.log(myInterpItem.media_items_attributes);
               var mediaSubmitParams = [];
               if (myInterpItem.media_items_attributes) {
                 for (var k = 0; k < myInterpItem.media_items_attributes.length; k++) {
@@ -361,22 +302,18 @@ function onDeviceReady() {
                   console.log("myMediaItem: ");
                   console.log(myMediaItem);
                   var uploadFunc = function(type) {
-                      if (type.indexOf("image") == 0) {
-                        console.log("SMI:image");
-                        return uploadPhoto;
-                      } else if (type.indexOf("text") == 0) {
-                        console.log("SMI:text");
-                        return writeAndUploadText;
-                      } else if (type.indexOf("audio") == 0) {
-                        console.log("SMI:audio");
-                        return uploadAudio;
-                      }
+                    if (type.indexOf("image") == 0) {
+                      return uploadPhoto;
+                    } else if (type.indexOf("text") == 0) {
+                      return writeAndUploadText;
+                    } else if (type.indexOf("audio") == 0) {
+                      return uploadAudio;
+                    }
                   }(myMediaItem.type);
                   var myCallback = function(myMediaItem) {
                     return function(response) {
                       myMediaItem = addMediaItemIDToTour(response, myMediaItem);
-                      console.log(myMediaItem);
-                      console.log("in uploadAudio.callback");
+                      console.log("in upload.callback");
                     };
                   }(myMediaItem);
                   mediaSubmitParams.push({
@@ -384,51 +321,6 @@ function onDeviceReady() {
                     mediaUploadFunc: uploadFunc,
                     callback: myCallback
                   });
-
-
-                  // if (myMediaItem.type == "image") {
-                  //   // submit myMediaItem.data and addMediaItemIDToTour to uploadPhoto somehow
-                  //   var myCallback = function(myMediaItem) {
-                  //     return function(response) {
-                  //       myMediaItem = addMediaItemIDToTour(response, myMediaItem);
-                  //       console.log(myMediaItem);
-                  //       console.log("in uploadAudio.callback");
-                  //     };
-                  //   }(myMediaItem);
-                  //   mediaSubmitParams.push({
-                  //     data: myMediaItem.data,
-                  //     mediaUploadFunc: uploadPhoto,
-                  //     callback: myCallback
-                  //   });
-                  // }
-                  // if (myMediaItem.type == "text") {
-                  //   var myCallback = function(myMediaItem) {
-                  //     return function(response) {
-                  //       myMediaItem = addMediaItemIDToTour(response, myMediaItem);
-                  //       console.log(myMediaItem);
-                  //       console.log("in uploadAudio.callback");
-                  //     };
-                  //   }(myMediaItem);
-                  //   mediaSubmitParams.push({
-                  //     data: myMediaItem.data,
-                  //     mediaUploadFunc: writeAndUploadText,
-                  //     callback: myCallback
-                  //   });
-                  // }
-                  // if (myMediaItem.type.indexOf("audio") == 0) {
-                  //   var myCallback = function(myMediaItem) {
-                  //     return function(response) {
-                  //       myMediaItem = addMediaItemIDToTour(response, myMediaItem);
-                  //       console.log(myMediaItem);
-                  //       console.log("in uploadAudio.callback");
-                  //     };
-                  //   }(myMediaItem);
-                  //   mediaSubmitParams.push({
-                  //     data: myMediaItem.data,
-                  //     mediaUploadFunc: uploadAudio,
-                  //     callback: myCallback
-                  //   });
-                  // }
                 }
               }
             }
@@ -436,6 +328,10 @@ function onDeviceReady() {
         }
       }
 
+      // now we have an array of {mediaUploadFunc, data} items.
+      // execute each mediaUploadFunc with data -- in series --
+      // to get the saved id for each media item
+      // then use the series completion callback to trigger saving the tour object
       if (mediaSubmitParams) {
         var funcArray = [];
         console.log("mediaSubmitParams.length" + mediaSubmitParams.length);
@@ -453,11 +349,9 @@ function onDeviceReady() {
               });
             }
           }(curMediaItem);
-          console.log(myMediaUploadArrayItem);
           funcArray.push(myMediaUploadArrayItem);
         }
         async.series(funcArray, asyncCallback);
-
       }
     }
 
@@ -472,7 +366,6 @@ function onDeviceReady() {
       console.log("mediaItem: ");
       console.log(mediaItem);
       return mediaItem;
-
     }
 
     function reformatTourForSubmission(tour) {
@@ -509,15 +402,12 @@ function onDeviceReady() {
   });
 
   $('#cancelTour').click(function(event) {
-    clearTimeout(currentPositionTimeout);
-    clearCurrentPoint();
-    tour = {
-      interest_points: []
-    };
+    if (confirm("Cancel Tour Recording?")) {
+      window.location.reload(false);
+    }
   });
 
   function currentPosition() {
-
     if (tour.interest_points) {
       $("span#pointsSavedCount").text(tour.interest_points.length);
     }
