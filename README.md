@@ -12,9 +12,10 @@ Current REST API endpoints (GET, POST, and DELETE supported for all so far). Int
 
 `/media_items` - Media Items. Text, audio, and video. Saved locally using Paperclip.
 
-## Included API test pages
+## Included API test page
 
 `/public/api_demo.html` - Shows some basic canned use of the TourServer API
 
-`/public/newpoi.html` - Current semi-working (srsly) simple tour webapp. Can run via mobile browser or desktop.
+## Tour client
 
+The current rough testing version of the tour creation client code is in public/newPOI.[html|js]. At the moment it's only likely to work in a PhoneGap mobile application. To create a mobile tour client, [create a PhoneGap project](http://docs.phonegap.com/en/2.6.0/guide_getting-started_index.md.html#Getting%20Started%20Guides) and link/copy newPOI.html into that project's www/index.html, and newPOI.js into www.
