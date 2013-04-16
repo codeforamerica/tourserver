@@ -6,10 +6,12 @@ gem 'rails', '3.2.11'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
-gem 'activerecord-postgis-adapter'
-gem 'acts_as_list'
 gem 'rgeo'
 gem 'rgeo-geojson'
+gem 'activerecord-postgis-adapter'
+gem 'acts_as_list'
+
+
 gem 'paperclip', '~> 3.0'
 
 group :development do
