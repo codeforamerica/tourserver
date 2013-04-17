@@ -11,8 +11,8 @@ gem 'rgeo-geojson'
 gem 'activerecord-postgis-adapter'
 gem 'acts_as_list'
 
-
 gem 'paperclip', '~> 3.0'
+gem 'aws-sdk'
 
 group :development do
   gem 'webrick', '~> 1.3.1'
