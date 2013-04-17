@@ -3,7 +3,8 @@
 function onDeviceReady() {
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
   // change this to your server's IP
-  var host = "http://127.0.0.1:3000";
+  //var host = "http://127.0.0.1:3000";
+  var host = "http://trackserver-test.herokuapp.com";
   //var host = "http://10.0.3.14:3000";
   //var host = "";
   var minAccuracy = 100;
@@ -38,7 +39,9 @@ function onDeviceReady() {
     event.preventDefault();
     $(this).hide();
     $('#tourName').hide();
-    $('#tourTitleTextDiv').html($('#tourName').val()).show();
+    var tourName = $('#tourName').val();
+    tour.name = tourName;
+    $('#tourTitleTextDiv').html(tourName).show();
     $('#createPOI').attr('disabled', false);
     // and start tracking the path
     currentPosition();
