@@ -265,6 +265,7 @@ function onDeviceReady() {
 
   $('#saveTour').click(function(event) {
     console.log("saveTour");
+    $('#saveTour').attr("disabled", true);
     for (var i = 0; i < tour.interest_points.length; i++) {
       //for each point
       var myPoint = tour.interest_points[i];
@@ -292,6 +293,7 @@ function onDeviceReady() {
       console.log("submitMediaItems");
       // is there a better way to avoid undefined issues?
       var mediaItemsSubmissions = new Array();
+      var mediaSubmitParams = [];
       console.log(mediaItemsSubmissions.length);
       if (tour.interest_points) {
         for (var i = 0; i < tour.interest_points.length; i++) {
@@ -299,7 +301,7 @@ function onDeviceReady() {
           if (myPoint.interp_items) {
             for (var j = 0; j < myPoint.interp_items.length; j++) {
               var myInterpItem = myPoint.interp_items[j];
-              var mediaSubmitParams = [];
+              
               if (myInterpItem.media_items_attributes) {
                 for (var k = 0; k < myInterpItem.media_items_attributes.length; k++) {
                   var myMediaItem = myInterpItem.media_items_attributes[k];
@@ -462,8 +464,6 @@ function onDeviceReady() {
       $("#results").text("error: " + JSON.stringify(errorThrown));
     }).done(function(response, textStatus, jqXHR) {
       if (typeof doneCallback === 'function') {
-        //responseObj = JSON.parse(response);
-        //console.log("responseObj: " + responseObj);
         doneCallback.call(this, response);
       }
       $("#results").text(JSON.stringify(response));
