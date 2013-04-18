@@ -119,9 +119,8 @@ function onDeviceReady() {
     }
   });
 
-  // need to test this
+  // need to consolidate
   $("#photoUploadPhoneCamera").click(function(event) {
-    //TODO: dupe the album fetch code :/
     console.log("camera");
     navigator.camera.getPicture(cameraSuccess, cameraError, {
       quality: 100,
@@ -130,14 +129,22 @@ function onDeviceReady() {
     });
 
     function cameraSuccess(photoURL) {
-      console.log("phone camera success");
+      console.log("phone album success")
       $("<img>").attr("src", photoURL).width("100%").appendTo("#selectedPhoto");
-      currentPoint.photoURL = photoURL;
+      var media_item = {};
+
+
+      currentPoint.interp_items[0].media_items_attributes = currentPoint.interp_items[0].media_items_attributes || [];
+      currentPoint.interp_items[0].media_items_attributes.push({
+        type: "image",
+        data: photoURL
+      });
+      console.log("media_items_attributes.length" + currentPoint.interp_items[0].media_items_attributes.length);
       console.log(photoURL);
     }
 
     function cameraError(error) {
-      alert(error);
+      console.log(error);
     }
   });
 
