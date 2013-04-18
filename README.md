@@ -32,21 +32,27 @@ Follow setup instructions here:
 
 2) `rake assets:precompile` seemed to be failing for a while before running `heroku labs:enable user-env-compile` to give it access to environment variables.
 
-3) It seems the best way to set up a production/staging external PostGIS to use with Heroku is manually, since RGeo's setup doesn't work well without a postgres schema path, and Heroku mangles database.yml. So, once you have a Postgres 9.x/PostGIS 2.0 instance set up (and your Heroku DATABASE_URL environment variable set to point to your PostGIS instance--*make sure it starts with 'postgis' and not 'postgres'!*) and a user named "trackserver", run the following as a superuser:
+3) It seems the best way to set up a production/staging external PostGIS to use with Heroku is manually, since RGeo's setup doesn't work well without a postgres schema path, and Heroku mangles database.yml--a simple `heroku run rake db:create` doesn't work. So, once you have a Postgres 9.x/PostGIS 2.0 instance set up (and your Heroku DATABASE_URL environment variable set to point to your PostGIS instance--*make sure it starts with 'postgis' and not 'postgres'!*) and a user named "trackserver"...
 
-As superuser:
+As a DB superuser:
 
 `CREATE DATABASE trackserver;`
+
+`\c trackserver`
 
 `GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO trackserver;`
 
 `GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO trackserver;`
 
+`CREATE EXTENSION postgis;`
+
 `ALTER VIEW public.geometry_columns OWNER TO trackserver;`
 
 `ALTER VIEW public.geography_columns OWNER TO trackserver;`
 
-`ALTER VIEW public.spatial_ref_sys OWNER TO trackserver;`
-
 `ALTER TABLE public.spatial_ref_sys OWNER TO trackserver;`
+
+Now, from inside your repo: 
+
+`heroku rake run db:migrate` 
 
