@@ -1,7 +1,5 @@
 "use strict";
 
-
-
 function onDeviceReady() {
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
   // change this to your server's IP
@@ -12,7 +10,7 @@ function onDeviceReady() {
   // should this be global?
   var currentPointIndex = 0;
   var geoWatchID = null;
-  var triggerDistance = 5;
+  var triggerDistance = 10;
   var distanceToNextPoint = 100000;
 
   $("#tourIntroDisplay").hide();
@@ -21,16 +19,19 @@ function onDeviceReady() {
   $("#tourBetweenPointsDisplay").hide();
   getTourList();
 
+  // skip the geolocation and display the upcoming point
   $("#skipInBetween").click(function() {
     showCurrentInterestPoint();
   });
 
+  // leave the current point and start going to the next point
   $("#nextPoint").html("Continue Tour").show().click(function(event) {
     currentPointIndex++;
     $("#status").html("");
     showInBetweenScreen();
   });
 
+  // tour is over (if you want it)
   $("#done").click(function(event) {
     alert("Done!");
     window.location.reload(false);
@@ -54,6 +55,8 @@ function onDeviceReady() {
       $('#tourList').append($tourInfo);
       $('<hr>').appendTo($tourInfo);
     }
+    // class for tours in selectable list.
+    // tour id should be in 'data-tourid' attribute
     $(".tourListItem").click(function(event) {
       var tourid = $(this).data('tourid');
       getTourInfo(tourid);
@@ -64,9 +67,11 @@ function onDeviceReady() {
     currentTour = response;
     $("#tourList").hide();
     $("#tourInfoName").text(currentTour.name);
-    //$("#tourInfoPath").text(currentTour.path);
-    //$("#tourInfoRaw").text(JSON.stringify(currentTour));
+
+    // start running selected tour
     $("#startTour").click(startTour);
+
+    // cancel selected tour
     $("#cancelTour").click(function(event) {
       window.location.reload(false);
     });

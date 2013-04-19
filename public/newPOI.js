@@ -22,6 +22,7 @@ function onDeviceReady() {
     $(".phone").show();
   }
 
+  // tour name input box
   $('#tourName').keyup(function(event) {
     //enable tour creation button if tourName field has text
     if ($(this).val().length) {
@@ -33,6 +34,7 @@ function onDeviceReady() {
     }
   });
 
+  // start Tour button
   $("#startTour").click(function(event) {
     //click on the tour start button,
     //so disable it and the name field, and enable the point creation button
@@ -47,6 +49,7 @@ function onDeviceReady() {
     startGeolocation();
   });
 
+  // create point
   $("#createPOI").click(function(event) {
     //click on the interest_point create button,
     $("#createPOI").attr('disabled', true);
@@ -87,10 +90,11 @@ function onDeviceReady() {
       currentPoint.interp_items = currentPoint.interp_items || [];
       currentPoint.interp_items.push({
         name: "Passthrough"
-      });
+      })button;
     }
   });
 
+  // upload photo from album button
   $("#photoUploadPhoneAlbum").click(function(event) {
     navigator.camera.getPicture(cameraSuccess, cameraError, {
       quality: 40,
@@ -118,6 +122,7 @@ function onDeviceReady() {
     }
   });
 
+  // take photo 
   // need to consolidate
   $("#photoUploadPhoneCamera").click(function(event) {
     console.log("camera");
@@ -219,6 +224,7 @@ function onDeviceReady() {
     }
   }
 
+  //Record Audio button
   $("#recordAudio").click(function(event) {
     navigator.device.capture.captureAudio(captureSuccess, captureError);
 
@@ -241,11 +247,13 @@ function onDeviceReady() {
 
   });
 
+  //Cancel the current point input
   $("#cancelPoint").click(function(event) {
     clearCurrentPoint();
     console.log(tour);
   });
 
+  // save the current point
   $("#savePoint").click(function(event) {
     currentPoint.name = $('#pointName').val();
     // add an interp_item. For now, each interest_point will have only one interpretive item [0].
@@ -275,6 +283,7 @@ function onDeviceReady() {
     currentPoint = {};
   }
 
+  // save tour button
   $('#saveTour').click(function(event) {
     console.log("saveTour");
     $('#saveTour').attr("disabled", true);
@@ -417,6 +426,8 @@ function onDeviceReady() {
 
   });
 
+  // Stop recording tour, but keep it in memory for later upload
+  // Not sure this works as expected.
   $('#stopTour').click(function(event) {
     console.log("stopTour");
     if (confirm("Stop Recording?")) {
@@ -426,6 +437,7 @@ function onDeviceReady() {
     }
   });
 
+  // Cancel the tour and reset everything
   $('#cancelTour').click(function(event) {
     if (confirm("Cancel Tour Recording?")) {
       window.location.reload(false);
