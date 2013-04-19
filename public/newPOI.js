@@ -13,7 +13,7 @@ function onDeviceReady() {
   };
   var currentPoint = {};
 
-  var currentPositionTimeout;
+  var geoWatchID = null;
   var latestPosition;
 
   if (!window.isphone) {
@@ -44,7 +44,7 @@ function onDeviceReady() {
     $('#tourTitleTextDiv').html(tourName).show();
     $('#createPOI').attr('disabled', false);
     // and start tracking the path
-    currentPosition();
+    startGeolocation();
   });
 
   $("#createPOI").click(function(event) {
@@ -202,8 +202,8 @@ function onDeviceReady() {
     var ft = new FileTransfer();
     ft.upload(mediaURI, host + "/media_items.json", uploadWin, uploadFail, options);
 
-    return; 
-    
+    return;
+
     function uploadWin(r) {
       console.log("Code = " + r.responseCode);
       uploadCallback(r.response);
@@ -282,8 +282,7 @@ function onDeviceReady() {
       //for each point
       var myPoint = tour.interest_points[i];
     }
-    clearTimeout(currentPositionTimeout);
-    currentPositionTimeout = null;
+    stopGeolocation();
     // submitMediaItems calls submitTour on completion
     submitMediaItems(tour);
     console.log(tour);
@@ -368,7 +367,7 @@ function onDeviceReady() {
           }(curMediaItem);
           funcArray.push(myMediaUploadArrayItem);
         }
-        async.parallel(funcArray, asyncCallback);
+        async.series(funcArray, asyncCallback);
       }
     }
 
@@ -423,8 +422,7 @@ function onDeviceReady() {
     if (confirm("Stop Recording?")) {
       $("#createPOI").attr('disabled', false);
       $("div#pointInputArea :input").attr('disabled', true);
-      clearTimeout(currentPositionTimeout);
-      currentPositionTimeout = null;
+      stopGeolocation();
     }
   });
 
@@ -434,36 +432,37 @@ function onDeviceReady() {
     }
   });
 
-  function currentPosition() {
+  function startGeolocation() {
+    geoWatchID = navigator.geolocation.watchPosition(geoSuccess, geoError, {
+      enableHighAccuracy: true,
+    });
+  }
+
+  function stopGeolocation() {
+    navigator.geolocation.clearWatch(geoWatchID);
+    geoWatchID = null;
+  }
+
+  function geoSuccess(position) {
     if (tour.interest_points) {
       $("span#pointsSavedCount").text(tour.interest_points.length);
     }
 
-    navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
-      enableHighAccuracy: true,
-      timeout: 1000
-    });
-
-    currentPositionTimeout = setTimeout(currentPosition, 2000);
-
-    function geoSuccess(position) {
-      latestPosition = position;
-      $('#activeLocation').text("Now: " + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + " " + position.coords.accuracy + "m");
-      if ((position.coords.accuracy) < minAccuracy) {
-        var newPathLocation = position.coords.longitude + " " + position.coords.latitude;
-        tour.pathpoints = tour.pathpoints || [];
-        tour.pathpoints.push(newPathLocation);
-        console.log(tour.pathpoints.length);
-      } else {
-        //alert("GPS accuracy too low. Wait a few seconds and try again.");
-      }
-      $('currentTourInfo').html(tour);
+    latestPosition = position;
+    $('#activeLocation').text("Now: " + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + " " + position.coords.accuracy + "m");
+    if ((position.coords.accuracy) < minAccuracy) {
+      var newPathLocation = position.coords.longitude + " " + position.coords.latitude;
+      tour.pathpoints = tour.pathpoints || [];
+      tour.pathpoints.push(newPathLocation);
+      console.log(tour.pathpoints.length);
+    } else {
+      //alert("GPS accuracy too low. Wait a few seconds and try again.");
     }
+    $('currentTourInfo').html(tour);
+  }
 
-    function geoError(data) {
-      console.log(data);
-    }
-
+  function geoError(data) {
+    console.log(data);
   }
 
   function makeAPICall(callData, doneCallback) {
