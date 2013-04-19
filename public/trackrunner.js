@@ -11,8 +11,8 @@ function onDeviceReady() {
   var mediaFiles = {};
   // should this be global?
   var currentPointIndex = 0;
-  var currentPositionTimeout;
-  var triggerDistance = 10;
+  var geoWatchID = null;
+  var triggerDistance = 5;
   var distanceToNextPoint = 100000;
 
   $("#tourIntroDisplay").hide();
@@ -126,15 +126,14 @@ function onDeviceReady() {
     $("#tourBetweenPointsDisplay").show();
     $("#currentPointIndex").html(currentPointIndex);
     $("#endPointIndex").text(currentTour.interest_points.length - 1);
-    if (currentPositionTimeout == null) {
-      currentPosition();
+    if (geoWatchID == null) {
+      startGeolocation();
     }
   }
 
   function showCurrentInterestPoint() {
     console.log("showCurrentInterestPoint: " + currentPointIndex + " " + currentTour.interest_points.length);
-    clearTimeout(currentPositionTimeout);
-    currentPositionTimeout = null;
+    stopGeolocation();
     var currentPoint = currentTour.interest_points[currentPointIndex];
     $("#status").html("");
     $("#tourBetweenPointsDisplay").hide();
@@ -173,7 +172,6 @@ function onDeviceReady() {
         }
       });
     });
-
   }
 
   function getTextItem(filename, CB) {
@@ -248,7 +246,6 @@ function onDeviceReady() {
       //  xhr.setRequestHeader("Accept", "application/json")
       //},
       data: callData.data
-      //data: JSON.stringify(data)
     }).fail(function(jqXHR, textStatus, errorThrown) {
       $("#results").text("error: " + JSON.stringify(errorThrown));
     }).done(function(response, textStatus, jqXHR) {
@@ -261,76 +258,76 @@ function onDeviceReady() {
     });
   }
 
-  function currentPosition() {
-    console.log("currentPosition: " + currentPointIndex);
-    if (currentPointIndex == currentTour.interest_points.length) {
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
-      enableHighAccuracy: true,
-      timeout: 1000
+  function startGeolocation() {
+    console.log("startGeolocation: " + currentPointIndex);
+    geoWatchID = navigator.geolocation.watchPosition(geoSuccess, geoError, {
+      enableHighAccuracy: true
     });
+  }
 
-    currentPositionTimeout = setTimeout(currentPosition, 2000);
+  function stopGeolocation() {
+    console.log("stopGeolocation");
+    navigator.geolocation.clearWatch(geoWatchID);
+    geoWatchID = null;
+  }
 
-    function geoSuccess(position) {
-      var latestPosition = position;
-      $("#accuracy").html("GPS Accuracy: " + latestPosition.coords.accuracy + "m");
-      $("#betweenAccuracy").html("GPS accuracy: " + latestPosition.coords.accuracy + "m");
 
-      if ((latestPosition.coords.accuracy) < minAccuracy) {
-        var currentPointWKT = currentTour.interest_points[currentPointIndex].location;
-        var lnglat = /POINT \(([-\d|.]+) ([-\d|.]+)\)/.exec(currentPointWKT);
-        var lng = parseFloat(lnglat[1]);
-        var lat = parseFloat(lnglat[2]);
-        distanceToNextPoint = getDistanceFromLatLonInKm(lat, lng, position.coords.latitude, position.coords.longitude) * 1000;
-        distanceToNextPoint = distanceToNextPoint.toFixed(0);
-        console.log(distanceToNextPoint);
-        $("#status").html(distanceToNextPoint + "m to this point of interest");
-        $("#betweenStatus").html(distanceToNextPoint + "m to next point of interest");
-        if (distanceToNextPoint < triggerDistance) {
-          console.log("distance trigger");
-          navigator.notification.vibrate(1500);
-          showCurrentInterestPoint();
-        }
-      } else {
-        // status
+  function geoSuccess(position) {
+    var latestPosition = position;
+    $("#accuracy").html("GPS Accuracy: " + latestPosition.coords.accuracy + "m");
+    $("#betweenAccuracy").html("GPS accuracy: " + latestPosition.coords.accuracy + "m");
+
+    if ((latestPosition.coords.accuracy) < minAccuracy) {
+      var currentPointWKT = currentTour.interest_points[currentPointIndex].location;
+      var lnglat = /POINT \(([-\d|.]+) ([-\d|.]+)\)/.exec(currentPointWKT);
+      var lng = parseFloat(lnglat[1]);
+      var lat = parseFloat(lnglat[2]);
+      distanceToNextPoint = getDistanceFromLatLonInKm(lat, lng, position.coords.latitude, position.coords.longitude) * 1000;
+      distanceToNextPoint = distanceToNextPoint.toFixed(0);
+      console.log(distanceToNextPoint);
+      $("#status").html(distanceToNextPoint + "m to this point of interest");
+      $("#betweenStatus").html(distanceToNextPoint + "m to next point of interest");
+      if (distanceToNextPoint < triggerDistance) {
+        console.log("distance trigger");
+        navigator.notification.vibrate(1500);
+        showCurrentInterestPoint();
       }
+    } else {
+      // status
+    }
+  }
+
+  function geoError(data) {
+    console.log("Error: ");
+    console.log(data);
+  }
+
+}
+  //don't like using this. would like to get better distances via PostGIS
+
+  function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2 - lat1); // deg2rad below
+    var dLon = deg2rad(lon2 - lon1);
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    return d;
+  }
+
+  function deg2rad(deg) {
+    return deg * (Math.PI / 180)
+  }
+  $(document).ready(function() {
+    // are we running in native app or in browser?
+    window.isphone = false;
+    if (document.URL.indexOf("http://") == -1) {
+      window.isphone = true;
     }
 
-    function geoError(data) {
-      console.log("Error: ");
-      console.log(data);
+    if (window.isphone) {
+      document.addEventListener("deviceready", onDeviceReady, false);
+    } else {
+      onDeviceReady();
     }
-
-  }
-}
-
-//don't like using this. would like to get better distances via PostGIS
-
-function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-  var R = 6371; // Radius of the earth in km
-  var dLat = deg2rad(lat2 - lat1); // deg2rad below
-  var dLon = deg2rad(lon2 - lon1);
-  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  var d = R * c; // Distance in km
-  return d;
-}
-
-function deg2rad(deg) {
-  return deg * (Math.PI / 180)
-}
-$(document).ready(function() {
-  // are we running in native app or in browser?
-  window.isphone = false;
-  if (document.URL.indexOf("http://") == -1) {
-    window.isphone = true;
-  }
-
-  if (window.isphone) {
-    document.addEventListener("deviceready", onDeviceReady, false);
-  } else {
-    onDeviceReady();
-  }
-});
+  });
