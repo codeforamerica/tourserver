@@ -49,7 +49,6 @@ function onDeviceReady() {
 
   $("#createPOI").click(function(event) {
     //click on the interest_point create button,
-    event.preventDefault();
     $("#createPOI").attr('disabled', true);
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
       enableHighAccuracy: true,
@@ -94,7 +93,7 @@ function onDeviceReady() {
 
   $("#photoUploadPhoneAlbum").click(function(event) {
     navigator.camera.getPicture(cameraSuccess, cameraError, {
-      quality: 100,
+      quality: 40,
       destinationType: navigator.camera.DestinationType.FILE_URI,
       sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
     });
@@ -123,7 +122,7 @@ function onDeviceReady() {
   $("#photoUploadPhoneCamera").click(function(event) {
     console.log("camera");
     navigator.camera.getPicture(cameraSuccess, cameraError, {
-      quality: 100,
+      quality: 40,
       destinationType: navigator.camera.DestinationType.FILE_URI,
       sourceType: navigator.camera.PictureSourceType.CAMERA
     });
@@ -185,7 +184,7 @@ function onDeviceReady() {
     }
 
     function fail(error) {
-      alert("An error has occurred: Code = " + error.code);
+      alert("An error has occurred: (writeAndUploadText) Code = " + error.code);
     }
   }
 
@@ -198,19 +197,25 @@ function onDeviceReady() {
     var params = new Object();
     params["media_item[name]"] = "Placeholder Name";
     options.params = params;
+    //options.chunkedmode = false;
 
     var ft = new FileTransfer();
     ft.upload(mediaURI, host + "/media_items.json", uploadWin, uploadFail, options);
 
+    return; 
+    
     function uploadWin(r) {
       console.log("Code = " + r.responseCode);
       uploadCallback(r.response);
-      console.log("Response = " + r.response);
-      console.log("Sent = " + r.bytesSent);
     }
 
     function uploadFail(error) {
-      alert("An error has occurred: Code = " + error.code);
+      alert("An error has occurred (uploadMedia:): Code = " + error.code + "(" + mediaURI + ")");
+      if (confirm("uploadMedia Failed. Try again?") + JSON.stringify(callData.data)) {
+        uploadMedia(mediaURI, uploadCallback, mimeType);
+      } else {
+        // silent fail!
+      }
     }
   }
 
@@ -231,7 +236,7 @@ function onDeviceReady() {
     }
 
     function captureError(error) {
-      alert("An error has occurred: Code = " + error.code);
+      alert("An error has occurred (recordAudio): Code = " + error.code);
     }
 
   });
@@ -277,7 +282,8 @@ function onDeviceReady() {
       //for each point
       var myPoint = tour.interest_points[i];
     }
-
+    clearTimeout(currentPositionTimeout);
+    currentPositionTimeout = null;
     // submitMediaItems calls submitTour on completion
     submitMediaItems(tour);
     console.log(tour);
@@ -308,7 +314,7 @@ function onDeviceReady() {
           if (myPoint.interp_items) {
             for (var j = 0; j < myPoint.interp_items.length; j++) {
               var myInterpItem = myPoint.interp_items[j];
-              
+
               if (myInterpItem.media_items_attributes) {
                 for (var k = 0; k < myInterpItem.media_items_attributes.length; k++) {
                   var myMediaItem = myInterpItem.media_items_attributes[k];
@@ -352,8 +358,6 @@ function onDeviceReady() {
           var curMediaItem = mediaSubmitParams[i];
           var myMediaUploadArrayItem = function(curMediaItem) {
             return function(callback) {
-              console.log("curMediaItem.mediaUploadFunc");
-              console.log(curMediaItem.mediaUploadFunc);
               curMediaItem.mediaUploadFunc(curMediaItem.data, function(response) {
                 console.log("seriesItemCallback");
                 console.log(curMediaItem.mediaUploadFunc);
@@ -364,7 +368,7 @@ function onDeviceReady() {
           }(curMediaItem);
           funcArray.push(myMediaUploadArrayItem);
         }
-        async.series(funcArray, asyncCallback);
+        async.parallel(funcArray, asyncCallback);
       }
     }
 
@@ -412,6 +416,16 @@ function onDeviceReady() {
       return tour;
     }
 
+  });
+
+  $('#stopTour').click(function(event) {
+    console.log("stopTour");
+    if (confirm("Stop Recording?")) {
+      $("#createPOI").attr('disabled', false);
+      $("div#pointInputArea :input").attr('disabled', true);
+      clearTimeout(currentPositionTimeout);
+      currentPositionTimeout = null;
+    }
   });
 
   $('#cancelTour').click(function(event) {
@@ -468,7 +482,12 @@ function onDeviceReady() {
       data: callData.data
       //data: JSON.stringify(data)
     }).fail(function(jqXHR, textStatus, errorThrown) {
-      $("#results").text("error: " + JSON.stringify(errorThrown));
+      //$("#results").text("error: " + JSON.stringify(errorThrown));
+      if (confirm("API Call Failed. Try again?") + JSON.stringify(callData.data)) {
+        makeAPICall(callData, doneCallback);
+      } else {
+        // silent fail!
+      }
     }).done(function(response, textStatus, jqXHR) {
       if (typeof doneCallback === 'function') {
         doneCallback.call(this, response);
