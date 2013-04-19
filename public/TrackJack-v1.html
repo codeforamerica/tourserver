@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title>Test Prototype</title>
+  <link rel="stylesheet" href="themeroller/themes/TrackJack-Draft1.css" />
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile.structure-1.3.1.min.css" />
+  <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
+  <script src="my.js"></script>
+
+  <!-- User-generated css -->
+  <style type="text/css">
+
+
+.ui-page {
+    background: transparent url(https://dl.dropboxusercontent.com/u/137249874/TempBackground-26-26-26.png);
+}
+
+
+.textbox-white {
+    background-color: white;
+    padding: 1px 15px 1px 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.textbox-header {
+  font-family: Arial;
+  font-weight: bold;
+  color: #716552;
+}
+.textbox-text {
+  font-family: Arial;
+  color: #716552;
+}
+
+
+#tracklist-header {
+  white-space: normal; 
+  width: 260px; 
+  height: 40px; 
+  margin:15px; 
+  text-align: left;
+}
+
+.map {
+  width: 288px;
+  height: 200px;
+}
+#image-start {
+  width: 288px;
+  height: 200px;
+}
+#image-interp {
+  width: 288px;
+  height: 250px;
+}
+.image-map-container {
+  position: relative;
+}
+.image-map-label-container {
+  width: 200px; 
+  background-color: #E5E1D1; 
+  position: absolute;
+  font-size: small;
+  font-family: arial;
+  color: #A3BE8B;
+  padding: 15px;
+}
+#label-distance {
+  color: #716552;
+}
+#label-difficulty {
+  color: #716552;
+}
+#label-chapters {
+  color: #716552;
+}
+
+#musicplayer-container {
+  background-color: #A3BE8B;
+  height: 70px;
+}
+
+#interp-label-container {
+  background-color: #A3BE8B;
+  padding: 15px;
+  margin-top: -5px;
+}
+#interp-label {
+  font-family: Arial;
+  font-style: bold;
+  color: #0E1237;
+}
+
+</style>
+
+  <!-- User-generated js -->
+  <script>
+
+    $(function() {
+        
+    });
+
+  </script>
+</head>
+<body>
+  <!-- Settings -->
+  <div data-role="page" id="SettingsPage">
+      <div data-theme="a" data-role="header">
+          <h3>
+              Settings
+          </h3>
+      </div>
+      <div data-role="content">
+          <ul data-role="listview" data-divider-theme="b" data-inset="true">
+              <li data-role="list-divider" role="heading">
+                  Manage Tours
+              </li>
+              <li data-theme="b">
+                  <a href="#page10" data-transition="slide">
+                      Create a Tour
+                  </a>
+              </li>
+              <li data-theme="b">
+                  <a href="#page16" data-transition="slide">
+                      Edit a Tour
+                  </a>
+              </li>
+          </ul>
+          <ul data-role="listview" data-divider-theme="b" data-inset="true">
+              <li data-role="list-divider" role="heading">
+                  Parks Partners
+              </li>
+              <li data-theme="b">
+                  <a href="http://www.summitmetroparks.org" data-transition="slide">
+                      Metro Parks, Serving Summit County
+                  </a>
+              </li>
+              <li data-theme="b">
+                  <a href="http://www.nps.gov/cuva/index.htm" data-transition="slide">
+                      Cuyahoga Valley National Parks
+                  </a>
+              </li>
+              <li data-theme="b">
+                  <a href="http://www.ohioeriecanal.org" data-transition="slide">
+                      Ohio and Erie Canalway Coalition
+                  </a>
+              </li>
+          </ul>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      main
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <!-- Tour List -->
+  <div data-role="page" data-theme="d" id="HomePage">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <h2>
+              TrackJack
+          </h2>
+      </div>
+      <div data-theme="b" data-divider-theme="b" data-inset="true">
+         <ul data-role="listview" data-divider-theme="b">
+          <li data-theme="b">
+            <a href="#page2" data-transition="slide">
+            <h1 style="white-space: normal">Invasive Species on Bike and Hike Trail</h1>
+            <img src="https://dl.dropbox.com/u/137249874/_square/Logo-MetroParks-Other.png" alt="test image">
+            <p>1.3 miles, easy, 6 chapters</p>
+            </a>
+          </li>
+          <li data-theme="b">
+            <a href="#page2" data-transition="slide">
+            <h1 style="white-space: normal">History of Bridal Veil Falls</h1>
+            <img src="https://dl.dropbox.com/u/137249874/_square/Logo-CVNP.png" alt="test image">
+            <p>.5 miles, easy, 5 chapters</p>
+            </a>
+          </li>
+          <li data-theme="b">
+            <a href="#page2" data-transition="slide">
+            <h1 style="white-space: normal">Highlights along the Towpath</h1>
+            <img src="https://dl.dropbox.com/u/137249874/_square/Logo-CVNP.png" alt="test image">
+            <p>2.5 miles, easy, 13 chapters</p>
+            </a>
+          </li>
+          <li data-theme="b">
+            <a href="#page2" data-transition="slide">
+            <h1 style="white-space: normal">Historical Highlights along the Towpath</h1>
+            <img src="https://dl.dropbox.com/u/137249874/_square/Logo-MetroParks-Other.png" alt="test image">
+            <p>4 miles, easy, 15 chapters</p>
+            </a>
+          </li>
+          <li data-theme="b">
+            <a href="#page2" data-transition="slide">
+            <h1 style="white-space: normal">Nature along the Deep Lock Quarry</h1>
+            <img src="https://dl.dropbox.com/u/137249874/_square/Logo-CVNP.png" alt="test image">
+            <p>1.2 miles, moderate, 8 chapters</p>
+            </a>
+          </li> 
+        </ul>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      main
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <!-- Tour Info -->
+  <div data-role="page" data-theme="d" id="page2">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#page1" class="ui-btn-left">
+              tracks
+          </a>
+          <a data-role="button" data-transition="slide" data-theme="c" href="#page5" class="ui-btn-right">
+              Go
+          </a>
+          <h2>
+              TrackJack
+          </h2>
+      </div>
+      <div class="header" data-theme="b", data-role="header" a>
+          <h3 id="tracklist-header">
+                  Invasive Species on the Bike and Hike Trail
+          </h3>
+      </div>
+      <div data-role="content">
+          <div class="image-map-container">
+            <div class="image-map-label-container">
+              <h id="label-distance">1.3 miles</h>  |   <h id="label-difficulty"> easy</h>  |  <h id="label-chapters">6 chapters</h>
+            </div>
+            <img class="map" id="map-all" src="https://maps.googleapis.com/maps/api/staticmap?center=boston, oh&amp;zoom=9&amp;size=288x200&amp;markers=Towpath Trailhead|Bike and Hike Trail&amp;sensor=false";/>
+          </div>
+          <div class="textbox-white textbox-text">
+            <p class="textbox-header">
+              What you will see
+            </p>
+            <p>
+              a list of items will go here
+            </p>
+          </div>
+            <div class="image-map-container">
+              <div class="image-map-label-container">
+                <h> start here</h>
+              </div>
+              <img id="image-start" src="https://dl.dropbox.com/u/137249874/Interp/BikeHike-Intro-290x200.jpg" />
+            </div>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      main
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <!-- Inbetween Page 1 -->
+  <div data-role="page" data-theme="d" id="page5">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <span class="ui-title"></span>
+          <a data-role="button" data-transition="slide" data-theme="a" href="#page6" class="ui-btn-right">
+          skip
+          </a>
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
+          href="#page2" class="ui-btn-left">
+              back
+          </a>
+      </div>
+      <div data-theme="b" data-role="header">
+          <h3 id="tracklist-header">
+                  Invasive Species on the Bike and Hike Trail
+          </h3>
+      </div>
+      <div data-role="content">
+          <div class="textbox-white textbox-text">
+              <p class="textbox-header">
+                  Let's go!
+              </p>
+              <p>
+                  It’s 0.2 miles until the next chapter. </br></br> Enjoy the scenery, and we’ll give you a buzz when you reach the next stop.
+              </p>
+              <p style="font-style: italic">
+                or skip ahead to see it now.
+              </p>
+          </div>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      main
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <!-- Interp Item 1 -->
+  <div data-role="page" data-theme="d" id="page6">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <h2 id="InterpItem-Header">
+              1 of 12
+          </h2>
+          <a data-role="button" data-transition="slide" data-theme="c" href="#page7" class="ui-btn-right">
+              next
+          </a>
+          <a data-role="button" data-direction="reverse" data-transition="slide"
+          href="#page2" class="ui-btn-left">
+              back
+          </a>
+      </div>
+      <div id="musicplayer-container">
+      </div>
+      <div data-role="content">
+        <img id="image-interp" src="https://dl.dropbox.com/u/137249874/Interp/GarlicMustard-290x360.jpg">
+        <div id="interp-label-container">
+          <h id="interp-label">Garlic Mustard</h>
+        </div>
+        <div>
+          <p>
+            <span style="font-size: x-small;" data-mce-style="font-size: x-small;">
+                      <span style="font-size: small;">
+                      <strong>Garlic mustard</strong> is a biennial herb with stalked, triangular-shaped leaves that smell like garlic when crushed. Plants first appear as rosettes of green leaves close to the ground. The following year they reach two to 3.5 feet tall and produce button-like clusters of small white flowers with four petals in the shape of a cross. Slender seed pods are present by June; each contains thousands of seeds per plant. The seeds can be viable in the soil for up to seven years. This non-native plant aggressively monopolizes light, moisture, nutrients, soil and growing space.
+                      </span>
+                  </span>
+              </p>
+        </div>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      home
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <!-- Inbetween Page -->
+  <div data-role="page" data-theme="d" id="page7">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <span class="ui-title">
+          </span>
+          <a data-role="button" data-transition="slide" data-theme="d" href="#page8"
+          data-icon="arrow-r" data-iconpos="right" class="ui-btn-right">
+              skip
+          </a>
+          <a data-role="button" data-direction="reverse" data-transition="slide"
+          href="#page6" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
+              back
+          </a>
+      </div>
+      <div data-theme="c" data-role="header">
+        <h3 style="white-space: normal; width: 285px; height: 40px; margin:15px; align: center">
+                  Invasive Species on the Bike and Hike Trail
+        </h3>
+      </div>
+      <div data-role="content">
+          <div>
+              <p>
+                  Onward!
+              </p>
+              <p>
+                  It’s .4 miles until the next chapter!
+              </p>
+              <p style="font-style:italic">
+                or skip ahead to see it now.
+              </p>
+          </div>
+          <div style="width: 290px; height: 200px; position: relative;">
+              <img src="https://dl.dropbox.com/u/137249874/_events/SFAgraphic-600x405.jpg" alt="image" style="width:290px">
+          </div>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      home
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <!-- Interp Item 2 -->
+  <div data-role="page" data-theme="d" id="page8">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <a data-role="button" data-transition="slide" data-theme="c" href="#page9"
+          data-icon="arrow-r" data-iconpos="right" class="ui-btn-right">
+              done
+          </a>
+          <a data-role="button" data-direction="reverse" data-transition="slide"
+          href="#page6" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
+              previous
+          </a>
+          <h2>
+              2 of 12
+          </h2>
+      </div>
+      <div data-theme="c" data-role="header">
+        <h3 style="white-space: normal; width: 285px; height: 20px; margin:15px; align: center">
+                  Narrow-leaved Cattail
+        </h3>
+      </div>
+      <div data-role="content">
+          <div style="">
+              <img style="width: 290px; height: 360px" src="https://dl.dropbox.com/u/137249874/Interp/thinleavedcattails.jpg">
+          </div>
+          <a data-role="button" href="#page6" data-theme="a">
+              Play Recorded Audio
+          </a>
+          <div>
+              <p>
+                  <span style="font-size: x-small;" data-mce-style="font-size: x-small;">
+                      <span style="font-size: small;">
+                      <strong>Narrow-leaved cattail</strong>, once established, invades open wetlands by underground rhizomes and the abundant production of far-ranging airborne seeds in late fall, which are said to remain viable for 100 years or more. The plant hybridized with our native broad-leaved cattail to produce an even more aggressive strain. The new cattail strains often disperse deep into our natural areas and form monocultures that threaten rare species and some of our most diverse wetland systems.
+                      </span>
+                  </span>
+              </p>
+          </div>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      home
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <!-- Finished -->
+  <div data-role="page" data-theme="d" id="page9">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <span class="ui-title">
+          </span>
+          <a data-role="button" data-direction="reverse" data-transition="slide"
+          href="#page6" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
+              back
+          </a>
+      </div>
+      <div data-theme="c" data-role="header">
+        <h3 style="white-space: normal; width: 285px; height: 40px; margin:15px; align: center">
+                  Invasive Species on the Bike and Hike Trail
+        </h3>
+      </div>
+      <div data-role="content">
+          <div>
+              <p>
+                  Congrats! You finished your tour.
+              </p>
+          </div>
+          <a data-role="button" data-transition="slide" href="#HomePage">
+              Start Another Tour
+          </a>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      home
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <!-- create a tour -->
+  <div data-role="page" data-theme="d" id="page10">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
+          href="#SettingsPage" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
+              back
+          </a>
+          <h2>
+              Create a Tour
+          </h2>
+      </div>
+      <div data-role="content">
+          <div data-role="fieldcontain">
+              <fieldset data-role="controlgroup">
+                  <label for="textinput1">
+                    <strong>Name Your Tour</strong>
+                  </label>
+                  <input name="" id="textinput1" placeholder="" type="text">
+              </fieldset>
+          </div>
+          <div data-role="fieldcontain">
+              <fieldset data-role="controlgroup">
+                  <label for="textarea3">
+                    <strong>Describe Your Tour</strong>
+                  </label>
+                  <textarea name="" id="textarea3" placeholder="">Tell people a little bit about your tour in 100 words or less</textarea>
+              </fieldset>
+          </div>
+          <div data-role="fieldcontain">
+              <label for="selectmenu1">
+                  <strong>Trail Rating</strong></br><span style="font-size:small">Tell people how difficult it your trail tour will be for the average hiker</span>
+              </label>
+              <select name="Trail Rating" data-theme="c">
+                  <option value="Easy">
+                      Easy
+                  </option>
+                  <option value="Medium">
+                      Medium
+                  </option>
+                  <option value="Difficult">
+                      Difficult
+                  </option>
+              </select>
+          </div>
+          <div data-role="fieldcontain">
+              <label for="selectmenu2">
+                  <strong>Subject</strong>
+              </label>
+              <select name="Category" data-theme="c">
+                  <option value="Nature">
+                      Nature
+                  </option>
+                  <option value="Historical">
+                      Historical
+                  </option>
+              </select>
+          </div>
+          <div style="height:10px">
+          </div>
+          <div style="width: 290px; height: 200px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;">
+              <img src="http://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
+          </div>
+          <ul data-role="listview" data-divider-theme="b" data-inset="true">
+              <li data-theme="c">
+                  <a href="#page15" data-transition="slide">
+                      Upload Cover Photo
+                  </a>
+              </li>
+          </ul>
+          <div>
+              <p>
+                  Now begin walking the path of your tour. We are tracking your path, so don't go off course.
+              </p>
+          </div>
+          <div style="height: 20px">
+          </div>
+          <a data-role="button" data-transition="none" data-theme="a" href="#page11">
+              Begin Tracing Your Tour
+          </a>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      home
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <!-- Begin Recording -->
+  <div data-role="page" data-theme="d" id="page11">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <h3>
+              Recording Tour
+          </h3>
+      </div>
+      <div data-role="content">
+          <div>
+              <p>
+                  Recording your GPS...
+              </p>
+              <p>
+                  Begin walking your path
+              </p>
+          </div>
+          <img src="https://maps.googleapis.com/maps/api/staticmap?center=Akron, OH&amp;zoom=14&amp;size=288x200&amp;markers= Akron, OH&amp;sensor=false"
+          width="288" height="200">
+          <div style="height: 10px">
+          </div>
+          <a data-role="button" data-transition="slide" href="#page12">
+              Add Point of Interest
+          </a>
+          <div style="height: 20px">
+          </div>
+          <a data-role="button" data-transition="slide" data-theme="a" href="#page14">
+              Finish Tour
+          </a>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      home
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <!-- Add Point of interest -->
+  <div data-role="page" data-theme="d" id="page12">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
+          href="#page11" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
+              cancel
+          </a>
+          <h2>
+              Add Point of Interest
+          </h2>
+      </div>
+      <div data-role="content">
+          <div data-role="fieldcontain">
+              <fieldset data-role="controlgroup">
+                  <label for="textinput5">
+                  </label>
+                  <input name="" id="textinput5" placeholder="" value="Name Point of Interest"
+                  type="text">
+              </fieldset>
+          </div>
+          <div data-role="fieldcontain">
+              <fieldset data-role="controlgroup">
+                  <label for="textarea4">
+                  </label>
+                  <textarea name="" id="textarea4" placeholder="">Description</textarea>
+              </fieldset>
+          </div>
+          <div style="height:10px">
+          </div>
+          <div style="width: 288px; height: 100px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;">
+              <img src="http://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
+          </div>
+          <ul data-role="listview" data-divider-theme="d" data-inset="true">
+              <li data-theme="d">
+                  <a href="#page15" data-transition="slide">
+                      Upload Photo
+                  </a>
+              </li>
+          </ul>
+          <div style="height:2px">
+          </div>
+          <a data-role="button" data-theme="a" href="#page18">
+              Play Recorded Audio
+          </a>
+          <ul data-role="listview" data-divider-theme="d" data-inset="true">
+              <li data-theme="d">
+                  <a href="#SettingsPage" data-transition="slide">
+                      Record Audio
+                  </a>
+              </li>
+          </ul>
+          <div style="height: 20px">
+          </div>
+          <a data-role="button" data-transition="slide" data-theme="a" href="#page13">
+              Submit
+          </a>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      home
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <!-- Photo Upload -->
+  <div data-role="page" data-theme="d" id="page15">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <h3>
+              Add Photo
+          </h3>
+      </div>
+      <div data-role="content">
+          <a data-role="button" data-transition="slide" href="#page12">
+              Upload from Library
+          </a>
+          <a data-role="button" data-transition="slide" data-theme="d" href="#page12">
+              Take Photo
+          </a>
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
+          data-theme="d" href="#page12">
+              Cancel
+          </a>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      home
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <!-- Continue Recording -->
+  <div data-role="page" data-theme="d" id="page13">
+      <div data-theme="a" data-role="header">
+          <h3>
+              Recording Tour
+          </h3>
+      </div>
+      <div data-role="content">
+          <div>
+              <p>
+                  Recording your GPS...
+              </p>
+              <p>
+                  Continue on your trail
+              </p>
+              <p>
+                  <br>
+              </p>
+          </div>
+          <img src="https://maps.googleapis.com/maps/api/staticmap?center=Akron, OH&amp;zoom=14&amp;size=288x200&amp;markers=Akron, OH&amp;sensor=false"
+          width="288" height="200">
+          <a data-role="button" data-transition="slide" href="#page11">
+              Add Point of Interest
+          </a>
+          <a data-role="button" data-transition="slide" data-theme="a" href="#page14">
+              Finish Tour
+          </a>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      home
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <!-- Finished -->
+  <div data-role="page" data-theme="d" id="page14">
+      <div data-theme="a" data-role="header">
+          <h3>
+              Complete
+          </h3>
+      </div>
+      <div data-role="content">
+          <div>
+              <p>
+                  Success!
+              </p>
+              <p>
+                  Your tour has been recorded and added to the tour list
+              </p>
+          </div>
+          <a data-role="button" data-transition="slide" href="#page2">
+              Test Your Tour
+          </a>
+          <a data-role="button" data-transition="slide" data-theme="a" href="#page16">
+              Edit Your Tour
+          </a>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      home
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <!-- Edit Tour List -->
+  <div data-role="page" data-theme="d" id="page16">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <a data-role="button" data-direction="reverse" data-transition="slide"
+          href="#SettingsPage" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
+              cancel
+          </a>
+          <h2>
+              Edit a Tour
+          </h2>
+      </div>
+      <div data-theme="d" data-divider-theme="b" data-inset="true">
+         <ul data-role="listview" data-divider-theme="b">
+          <li data-theme="c">
+            <a href="#page17" data-transition="slide">
+            <h1 style="white-space: normal">Invasive Species on Bike and Hike Trail</h1>
+            <img src="https://dl.dropbox.com/u/137249874/_square/Logo-MetroParks-Other.png" alt="test image">
+            <p>1.3 miles, easy, 6 chapters</p>
+            </a>
+          </li>
+          <li data-theme="c">
+            <a href="#page17" data-transition="slide">
+            <h1 style="white-space: normal">History of Bridal Veil Falls</h1>
+            <img src="https://dl.dropbox.com/u/137249874/_square/Logo-CVNP.png" alt="test image">
+            <p>.5 miles, easy, 5 chapters</p>
+            </a>
+          </li>
+          <li data-theme="c">
+            <a href="#page17" data-transition="slide">
+            <h1 style="white-space: normal">Highlights along the Towpath</h1>
+            <img src="https://dl.dropbox.com/u/137249874/_square/Logo-CVNP.png" alt="test image">
+            <p>2.5 miles, easy, 13 chapters</p>
+            </a>
+          </li>
+          <li data-theme="c">
+            <a href="#page17" data-transition="slide">
+            <h1 style="white-space: normal">Historical Highlights along the Towpath</h1>
+            <img src="https://dl.dropbox.com/u/137249874/_square/Logo-MetroParks-Other.jpg" alt="test image">
+            <p>4 miles, easy, 15 chapters</p>
+            </a>
+          </li>
+          <li data-theme="c">
+            <a href="#page17" data-transition="slide">
+            <h1 style="white-space: normal">Nature along the Deep Lock Quarry</h1>
+            <img src="https://dl.dropbox.com/u/137249874/_square/Logo-CVNP.png" alt="test image">
+            <p>1.2 miles, moderate, 8 chapters</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      home
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <!-- Edit Tour Chapter List -->
+  <div data-role="page" data-theme="d" id="page17">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
+          href="#page16" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
+              back
+          </a>
+          <h2>
+              Edit a Tour
+          </h2>
+      </div>
+      <div data-theme="d" data-divider-theme="b" data-inset="true">
+        <ul data-role="listview" data-divider-theme="b">
+          <li data-theme="c">
+            <a href="#page19" data-transition="slide">
+            <h1 style="white-space: normal">Introduction</h1>
+            <img src="https://dl.dropbox.com/u/137249874/_square/BikeHike-square.jpg" alt="test image">
+            </a>
+          </li>
+          <li data-theme="c">
+            <a href="#page18" data-transition="slide">
+            <h1 style="white-space: normal">Garlic Mustard</h1>
+            <img src="https://dl.dropbox.com/u/137249874/_square/GarlicMustard-squ.jpg" alt="test image">
+            </a>
+          </li>
+          <li> 
+            <a href="#page18" data-transition="slide">
+            <h1 style="white-space: normal">Thin Leaved Cattails</h1>
+            <img src="https://dl.dropbox.com/u/137249874/_square/thinleavedcattails%3Dsq.jpg" alt="test image">
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      home
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <!-- Edit Intro -->
+  <div data-role="page" data-theme="d" id="page19">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
+          href="#page17" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
+              cancel
+          </a>
+          <h2>
+              Edit Intro
+          </h2>
+      </div>
+      <div data-role="content">
+          <div data-role="fieldcontain">
+              <fieldset data-role="controlgroup">
+                  <label for="textinput7">
+                  </label>
+                  <input name="" id="textinput7" placeholder="" value="Invasive Species on the Bike and Hike Trail" type="text">
+              </fieldset>
+          </div>
+          <div data-role="fieldcontain">
+              <fieldset data-role="controlgroup">
+                  <label for="textarea6">
+                  </label>
+                  <textarea name="" id="textarea6" placeholder="">Discover the most prevalent invasive species on the Bike and Hike Trails. Invasive plants are aggressive species that grow in areas where they do not historically occur. Some were introduced accidentally, while others may have been planted for herbal or medicinal purposes, for soil stabilization and wildlife habitat, or because of their showy flowers, fruit, leaves or bark.</textarea>
+              </fieldset>
+          </div>
+          <div data-role="fieldcontain">
+              <label for="selectmenu7">
+                  Trail Rating
+              </label>
+              <select name="Trail Rating" data-theme="c">
+                  <option value="Easy">
+                      Easy
+                  </option>
+                  <option value="Medium">
+                      Medium
+                  </option>
+                  <option value="Difficult">
+                      Difficult
+                  </option>
+              </select>
+          </div>
+          <div data-role="fieldcontain">
+              <label for="selectmenu8">
+                  Subject
+              </label>
+              <select name="Category" data-theme="c">
+                  <option value="Wildlife">
+                      Wildlife
+                  </option>
+                  <option value="Botony">
+                      Botony
+                  </option>
+                  <option value="Ecology">
+                      Ecology
+                  </option>
+              </select>
+          </div>
+          <div style="">
+              <img style="width: 290px; height: 200px" src="https://dl.dropbox.com/u/137249874/Interp/BikeHike-Intro-290x200.jpg">
+          </div>
+          <ul data-role="listview" data-divider-theme="b" data-inset="true">
+              <li data-theme="c">
+                  <a href="#page15" data-transition="slide">
+                      Upload New Photo
+                  </a>
+              </li>
+          </ul>
+          <div style="height:20px">
+          </div>
+          <a data-role="button" data-transition="slide" data-theme="a" href="#page17">
+              Save
+          </a>
+          <a data-role="button" data-transition="slide" href="#page17">
+              Delete Entire Tour
+          </a>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      home
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+  <!-- Edit POI -->
+  <div data-role="page" data-theme="d" id="page18">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
+          href="#page17" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
+              cancel
+          </a>
+          <h2>
+              Edit Point of Interest
+          </h2>
+      </div>
+      <div data-role="content">
+          <div data-role="fieldcontain">
+              <fieldset data-role="controlgroup">
+                  <label for="textinput6">
+                  </label>
+                  <input name="" id="textinput6" placeholder="" value="Garlic Mustard"
+                  type="text">
+              </fieldset>
+          </div>
+          <div data-role="fieldcontain">
+              <fieldset data-role="controlgroup">
+                  <label for="textarea5">
+                  </label>
+                  <textarea name="" id="textarea5" placeholder="">Garlic mustardis a biennial herb with stalked, triangular-shaped leaves that smell like garlic when crushed. Plants first appear as rosettes of green leaves close to the ground. The following year they reach two to 3.5 feet tall and produce button-like clusters of small white flowers with four petals in the shape of a cross. Slender seed pods are present by June; each contains thousands of seeds per plant. The seeds can be viable in the soil for up to seven years. This non-native plant aggressively monopolizes light, moisture, nutrients, soil and growing space.</textarea>
+              </fieldset>
+          </div>
+          <div style="">
+              <img style="width: 290px; height: 360px" src="https://dl.dropbox.com/u/137249874/Interp/GarlicMustard-290x360.jpg">
+          </div>
+          <ul data-role="listview" data-divider-theme="d" data-inset="true">
+              <li data-theme="d">
+                  <a href="#page15" data-transition="slide">
+                      Upload New Photo
+                  </a>
+              </li>
+          </ul>
+          <div style="height: 5px">
+          </div>
+          <a data-role="button" data-theme="a" href="#page18">
+              Play Recorded Audio
+          </a>
+          <ul data-role="listview" data-divider-theme="d" data-inset="true">
+              <li data-theme="d">
+                  <a href="#SettingsPage" data-transition="slide">
+                      Record New Audio
+                  </a>
+              </li>
+          </ul>
+          <div style="height: 20px">
+          </div>
+          <a data-role="button" data-transition="slide" data-theme="a" href="#page17">
+              Save
+          </a>
+          <a data-role="button" href="#page18">
+              Delete
+          </a>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#HomePage" data-transition="fade">
+                      home
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+
+  
+</body>
+</html>
