@@ -25,6 +25,17 @@ function onDeviceReady() {
     showCurrentInterestPoint();
   });
 
+  $("#nextPoint").html("Continue Tour").show().click(function(event) {
+    currentPointIndex++;
+    $("#status").html("");
+    showInBetweenScreen();
+  });
+
+  $("#done").click(function(event) {
+    alert("Done!");
+    window.location.reload(false);
+  });
+
   function getTourList() {
     var callData = {
       type: "GET",
@@ -109,34 +120,33 @@ function onDeviceReady() {
 
   function showInBetweenScreen() {
     $("#tourActionDisplay").hide();
+    $("#pointText").html("");
+    $("#pointAudio").html("");
+    $("#pointImage").html("");
     $("#tourBetweenPointsDisplay").show();
-    $("#upcomingPoint").html(currentPointIndex);
+    $("#currentPointIndex").html(currentPointIndex);
+    $("#endPointIndex").text(currentTour.interest_points.length - 1);
     if (currentPositionTimeout == null) {
       currentPosition();
     }
   }
 
   function showCurrentInterestPoint() {
+    console.log("showCurrentInterestPoint: " + currentPointIndex + " " + currentTour.interest_points.length);
     clearTimeout(currentPositionTimeout);
     currentPositionTimeout = null;
     var currentPoint = currentTour.interest_points[currentPointIndex];
+    $("#status").html("");
     $("#tourBetweenPointsDisplay").hide();
     $("#tourActionDisplay").show();
-    console.log("showCurrentInterestPoint: " + currentPointIndex + " " + currentTour.interest_points.length);
     if (currentPointIndex < currentTour.interest_points.length - 1) {
       console.log("not last point");
-      $("#nextPoint").html("Continue Tour").show().click(function(event) {
-        currentPointIndex++;
-        $("#status").html("");
-        showInBetweenScreen();
-      });
+      $("#done").hide();
+      $("#nextPoint").show();
     } else {
       console.log("last point");
-      $("#nextPoint").html("Done");
-      $("#nextPoint").click(function(event) {
-        alert("Done!");
-        window.location.reload(false);
-      });
+      $("#nextPoint").hide();
+      $("#done").show();
       $("#status").html();
     }
     $.each(currentPoint.interp_items, function(index, interp_item) {
@@ -158,7 +168,7 @@ function onDeviceReady() {
             myMedia.play();
           });
         } else if (mimeType.indexOf("image") == 0) {
-          var $imageItem = $("<img>").attr('src', mediaFiles[filename].fullPath);
+          var $imageItem = $("<img width='100%'>").attr('src', mediaFiles[filename].fullPath);
           $("#pointImage").append($imageItem);
         }
       });
@@ -252,8 +262,8 @@ function onDeviceReady() {
   }
 
   function currentPosition() {
-    console.log("currentPosition");
-    if (currentPointIndex == currentTour.interest_points.length - 1) {
+    console.log("currentPosition: " + currentPointIndex);
+    if (currentPointIndex == currentTour.interest_points.length) {
       return;
     }
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
@@ -265,8 +275,8 @@ function onDeviceReady() {
 
     function geoSuccess(position) {
       var latestPosition = position;
-      $("#accuracy").html("Accuracy: " + latestPosition.coords.accuracy + "m");
-      $("#betweenAccuracy").html("Accuracy: " + latestPosition.coords.accuracy + "m");
+      $("#accuracy").html("GPS Accuracy: " + latestPosition.coords.accuracy + "m");
+      $("#betweenAccuracy").html("GPS accuracy: " + latestPosition.coords.accuracy + "m");
 
       if ((latestPosition.coords.accuracy) < minAccuracy) {
         var currentPointWKT = currentTour.interest_points[currentPointIndex].location;
@@ -280,6 +290,7 @@ function onDeviceReady() {
         $("#betweenStatus").html(distanceToNextPoint + "m to next point of interest");
         if (distanceToNextPoint < triggerDistance) {
           console.log("distance trigger");
+          navigator.notification.vibrate(1500);
           showCurrentInterestPoint();
         }
       } else {
