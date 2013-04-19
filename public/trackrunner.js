@@ -21,6 +21,10 @@ function onDeviceReady() {
   $("#tourBetweenPointsDisplay").hide();
   getTourList();
 
+  $("#skipInBetween").click(function() {
+    showCurrentInterestPoint();
+  });
+
   function getTourList() {
     var callData = {
       type: "GET",
@@ -107,15 +111,14 @@ function onDeviceReady() {
     $("#tourActionDisplay").hide();
     $("#tourBetweenPointsDisplay").show();
     $("#upcomingPoint").html(currentPointIndex);
-    $("#skipInBetween").click(function() {
-      showCurrentInterestPoint();
-    });
     if (currentPositionTimeout == null) {
       currentPosition();
     }
   }
 
   function showCurrentInterestPoint() {
+    clearTimeout(currentPositionTimeout);
+    currentPositionTimeout = null;
     var currentPoint = currentTour.interest_points[currentPointIndex];
     $("#tourBetweenPointsDisplay").hide();
     $("#tourActionDisplay").show();
@@ -160,7 +163,7 @@ function onDeviceReady() {
         }
       });
     });
-    clearTimeout(currentPositionTimeout);
+
   }
 
   function getTextItem(filename, CB) {
@@ -276,6 +279,7 @@ function onDeviceReady() {
         $("#status").html(distanceToNextPoint + "m to this point of interest");
         $("#betweenStatus").html(distanceToNextPoint + "m to next point of interest");
         if (distanceToNextPoint < triggerDistance) {
+          console.log("distance trigger");
           showCurrentInterestPoint();
         }
       } else {
