@@ -6,16 +6,19 @@ function onDeviceReady() {
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
   // change this to your server's IP
   var host = "http://trackserver-test.herokuapp.com";
-
-  var minAccuracy = 10; // meters to trigger a point
-
+  var minAccuracy = 200; // meters to trigger a point
   var currentTour = {};
-
   var mediaFiles = {};
+  // should this be global?
+  var currentPointIndex = 0;
+  var currentPositionTimeout;
+  var triggerDistance = 10;
+  var distanceToNextPoint = 100000;
 
   $("#tourIntroDisplay").hide();
   $("#tourLoadDisplay").hide();
   $("#tourActionDisplay").hide();
+  $("#tourBetweenPointsDisplay").hide();
   getTourList();
 
   function getTourList() {
@@ -46,8 +49,8 @@ function onDeviceReady() {
     currentTour = response;
     $("#tourList").hide();
     $("#tourInfoName").text(currentTour.name);
-    $("#tourInfoPath").text(currentTour.path);
-    $("#tourInfoRaw").text(JSON.stringify(currentTour));
+    //$("#tourInfoPath").text(currentTour.path);
+    //$("#tourInfoRaw").text(JSON.stringify(currentTour));
     $("#startTour").click(startTour);
     $("#cancelTour").click(function(event) {
       window.location.reload(false);
@@ -58,6 +61,7 @@ function onDeviceReady() {
   function startTour(event) {
     $("#tourIntroDisplay").hide();
     $("#tourLoadDisplay").show();
+
     loadMediaItems();
   }
 
@@ -93,24 +97,44 @@ function onDeviceReady() {
 
   function startPointSequence() {
     $("#tourLoadDisplay").hide();
-    $("#tourActionDisplay").show();
+    $("#tourBetweenPointsDisplay").show();
     console.log(currentTour);
-    var index = 0;
-    showInterestPoint(index, currentTour.interest_points[index]);
+    currentPointIndex = 0;
+    showInBetweenScreen();
   }
 
-  function showInterestPoint(index, interest_point) {
-    var currentPoint = currentTour.interest_points[index];
-    if (index < currentTour.interest_points.length - 1) {
-      $("#nextPoint").html("Next");
-      $("#nextPoint").click(function(event) {
-        showInterestPoint(index + 1, currentTour.interest_points[index + 1]);
+  function showInBetweenScreen() {
+    $("#tourActionDisplay").hide();
+    $("#tourBetweenPointsDisplay").show();
+    $("#upcomingPoint").html(currentPointIndex);
+    $("#skipInBetween").click(function() {
+      showCurrentInterestPoint();
+    });
+    if (currentPositionTimeout == null) {
+      currentPosition();
+    }
+  }
+
+  function showCurrentInterestPoint() {
+    var currentPoint = currentTour.interest_points[currentPointIndex];
+    $("#tourBetweenPointsDisplay").hide();
+    $("#tourActionDisplay").show();
+    console.log("showCurrentInterestPoint: " + currentPointIndex + " " + currentTour.interest_points.length);
+    if (currentPointIndex < currentTour.interest_points.length - 1) {
+      console.log("not last point");
+      $("#nextPoint").html("Continue Tour").show().click(function(event) {
+        currentPointIndex++;
+        $("#status").html("");
+        showInBetweenScreen();
       });
     } else {
+      console.log("last point");
       $("#nextPoint").html("Done");
       $("#nextPoint").click(function(event) {
         alert("Done!");
+        window.location.reload(false);
       });
+      $("#status").html();
     }
     $.each(currentPoint.interp_items, function(index, interp_item) {
       $.each(interp_item.media_items, function(index, media_item) {
@@ -136,6 +160,7 @@ function onDeviceReady() {
         }
       });
     });
+    clearTimeout(currentPositionTimeout);
   }
 
   function getTextItem(filename, CB) {
@@ -222,8 +247,65 @@ function onDeviceReady() {
       $("#results").text(JSON.stringify(response));
     });
   }
+
+  function currentPosition() {
+    console.log("currentPosition");
+    if (currentPointIndex == currentTour.interest_points.length - 1) {
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
+      enableHighAccuracy: true,
+      timeout: 1000
+    });
+
+    currentPositionTimeout = setTimeout(currentPosition, 2000);
+
+    function geoSuccess(position) {
+      var latestPosition = position;
+      $("#accuracy").html("Accuracy: " + latestPosition.coords.accuracy + "m");
+      $("#betweenAccuracy").html("Accuracy: " + latestPosition.coords.accuracy + "m");
+
+      if ((latestPosition.coords.accuracy) < minAccuracy) {
+        var currentPointWKT = currentTour.interest_points[currentPointIndex].location;
+        var lnglat = /POINT \(([-\d|.]+) ([-\d|.]+)\)/.exec(currentPointWKT);
+        var lng = parseFloat(lnglat[1]);
+        var lat = parseFloat(lnglat[2]);
+        distanceToNextPoint = getDistanceFromLatLonInKm(lat, lng, position.coords.latitude, position.coords.longitude) * 1000;
+        distanceToNextPoint = distanceToNextPoint.toFixed(0);
+        console.log(distanceToNextPoint);
+        $("#status").html(distanceToNextPoint + "m to this point of interest");
+        $("#betweenStatus").html(distanceToNextPoint + "m to next point of interest");
+        if (distanceToNextPoint < triggerDistance) {
+          showCurrentInterestPoint();
+        }
+      } else {
+        // status
+      }
+    }
+
+    function geoError(data) {
+      console.log("Error: ");
+      console.log(data);
+    }
+
+  }
 }
 
+//don't like using this. would like to get better distances via PostGIS
+
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2 - lat1); // deg2rad below
+  var dLon = deg2rad(lon2 - lon1);
+  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c; // Distance in km
+  return d;
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI / 180)
+}
 $(document).ready(function() {
   // are we running in native app or in browser?
   window.isphone = false;
