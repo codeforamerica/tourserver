@@ -10,6 +10,8 @@
     padding: 1px 15px 1px 15px;
     margin-top: 15px;
     margin-bottom: 15px;
+    font-family: Arial;
+    color: #716552;
 }
 .textbox-header {
   font-family: Arial;
@@ -18,10 +20,14 @@
 }
 .textbox-text {
   font-family: Arial;
+  font-weight: bold;
   color: #716552;
 }
 
-/* track name header */
+
+/* track name header (this one is being funny-
+  the styling won't work as a class, so I just made it an id...
+  might need to be solved eventually because this style is used multiple times */
 #tracklist-header {
   white-space: normal; 
   width: 260px; 
