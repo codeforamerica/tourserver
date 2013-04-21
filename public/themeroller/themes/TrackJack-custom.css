@@ -24,7 +24,6 @@
   color: #716552;
 }
 
-
 /* track name header (this one is being funny-
   the styling won't work as a class, so I just made it an id...
   might need to be solved eventually because this style is used multiple times */
@@ -87,4 +86,10 @@
 #musicplayer-container {
   background-color: #A3BE8B;
   height: 70px;
+}
+
+/* Create a Track */
+.subtitles {
+  font-size: x-small;
+  color: blue;
 }
