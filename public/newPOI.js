@@ -22,7 +22,7 @@ function onDeviceReady() {
     $(".phone").show();
   }
 
-  // tour name input box
+  //Tour name input box
   $('#tourName').keyup(function(event) {
     //enable tour creation button if tourName field has text
     if ($(this).val().length) {
@@ -90,7 +90,7 @@ function onDeviceReady() {
       currentPoint.interp_items = currentPoint.interp_items || [];
       currentPoint.interp_items.push({
         name: "Passthrough"
-      })button;
+      });
     }
   });
 
