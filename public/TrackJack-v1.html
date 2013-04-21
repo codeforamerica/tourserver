@@ -349,13 +349,13 @@
 
 <!-- create a track section -->
   <!-- create a track info -->
-  <div data-role="page" data-theme="d" id="CreateTrackInfoPage">
+  <div data-role="page" data-theme="a" id="CreateTrackInfoPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <span class="ui-title">Create A Track</span>
           <a data-role="button" data-direction="reverse" data-transition="slide" class="ui-btn-left" href="#SettingsPage">
               cancel
           </a>
-          <a data-role="button" data-transition="slide" data-theme="c" href="#CreateTrackImputPage1" class="ui-btn-right">
+          <a data-role="button" data-transition="slide" data-theme="c" href="#CreateTrackInputPage1" class="ui-btn-right">
               start
           </a>
       </div>
@@ -384,15 +384,16 @@
         </div>
       </div>
   </div>
-  <!-- create a tour imput 1 -->
-  <div data-role="page" data-theme="d" id="CreateTrackImputPage1">
+
+  <!-- create a tour input 1 -->
+  <div data-role="page" data-theme="a" id="CreateTrackInputPage1">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          href="#SettingsPage" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
+          href="#SettingsPage" class="ui-btn-left">
               back
           </a>
           <h2>
-              Create a Tour
+              Track Info
           </h2>
       </div>
       <div data-role="content">
@@ -409,14 +410,14 @@
                   <label for="textarea3">
                     <strong>Describe Your Tour</strong>
                   </label>
-                  <textarea name="" id="textarea3" placeholder="">Tell people a little bit about your tour in 100 words or less</textarea>
+                  <textarea name="" id="textarea3" placeholder="">What will people see on the path? List items broadly, like plants, birds, etc</textarea>
               </fieldset>
           </div>
           <div data-role="fieldcontain">
               <label for="selectmenu1">
-                  <strong>Trail Rating</strong></br><span style="font-size:small">Tell people how difficult it your trail tour will be for the average hiker</span>
+                  <strong>Trail Rating</strong><p class="subtitles">What is the trail difficulty level for the average hiker?</p>
               </label>
-              <select name="Trail Rating" data-theme="c">
+              <select name="Trail Rating" data-theme="b">
                   <option value="Easy">
                       Easy
                   </option>
@@ -432,7 +433,7 @@
               <label for="selectmenu2">
                   <strong>Subject</strong>
               </label>
-              <select name="Category" data-theme="c">
+              <select name="Category" data-theme="b">
                   <option value="Nature">
                       Nature
                   </option>
@@ -441,8 +442,40 @@
                   </option>
               </select>
           </div>
-          <div style="height:10px">
-          </div>
+          <a data-role="button" data-transition="none" data-theme="c" href="#CreateTrackInputPage2">
+              Continue
+          </a>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#MainPage" data-transition="fade">
+                      main
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+
+  <!-- create a tour input 2 -->
+  <div data-role="page" data-theme="a" id="CreateTrackInputPage2">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
+          href="#CreateTrackInputPage1" class="ui-btn-left">
+              back
+          </a>
+          <h2>
+              Create a Track
+          </h2>
+      </div>
+      <div data-role="content">
           <div style="width: 290px; height: 200px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;">
               <img src="http://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
           </div>
