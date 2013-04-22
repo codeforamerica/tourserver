@@ -615,7 +615,7 @@
             <a class="btn-short" data-role="button" data-transition="slide" href="#AddPOIPage" data-theme="c">
               Add Point
             </a>
-            <a class="btn-short" data-role="button" data-transition="slide" data-theme="c" href="#page14">
+            <a class="btn-short" data-role="button" data-transition="slide" data-theme="c" href="#CreateFinishPage">
               Finish Track
             </a>
         </div>
@@ -712,12 +712,12 @@
               Add Audio
           </h3>
       </div>
+      <div id="musicplayer-container"></div> 
       <div data-role="content">
           <a data-role="button" data-theme="b" href="#RecordAudioPage" data-transition="slide">
               Record Audio
-          </a> 
-          <div id="musicplayer-container"></div>  
-          <a data-role="button" data-theme="c" href="#RecordAudioPage" data-transition="slide">
+          </a>  
+          <a data-role="button" data-theme="c" href="#CreateFinishPage" data-transition="slide">
               Submit Point
           </a>    
       </div>
@@ -787,78 +787,30 @@
         </div>
       </div>
   </div>
-  <!-- Continue Recording -->
-  <div data-role="page" data-theme="d" id="page13">
-      <div data-theme="a" data-role="header">
-          <h3>
-              Recording Tour
-          </h3>
-      </div>
-      <div data-role="content">
-          <div>
-              <p>
-                  Recording your GPS...
-              </p>
-              <p>
-                  Continue on your trail
-              </p>
-              <p>
-                  <br>
-              </p>
-          </div>
-          <img src="https://maps.googleapis.com/maps/api/staticmap?center=Akron, OH&amp;zoom=14&amp;size=288x200&amp;markers=Akron, OH&amp;sensor=false"
-          width="288" height="200">
-          <a data-role="button" data-transition="slide" href="#BeginRecordingPage">
-              Add Point of Interest
-          </a>
-          <a data-role="button" data-transition="slide" data-theme="a" href="#page14">
-              Finish Tour
-          </a>
-      </div>
-      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#MainPage" data-transition="fade">
-                      main
-                  </a>
-              </li>
-              <li>
-                  <a href="#InfoPage" data-transition="fade">
-                      info
-                  </a>
-              </li>
-              <li>
-                  <a href="#SettingsPage" data-transition="fade">
-                      settings
-                  </a>
-              </li>
-          </ul>
-        </div>
-      </div>
-  </div>
   <!-- Finished -->
-  <div data-role="page" data-theme="d" id="page14">
+  <div data-role="page" data-theme="a" id="CreateFinishPage">
       <div data-theme="a" data-role="header">
           <h3>
               Complete
           </h3>
       </div>
       <div data-role="content">
-          <div>
-              <p>
+          <div class="textbox-white">
+              <p class="textbox-header">
                   Success!
               </p>
               <p>
-                  Your tour has been recorded and added to the tour list
+                  Your track has been recorded and added to the list. </br>More text?
               </p>
           </div>
-          <a data-role="button" data-transition="slide" href="#TrackInfoPage">
-              Test Your Tour
-          </a>
-          <a data-role="button" data-transition="slide" data-theme="a" href="#page16">
-              Edit Your Tour
-          </a>
+          <div data-role="controlgroup" data-type="horizontal">
+            <a data-role="button" data-transition="slide" href="#TrackInfoPage" data-theme="c">
+              Test Track
+            </a>
+            <a data-role="button" data-transition="slide" data-theme="c" href="#page16">
+              Edit Track
+            </a>
+          </div>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
         <div data-role="navbar">
@@ -882,8 +834,11 @@
         </div>
       </div>
   </div>
+
+
+<!-- Edit Tour Section -->
   <!-- Edit Tour List -->
-  <div data-role="page" data-theme="d" id="page16">
+  <div data-role="page" data-theme="a" id="page16">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-transition="slide"
           href="#SettingsPage" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
