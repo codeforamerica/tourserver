@@ -84,6 +84,11 @@
                   </a>
               </li>
               <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
+                  </a>
+              </li>
+              <li>
                   <a href="#SettingsPage" data-transition="fade">
                       settings
                   </a>
@@ -92,6 +97,46 @@
         </div>
       </div>
   </div>
+
+  <!--Info Page -->
+    <div data-role="page" data-theme="a" id="InfoPage">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <span class="ui-title">Info</span>
+          <a data-role="button" data-direction="reverse" data-transition="slide" class="ui-btn-left" href="#SettingsPage">
+              back
+          </a>
+      </div>
+      <div data-role="content">
+          <div class="textbox-white textbox-text">
+              <h class="textbox-header">Congrats!</h>
+              <p>
+                  Info Page</br></br></br></br></br></br></br>
+              </p>
+          </div>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#MainPage" data-transition="fade">
+                      main
+                  </a>
+              </li>
+              <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+
   <!-- Tour List -->
   <div data-role="page" data-theme="d" id="MainPage">
       <div data-theme="a" data-role="header" data-position="fixed">
@@ -147,6 +192,11 @@
                   </a>
               </li>
               <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
+                  </a>
+              </li>
+              <li>
                   <a href="#SettingsPage" data-transition="fade">
                       settings
                   </a>
@@ -180,11 +230,11 @@
             </div>
             <img class="map" id="map-all" src="https://maps.googleapis.com/maps/api/staticmap?center=boston, oh&amp;zoom=9&amp;size=288x200&amp;markers=Towpath Trailhead|Bike and Hike Trail&amp;sensor=false";/>
           </div>
-          <div class="textbox-white textbox-text">
+          <div class="textbox-white">
             <p class="textbox-header">
               What you will see
             </p>
-            <p>
+            <p class"textbox-text">
               a list of items will go here
             </p>
           </div>
@@ -201,6 +251,11 @@
               <li>
                   <a href="#MainPage" data-transition="fade">
                       main
+                  </a>
+              </li>
+              <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
                   </a>
               </li>
               <li>
@@ -251,6 +306,11 @@
                   </a>
               </li>
               <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
+                  </a>
+              </li>
+              <li>
                   <a href="#SettingsPage" data-transition="fade">
                       settings
                   </a>
@@ -292,6 +352,11 @@
               <li>
                   <a href="#MainPage" data-transition="fade">
                       main
+                  </a>
+              </li>
+              <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
                   </a>
               </li>
               <li>
@@ -337,6 +402,11 @@
                   </a>
               </li>
               <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
+                  </a>
+              </li>
+              <li>
                   <a href="#SettingsPage" data-transition="fade">
                       settings
                   </a>
@@ -373,6 +443,11 @@
               <li>
                   <a href="#MainPage" data-transition="fade">
                       main
+                  </a>
+              </li>
+              <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
                   </a>
               </li>
               <li>
@@ -455,6 +530,11 @@
                   </a>
               </li>
               <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
+                  </a>
+              </li>
+              <li>
                   <a href="#SettingsPage" data-transition="fade">
                       settings
                   </a>
@@ -476,25 +556,24 @@
           </h2>
       </div>
       <div data-role="content">
-          <div style="width: 290px; height: 200px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;">
-              <img src="http://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
+          <!-- not needed here
+          <a data-role="button" data-theme="b" href="#RecordAudioPage" data-transition="slide">
+              Record Audio
+          </a> 
+          <div id="musicplayer-container"></div>-->
+          <a data-role="button" data-theme="b" href="#UploadPhotoPage" data-transition="slide">
+              Upload Photo of Starting Point
+          </a>
+          <div id="image-start-none"></div>
+          <div style="height: 20px">
           </div>
-          <ul data-role="listview" data-divider-theme="b" data-inset="true">
-              <li data-theme="c">
-                  <a href="#page15" data-transition="slide">
-                      Upload Cover Photo
-                  </a>
-              </li>
-          </ul>
           <div>
               <p>
                   Now begin walking the path of your tour. We are tracking your path, so don't go off course.
               </p>
           </div>
-          <div style="height: 20px">
-          </div>
-          <a data-role="button" data-transition="none" data-theme="a" href="#page11">
-              Begin Tracing Your Tour
+          <a data-role="button" data-transition="none" data-theme="c" href="#BeginRecordingPage">
+              Begin Recording Track
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
@@ -503,6 +582,11 @@
               <li>
                   <a href="#MainPage" data-transition="fade">
                       main
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      info
                   </a>
               </li>
               <li>
@@ -515,33 +599,27 @@
       </div>
   </div>
   <!-- Begin Recording -->
-  <div data-role="page" data-theme="d" id="page11">
+  <div data-role="page" data-theme="d" id="BeginRecordingPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <h3>
-              Recording Tour
+              Recording Track
           </h3>
       </div>
       <div data-role="content">
-          <div>
+          <div class="textbox-white">
               <p>
-                  Recording your GPS...
-              </p>
-              <p>
-                  Begin walking your path
+              Begin walking your path. Add a point of interestest when you reach your first desination. When you are finished adding point, hit Finish Tour to save your work.
               </p>
           </div>
-          <img src="https://maps.googleapis.com/maps/api/staticmap?center=Akron, OH&amp;zoom=14&amp;size=288x200&amp;markers= Akron, OH&amp;sensor=false"
-          width="288" height="200">
-          <div style="height: 10px">
-          </div>
-          <a data-role="button" data-transition="slide" href="#page12">
-              Add Point of Interest
-          </a>
-          <div style="height: 20px">
-          </div>
-          <a data-role="button" data-transition="slide" data-theme="a" href="#page14">
-              Finish Tour
-          </a>
+          <div data-role="controlgroup" data-type="horizontal">
+            <a class="btn-short" data-role="button" data-transition="slide" href="#page12" data-theme="c">
+              Add Point
+            </a>
+            <a class="btn-short" data-role="button" data-transition="slide" data-theme="c" href="#page14">
+              Finish Track
+            </a>
+        </div>
+          <img class="map" id="RecordingMap" src="https://maps.googleapis.com/maps/api/staticmap?center=Akron, OH&amp;zoom=14&amp;size=288x200&amp;markers= Akron, OH&amp;sensor=false">
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
         <div data-role="navbar">
@@ -549,6 +627,11 @@
               <li>
                   <a href="#MainPage" data-transition="fade">
                       main
+                  </a>
+              </li>
+              <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
                   </a>
               </li>
               <li>
@@ -560,11 +643,12 @@
         </div>
       </div>
   </div>
+  
   <!-- Add Point of interest -->
   <div data-role="page" data-theme="d" id="page12">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          href="#page11" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
+          href="#BeginRecordingPage" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
               cancel
           </a>
           <h2>
@@ -594,7 +678,7 @@
           </div>
           <ul data-role="listview" data-divider-theme="d" data-inset="true">
               <li data-theme="d">
-                  <a href="#page15" data-transition="slide">
+                  <a href="#UploadPhotoPage" data-transition="slide">
                       Upload Photo
                   </a>
               </li>
@@ -626,6 +710,11 @@
                   </a>
               </li>
               <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
+                  </a>
+              </li>
+              <li>
                   <a href="#SettingsPage" data-transition="fade">
                       settings
                   </a>
@@ -635,7 +724,7 @@
       </div>
   </div>
   <!-- Photo Upload -->
-  <div data-role="page" data-theme="d" id="page15">
+  <div data-role="page" data-theme="d" id="UploadPhotoPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <h3>
               Add Photo
@@ -659,6 +748,11 @@
               <li>
                   <a href="#MainPage" data-transition="fade">
                       main
+                  </a>
+              </li>
+              <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
                   </a>
               </li>
               <li>
@@ -691,7 +785,7 @@
           </div>
           <img src="https://maps.googleapis.com/maps/api/staticmap?center=Akron, OH&amp;zoom=14&amp;size=288x200&amp;markers=Akron, OH&amp;sensor=false"
           width="288" height="200">
-          <a data-role="button" data-transition="slide" href="#page11">
+          <a data-role="button" data-transition="slide" href="#BeginRecordingPage">
               Add Point of Interest
           </a>
           <a data-role="button" data-transition="slide" data-theme="a" href="#page14">
@@ -704,6 +798,11 @@
               <li>
                   <a href="#MainPage" data-transition="fade">
                       main
+                  </a>
+              </li>
+              <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
                   </a>
               </li>
               <li>
@@ -744,6 +843,11 @@
               <li>
                   <a href="#MainPage" data-transition="fade">
                       main
+                  </a>
+              </li>
+              <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
                   </a>
               </li>
               <li>
@@ -814,6 +918,11 @@
                   </a>
               </li>
               <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
+                  </a>
+              </li>
+              <li>
                   <a href="#SettingsPage" data-transition="fade">
                       settings
                   </a>
@@ -861,6 +970,11 @@
               <li>
                   <a href="#MainPage" data-transition="fade">
                       main
+                  </a>
+              </li>
+              <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
                   </a>
               </li>
               <li>
@@ -935,7 +1049,7 @@
           </div>
           <ul data-role="listview" data-divider-theme="b" data-inset="true">
               <li data-theme="c">
-                  <a href="#page15" data-transition="slide">
+                  <a href="#UploadPhotoPage" data-transition="slide">
                       Upload New Photo
                   </a>
               </li>
@@ -955,6 +1069,11 @@
               <li>
                   <a href="#MainPage" data-transition="fade">
                       main
+                  </a>
+              </li>
+              <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
                   </a>
               </li>
               <li>
@@ -998,7 +1117,7 @@
           </div>
           <ul data-role="listview" data-divider-theme="d" data-inset="true">
               <li data-theme="d">
-                  <a href="#page15" data-transition="slide">
+                  <a href="#UploadPhotoPage" data-transition="slide">
                       Upload New Photo
                   </a>
               </li>
@@ -1030,6 +1149,11 @@
               <li>
                   <a href="#MainPage" data-transition="fade">
                       main
+                  </a>
+              </li>
+              <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
                   </a>
               </li>
               <li>

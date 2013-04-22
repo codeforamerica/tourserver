@@ -13,12 +13,11 @@
     font-family: Arial;
     color: #716552;
 }
-.textbox-header {
+.textbox-text {
   font-family: Arial;
-  font-weight: bold;
   color: #716552;
 }
-.textbox-text {
+.textbox-header {
   font-family: Arial;
   font-weight: bold;
   color: #716552;
@@ -44,9 +43,11 @@
   width: 288px;
   height: 200px;
 }
+
 .image-map-container {
   position: relative;
 }
+
 .image-map-label-container {
   width: 200px; 
   background-color: #E5E1D1; 
@@ -56,8 +57,10 @@
   color: #A3BE8B;
   padding: 15px;
 }
+
 #label-distance {
   color: #716552;
+
 }
 #label-difficulty {
   color: #716552;
@@ -90,6 +93,12 @@
 
 /* Create a Track */
 .subtitles {
-  font-size: x-small;
-  color: blue;
+  font-size: small;
+}
+#image-start-none {
+  width: 288px;
+  height: 200px;
+  background-color: #fbfbfb;
+  border: 1px solid #b8b8b8;
+  font-family: serif;
 }
