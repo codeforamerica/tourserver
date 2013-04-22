@@ -475,7 +475,7 @@
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
                   <label for="textinput1">
-                    <strong>Name Your Tour</strong>
+                    <strong>Name Your Track</strong>
                   </label>
                   <input name="" id="textinput1" placeholder="" type="text">
               </fieldset>
@@ -612,7 +612,7 @@
               </p>
           </div>
           <div data-role="controlgroup" data-type="horizontal">
-            <a class="btn-short" data-role="button" data-transition="slide" href="#page12" data-theme="c">
+            <a class="btn-short" data-role="button" data-transition="slide" href="#AddPOIPage" data-theme="c">
               Add Point
             </a>
             <a class="btn-short" data-role="button" data-transition="slide" data-theme="c" href="#page14">
@@ -643,62 +643,39 @@
         </div>
       </div>
   </div>
-  
+
   <!-- Add Point of interest -->
-  <div data-role="page" data-theme="d" id="page12">
+  <div data-role="page" data-theme="a" id="AddPOIPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          href="#BeginRecordingPage" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
+          href="#BeginRecordingPage" class="ui-btn-left">
               cancel
           </a>
           <h2>
-              Add Point of Interest
+              Add Point
           </h2>
       </div>
       <div data-role="content">
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
-                  <label for="textinput5">
+                  <label for="textinput5"> <strong>Name Point of Interest</strong>
                   </label>
-                  <input name="" id="textinput5" placeholder="" value="Name Point of Interest"
-                  type="text">
+                  <input name="" id="textinput5" placeholder="" value=""type="text">
               </fieldset>
           </div>
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
-                  <label for="textarea4">
+                  <label for="textarea4"> <strong>Description</strong>
                   </label>
-                  <textarea name="" id="textarea4" placeholder="">Description</textarea>
+                  <textarea name="" id="textarea4" placeholder="">What’s so cool about this point? Take notes here and edit later, if necessary.</textarea>
               </fieldset>
           </div>
-          <div style="height:10px">
-          </div>
-          <div style="width: 288px; height: 100px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;">
-              <img src="http://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
-          </div>
-          <ul data-role="listview" data-divider-theme="d" data-inset="true">
-              <li data-theme="d">
-                  <a href="#UploadPhotoPage" data-transition="slide">
-                      Upload Photo
-                  </a>
-              </li>
-          </ul>
-          <div style="height:2px">
-          </div>
-          <a data-role="button" data-theme="a" href="#page18">
-              Play Recorded Audio
+          <a data-role="button" data-theme="b" href="#UploadPhotoPage" data-transition="slide">
+                Upload Photo
           </a>
-          <ul data-role="listview" data-divider-theme="d" data-inset="true">
-              <li data-theme="d">
-                  <a href="#SettingsPage" data-transition="slide">
-                      Record Audio
-                  </a>
-              </li>
-          </ul>
-          <div style="height: 20px">
-          </div>
-          <a data-role="button" data-transition="slide" data-theme="a" href="#page13">
-              Submit
+          <div id="image-interp-none"></div>
+          <a data-role="button" data-transition="slide" data-theme="c" href="#AddPOIPage2">
+              Continue to Audio
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
@@ -723,6 +700,52 @@
         </div>
       </div>
   </div>
+
+<!-- Add POI Page 2 -->
+<div data-role="page" data-theme="a" id="AddPOIPage2">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
+          href="#AddPOIPage" class="ui-btn-left">
+              back
+          </a>
+          <h3>
+              Add Audio
+          </h3>
+      </div>
+      <div data-role="content">
+          <a data-role="button" data-theme="b" href="#RecordAudioPage" data-transition="slide">
+              Record Audio
+          </a> 
+          <div id="musicplayer-container"></div>  
+          <a data-role="button" data-theme="c" href="#RecordAudioPage" data-transition="slide">
+              Submit Point
+          </a>    
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#MainPage" data-transition="fade">
+                      main
+                  </a>
+              </li>
+              <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
+                  </a>
+              </li>
+              <li>
+                  <a href="#SettingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+
+
+
   <!-- Photo Upload -->
   <div data-role="page" data-theme="d" id="UploadPhotoPage">
       <div data-theme="a" data-role="header" data-position="fixed">
@@ -731,14 +754,14 @@
           </h3>
       </div>
       <div data-role="content">
-          <a data-role="button" data-transition="slide" href="#page12">
+          <a data-role="button" data-transition="slide" href="#AddPOIPage">
               Upload from Library
           </a>
-          <a data-role="button" data-transition="slide" data-theme="d" href="#page12">
+          <a data-role="button" data-transition="slide" data-theme="d" href="#AddPOIPage">
               Take Photo
           </a>
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          data-theme="d" href="#page12">
+          data-theme="d" href="#AddPOIPage">
               Cancel
           </a>
       </div>

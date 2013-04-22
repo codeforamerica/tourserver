@@ -100,5 +100,11 @@
   height: 200px;
   background-color: #fbfbfb;
   border: 1px solid #b8b8b8;
-  font-family: serif;
+}
+
+#image-interp-none {
+  width: 288px;
+  height: 250px;
+  background-color: #fbfbfb;
+  border: 1px solid #b8b8b8;
 }
