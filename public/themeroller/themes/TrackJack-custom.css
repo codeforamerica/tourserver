@@ -26,7 +26,7 @@
 /* track name header (this one is being funny-
   the styling won't work as a class, so I just made it an id...
   might need to be solved eventually because this style is used multiple times */
-#tracklist-header {
+.tracklist-header {
   white-space: normal; 
   width: 260px; 
   height: 40px; 
@@ -39,7 +39,7 @@
   width: 288px;
   height: 200px;
 }
-#image-start {
+#viewTrackImage {
   width: 288px;
   height: 200px;
 }
@@ -70,7 +70,7 @@
 }
 
 /* interp image + label*/
-#image-interp {
+#viewTrackPointImage {
   width: 288px;
   height: 250px;
 }
@@ -79,7 +79,7 @@
   padding: 15px;
   margin-top: -5px;
 }
-#interp-label {
+#viewTrackPointName {
   font-family: Arial;
   font-style: bold;
   color: #0E1237;
