@@ -27,10 +27,10 @@
 /* track name header (this one is being funny-
   the styling won't work as a class, so I just made it an id...
   might need to be solved eventually because this style is used multiple times */
-.tracklist-header {
+#viewTrackTitle {
     white-space: normal; 
-    width: 260px; 
-    height: 40px; 
+    width: 98%; 
+    height: 100%; 
     margin:15px; 
     text-align: left;
 }
