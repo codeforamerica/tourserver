@@ -8,7 +8,7 @@ function onDeviceReady() {
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
   // change this to your server's IP
   var host = "http://trackserver-test.herokuapp.com";
-  var minCheckLocationAccuracy = 200; // meters to trigger a point
+  var minCheckLocationAccuracy = 20; // meters to trigger a point
   var currentViewingTour = {};
 
   var mediaFiles = {};
@@ -23,12 +23,20 @@ function onDeviceReady() {
   $("#viewTrackInstructionsPage").on('pagebeforeshow', startTour);
   $("#viewTrackPointPage").on('pagebeforeshow', showCurrentInterestPoint);
   $(".viewTrackNextInBetween").click(advancePointIndex);
+  $("#viewTrackCompletePage").on('pagebeforeshow', tourDone);
   //getTourList();
 
   // skip the geolocation and display the upcoming point
   $("#skipInBetween").click(function() {
     showCurrentInterestPoint();
   });
+
+  function tourDone() {
+    stopGeolocation();
+    currentViewPointIndex = 0;
+    currentViewingTour = {};
+    distanceToNextPoint = 100000;
+  }
 
   // leave the current point and start going to the next point
   function advancePointIndex() {
@@ -72,7 +80,6 @@ function onDeviceReady() {
     $(".viewTrackListItem").click(function(event) {
       var tourid = $(this).data('tourid');
       moveToTourInfo(tourid);
-
     });
     $tourTemplate.remove();
     $('#viewTrackList').listview('refresh');
@@ -146,6 +153,7 @@ function onDeviceReady() {
   }
 
   function showInBetweenScreen() {
+    console.log("showInBetweenScreen");
     $("#tracklist-header").text(currentViewingTour.name);
     $("#currentViewPointIndex").html(currentViewPointIndex);
     $("#endPointIndex").text(currentViewingTour.interest_points.length - 1);
@@ -160,10 +168,13 @@ function onDeviceReady() {
     var currentPoint = currentViewingTour.interest_points[currentViewPointIndex];
     if (currentViewPointIndex < currentViewingTour.interest_points.length - 1) {
       console.log("not last point");
-
+      //TODO: fix this
+      $(".viewTrackNextInBetween .ui-btn-text").text("Next");
+      $(".viewTrackNextInBetween").attr("href", "#viewTrackInstructionsPage");
     } else {
       console.log("last point");
-
+       $(".viewTrackNextInBetween .ui-btn-text").text("Done")
+       $(".viewTrackNextInBetween").attr("href", "#viewTrackCompletePage");
     }
     var myAudio = null;
     console.log(myAudio);
