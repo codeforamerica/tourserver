@@ -36,7 +36,10 @@
   </script>
 </head>
 <body>
-<!-- Settings -->
+
+<!-- Settings Page
+================================================================================ -->
+
   <div data-role="page" id="settingsPage">
       <div data-theme="a" data-role="header">
           <h3>
@@ -46,16 +49,16 @@
       <div data-role="content">
           <ul data-role="listview" data-divider-theme="b" data-inset="true">
               <li data-role="list-divider" role="heading">
-                  Manage Tours
+                  Manage Tracks
               </li>
               <li data-theme="b">
                   <a href="#createTrackInputPage1" data-transition="slide">
-                      Create a Tour
+                      Create a Track
                   </a>
               </li>
               <li data-theme="b">
                   <a href="#EditTourList" data-transition="slide">
-                      Edit a Tour
+                      Edit a Track
                   </a>
               </li>
           </ul>
@@ -70,7 +73,7 @@
               </li>
               <li data-theme="b">
                   <a href="http://www.nps.gov/cuva/index.htm" data-transition="slide">
-                      Cuyahoga Valley National Parks
+                      Cuyahoga Valley National Park
                   </a>
               </li>
               <li data-theme="b">
@@ -85,12 +88,12 @@
           <ul>
               <li>
                   <a href="#viewTrackListPage" data-transition="fade">
-                      main
+                      Home
                   </a>
               </li>
               <li>
                   <a href="#InfoPage" data-transition="fade">
-                      info
+                      Help
                   </a>
               </li>
               <li>
@@ -103,19 +106,29 @@
       </div>
   </div>
 
-<!--Info Page -->
+
+<!-- View a Track Section
+================================================================================ -->
+
+<!- Help Page -->
     <div data-role="page" data-theme="a" id="infoPage">
+
+<!-- Note that I didn't change the id "infoPage" above +AJW -->
+
       <div data-theme="a" data-role="header" data-position="fixed">
-          <span class="ui-title">Info</span>
+          <span class="ui-title">Help</span>
+
+<!-- this span "ui-title" is a bit confusing to me...I see it empty many times in other places... +AJW -->
+
           <a data-role="button" data-direction="reverse" data-transition="slide" class="ui-btn-left" href="#settingsPage">
-              back
+              Back
           </a>
       </div>
       <div data-role="content">
           <div class="textbox-white textbox-text">
-              <h class="textbox-header">Congrats!</h>
+              <h class="textbox-header">Let us help you!</h>
               <p>
-                  Info Page</br></br></br></br></br></br></br>
+                  Help Page</br></br></br></br></br></br></br>
               </p>
           </div>
       </div>
@@ -124,12 +137,12 @@
           <ul>
               <li>
                   <a href="#viewTrackListPage" data-transition="fade">
-                      main
+                      Home
                   </a>
               </li>
               <li>
                   <a href="#infoPage" data-transition="fade">
-                      info
+                      Help
                   </a>
               </li>
               <li>
@@ -142,7 +155,9 @@
       </div>
   </div>
 
-<!-- VT List -->
+<!-- View Track List Page
+================================================================================ -->
+
   <div data-role="page" data-theme="d" id="viewTrackListPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <h2>
@@ -154,20 +169,21 @@
           <li class="viewTrackListItem" data-theme="b">
             <!--  <a href="#viewTrackInfoPage" data-transition="slide"> -->
                 <h1 class="viewTrackTitle" style="white-space: normal">
-                  Invasive Species on Bike and Hike Trail
+                  [Invasive Species on Bike and Hike Trail]
                 </h1>
                 <img src="img/Logo-MetroParks-Other.png" alt="test image" class="viewTrackListImage">
                 <p>
+
                   <span class="viewTrackDistance">
-                    1.3 miles
+                    [1.3 miles]
                   </span>
                     , 
                   <span class="viewTrackDifficulty">
-                    easy
+                    [easy]
                   </span>
                     , 
                   <span class="viewTrackChapters">
-                    6 chapters
+                    [6 chapters]
                   </span>
                 </p>
               <!--</a>-->
@@ -179,28 +195,31 @@
           <ul>
               <li>
                   <a href="#viewTrackListPage" data-transition="fade">
-                      main
+                      Home
                   </a>
               </li>
               <li>
                   <a href="#InfoPage" data-transition="fade">
-                      info
+                      Help
                   </a>
               </li>
               <li>
                   <a href="#settingsPage" data-transition="fade">
-                      settings
+                      Settings
                   </a>
               </li>
           </ul>
         </div>
       </div>
   </div>
-<!-- Track Info -->
+
+<!-- View Track Information / Metadata Page
+================================================================================ -->
+
   <div data-role="page" data-theme="d" id="viewTrackInfoPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#page1" class="ui-btn-left">
-              tracks
+              Tracks
           </a>
           <a data-role="button" data-transition="slide" data-theme="c" href="#viewTrackInstructionsPage" class="ui-btn-right" id="viewTrackStart">
               Go
@@ -211,22 +230,22 @@
       </div>
       <div class="header" data-theme="b", data-role="header" >
           <h3 id="viewTrackTitle" class="tracklist-header">
-              Invasive Species on the Bike and Hike Trail
+              [Track Title]
           </h3>
       </div>
       <div data-role="content">
           <div class="image-map-container">
               <div class="image-map-label-container">
                   <h class="viewTrackDistance">
-                    1.3 miles
+                    [Track Distance]
                   </h>
                     |   
                   <h class="viewTrackDifficulty"> 
-                    easy
+                    [Track Difficulty]
                   </h>
                    |  
                   <h class="viewTrackChapters">
-                    6 chapters
+                    [Track Chapters]
                   </h>
 
                   
@@ -234,16 +253,22 @@
               <img class="map viewTrackMap" id="map-all" src="https://maps.googleapis.com/maps/api/staticmap?center=boston, oh&amp;zoom=9&amp;size=288x200&amp;markers=Towpath Trailhead|Bike and Hike Trail&amp;sensor=false";/>
           </div>
           <div class="textbox-white">
+
+<!-- Should we add an id to the header p-tag to correspond to the body "viewTrackDescription"? +AJW -->
+
               <p class="textbox-header">
-                  What you will see
+                  [Track Description Header]
               </p>
               <p id="viewTrackDescription" class"textbox-text">
-                 a list of items will go here
+                 [Track Description Body]
               </p>
           </div>
               <div class="image-map-container">
                   <div class="image-map-label-container">
-                      <h> start here</h>
+
+<!-- I have reservations about requiring that the track creator include an image of the starting point. +AJW -->
+
+                      <h> Starting Location</h>
                   </div>
                   <img id="viewTrackImage" src="img/BikeHike-Intro-290x200.jpg" />
               </div>
@@ -253,50 +278,54 @@
               <ul>
                  <li>
                       <a href="#viewTrackListPage" data-transition="fade">
-                          main
+                          Home
                       </a>
                   </li>
                   <li>
                       <a href="#InfoPage" data-transition="fade">
-                          info
+                          Help
                       </a>
                   </li>
                   <li>
                       <a href="#settingsPage" data-transition="fade">
-                          settings
+                          Settings
                       </a>
                   </li>
               </ul>
           </div>
       </div>
   </div>
-<!-- VT Instructions Page -->
+
+<!-- View Track Instructions Page (1st instance of "in-between" pages)
+================================================================================ -->
+
   <div data-role="page" data-theme="d" id="viewTrackInstructionsPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <span class="ui-title"></span>
           <a data-role="button" data-transition="slide" data-theme="a" href="#viewTrackPointPage" class="ui-btn-right viewTrackSkipToCurrent">
-              skip
+              Skip
           </a>
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#viewTrackInfoPage" class="ui-btn-left viewTrackBackToPrevious">
-              back
+              Back
           </a>
       </div>
       <div data-theme="b" data-role="header">
           <h3 id="tracklist-header">
-                  Invasive Species on the Bike and Hike Trail
+                  [Track List Goes Here]
           </h3>
       </div>
       <div data-role="content">
           <div class="textbox-white textbox-text">
               <p class="textbox-header">
-                  Let's go!
+                  Start Tracking!
               </p>
               <p>
-                    It’s <span class="viewTrackDistanceToPoint">0.2</span> miles until the next chapter. </br></br> Enjoy the scenery, and we’ll give you a buzz when you reach the next stop.
-              </p>
-              <p style="font-style: italic">
-                    or skip ahead to see it now.
+                  Relax and enjoy your walk.</br>
+
+                  TrackJack will buzz when you reach a place to pause and take a closer look. Or you can always tap "skip" to sneak a peek at what's ahead.</br>
+                  
+                  You'll pass the next waymark <span class="viewTrackDistanceToPoint">[0.2]</span> miles.
               </p>
           </div>
       </div>
@@ -305,24 +334,27 @@
               <ul>
                   <li>
                       <a href="#viewTrackListPage" data-transition="fade">
-                          main
+                          Home
                       </a>
                   </li>
                   <li>
                       <a href="#InfoPage" data-transition="fade">
-                          info
+                          Help
                       </a>
                   </li>
                   <li>
                       <a href="#settingsPage" data-transition="fade">
-                          settings
+                          Settings
                       </a>
                   </li>
               </ul>
           </div>
       </div>
   </div>
+
 <!-- VT In Between Page (Use this yet?)
+================================================================================
+
   <div data-role="page" data-theme="d" id="viewTrackInBetweenPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <span class="ui-title"></span>
@@ -331,24 +363,23 @@
           </a>
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#viewTrackInfoPage" class="ui-btn-left viewTrackBackToPrevious">
-              back
+              Back
           </a>
       </div>
       <div data-theme="b" data-role="header">
           <h3 id="tracklist-header">
-                  Invasive Species on the Bike and Hike Trail
+                  [Invasive Species on the Bike and Hike Trail]
           </h3>
       </div>
       <div data-role="content">
           <div class="textbox-white textbox-text">
               <p class="textbox-header">
-                  Let's go!
+                  That's all for now!
               </p>
               <p>
-                  It’s <span class="viewTrackDistanceToPoint">0.2</span> miles until the next chapter. </br></br> Enjoy the scenery, and we’ll give you a buzz when you reach the next stop.
-              </p>
-              <p style="font-style: italic">
-                or skip ahead to see it now.
+                  It’s <span class="viewTrackDistanceToPoint">[0.2]</span> miles until the next place to stop and reflect.</br>
+                  Enjoy the scenery, and we’ll give you a buzz when you reach the next stop.</br>
+                  Of course, you can always tap "skip" if you want to get ahead of the curve.
               </p>
           </div>
       </div>
@@ -357,17 +388,17 @@
           <ul>
               <li>
                   <a href="#viewTrackListPage" data-transition="fade">
-                      main
+                      Home
                   </a>
               </li>
               <li>
                   <a href="#InfoPage" data-transition="fade">
-                      info
+                      Help
                   </a>
               </li>
               <li>
                   <a href="#settingsPage" data-transition="fade">
-                      settings
+                      Settings
                   </a>
               </li>
           </ul>
@@ -375,25 +406,34 @@
       </div>
   </div> 
 -->
-<!-- VT Interp Item -->
+
+<!-- View Track Point Page
+================================================================================ -->
+
   <div data-role="page" data-theme="d" id="viewTrackPointPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <h2 id="InterpItem-Header">
               <span id="viewTrackCurrentPointIndex">
-                  1
+                  [1]
+
               </span> 
                   of 
               <span id="viewTrackTotalPoints">
-                  12
+                  [12]
               </span>
           </h2>
+<<<<<<< HEAD
           <a data-role="button" data-transition="slide" data-theme="c" href="#viewTrackInstructionsPage" class="ui-btn-right viewTrackNextInBetween">
             <!-- <a data-role="button" data-transition="slide" data-theme="c" href="#viewTrackCompletePage" class="ui-btn-right viewTrackNextInBetween"> -->
               next
+=======
+          <a data-role="button" data-transition="slide" data-theme="c" href="#viewTrackCompletePage" class="ui-btn-right viewTrackNextInBetween">
+              Next
+>>>>>>> 5e6439cbe853c7b74109502fe3e5d3bdf59cd01b
           </a>
           <a data-role="button" data-direction="reverse" data-transition="slide"
           href="#viewTrackInfoPage" class="ui-btn-left viewTrackBackToPrevious">
-              back
+              Back
           </a>
       </div>
       <div id="musicplayer-container">
@@ -405,13 +445,13 @@
           <img id="viewTrackPointImage" src="img/GarlicMustard-290x360.jpg">
           <div id="interp-label-container">
               <h id="viewTrackPointName">
-                  Garlic Mustard
+                  [Garlic Mustard]
               </h>
           <div id="viewTrackShowDescription"></div>
       </div>
           <div class="textbox-white">
               <p class="textbox-text" id="viewTrackPointDescription">
-                  Garlic mustardis a biennial herb with stalked, triangular-shaped leaves that smell like garlic when crushed. Plants first appear as rosettes of green leaves close to the ground. The following year they reach two to 3.5 feet tall and produce button-like clusters of small white flowers with four petals in the shape of a cross. Slender seed pods are present by June; each contains thousands of seeds per plant. The seeds can be viable in the soil for up to seven years. This non-native plant aggressively monopolizes light, moisture, nutrients, soil and growing space.       
+                  [Garlic mustardis a biennial herb with stalked, triangular-shaped leaves that smell like garlic when crushed. Plants first appear as rosettes of green leaves close to the ground. The following year they reach two to 3.5 feet tall and produce button-like clusters of small white flowers with four petals in the shape of a cross. Slender seed pods are present by June; each contains thousands of seeds per plant. The seeds can be viable in the soil for up to seven years. This non-native plant aggressively monopolizes light, moisture, nutrients, soil and growing space.]       
               </p>
           </div>
       </div>
@@ -420,17 +460,18 @@
               <ul>
                   <li>
                       <a href="#viewTrackListPage" data-transition="fade">
-                          main
+                          Home
                       </a>
                   </li>
                   <li>
                       <a href="#InfoPage" data-transition="fade">
-                          info
+                          Help
                       </a>
                   </li>
                   <li>
                       <a href="#settingsPage" data-transition="fade">
-                          settings
+                          Settings
+
                       </a>
                   </li>
               </ul>
@@ -438,29 +479,34 @@
       </div>
   </div>
 
-<!-- VT Finished -->
+<!-- View Track Complete Page
+================================================================================ -->
+
   <div data-role="page" data-theme="d" id="viewTrackCompletePage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <span class="ui-title"></span>
           <a data-role="button" data-direction="reverse" data-transition="slide" class="ui-btn-left viewTrackBackToPrevious">
-              back
+              Back
           </a>
       </div>
       <div data-theme="b" data-role="header">
           <h3 id="tracklist-header">
-              Invasive Species on the Bike and Hike Trail
+              [Invasive Species on the Bike and Hike Trail]
           </h3>
       </div>
       <div data-role="content">
           <div class="textbox-white textbox-text">
-              <h class="textbox-header">Congrats!</h>
+              <h class="textbox-header">Well done!</h>
               <p>
-                  You’ve completed the tour. </br></br>
-                  More dummy text to go here?? I am just leaving some space in case there is more that needs to be said.
+                  You completed the track. We hope it added something special to your walk!</br>
+                  
+                  Thoughts on how to improve the track? Send your ideas to <a href="mailto:hello@parkagency.gov">hello@parkagency.gov</a>
+
+                  To support the park agency, visit us at <a href="http://parkagency.org">www.parkagency.gov.</a>
               </p>
           </div>
           <a data-role="button" data-transition="slide" href="#viewTrackListPage" data-theme="c">
-              Ready for your next adventure?
+              Keep Learning! Walk Another Track.
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
@@ -468,17 +514,18 @@
               <ul>
                   <li>
                       <a href="#viewTrackListPage" data-transition="fade">
-                          main
+                          Home
                       </a>
                   </li>
                   <li>
                       <a href="#InfoPage" data-transition="fade">
-                          info
+                          Help
                       </a>
                   </li>
                   <li>
                       <a href="#settingsPage" data-transition="fade">
-                          settings
+                          Settings
+
                       </a>
                   </li>
               </ul>
@@ -486,25 +533,37 @@
       </div>
   </div>
 
-<!-- create a track section -->
-<!-- create a track info -->
+<!-- Create a Track Section
+================================================================================ -->
+
+<!-- Create a Track Help Page
+================================================================================ -->
+
   <div data-role="page" data-theme="a" id="createTrackInputPage1">
       <div data-theme="a" data-role="header" data-position="fixed">
           <span class="ui-title">Create A Track</span>
           <a data-role="button" data-direction="reverse" data-transition="slide" class="ui-btn-left" href="#settingsPage">
-              cancel
+              Cancel
           </a>
           <a data-role="button" data-transition="slide" data-theme="c" href="#createTrackInputPage1" class="ui-btn-right">
-              start
+              Start
           </a>
       </div>
       <div data-role="content">
           <div class="textbox-white textbox-text">
               <h class="textbox-header">
-                  Congrats!
+                  How to Create a Track
               </h>
               <p>
-                  create a tour instructions go here....?</br></br></br></br></br></br></br>
+                  Tracks are a way for you to share knowledge about the world around us.</br>
+
+                  Decide what to teach, then describe the track you’ll lay for people to follow.</br>
+
+                  Start walking a path or trail you know well. Stop and record your location when you’d like to share an observation or direct people’s attention.</br>
+
+                  On the trail or back at the office, you can add audio narrative, written description, and imagery to each location.</br>
+
+                  Add as many points as you like! When people pass by them, TrackJack will let them know there is something to learn.</br>
               </p>
           </div>
       </div>
@@ -513,17 +572,18 @@
               <ul>
                   <li>
                       <a href="#viewTrackListPage" data-transition="fade">
-                          main
+                          Home
                       </a>
                   </li>
                   <li>
                       <a href="#InfoPage" data-transition="fade">
-                          info
+                          Help
                       </a>
                   </li>
                   <li>
                       <a href="#settingsPage" data-transition="fade">
-                          settings
+                          Settings
+
                       </a>
                   </li>
               </ul>
@@ -531,17 +591,20 @@
       </div>
   </div>
 
-<!-- CT input 1 -->
+<!-- Create a Track Input Page 1
+================================================================================ -->
+
   <div data-role="page" data-theme="a" id="createTrackInputPage1">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#createTrackInputPage1" class="ui-btn-left">
-              back
+              Back
           </a>
           <h2>
-              Track Info
+              Create a Track
           </h2>
       </div>
+
       <div data-role="content">
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
@@ -554,17 +617,18 @@
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
                   <label for="createTrackDescription">
-                      <strong>What You'll See</strong>
+                      <strong>What You'll Learn</strong>
                   </label>
                   <textarea name="" id="createTrackDescription" placeholder="">
-                      What will people see on the path? List items broadly, like plants, birds, etc</textarea>
+                      Tell people what they will learn on your track. Bullet points or a brief overview will work just fine.
+                  </textarea>
               </fieldset>
           </div>
           <div data-role="fieldcontain">
               <label for="createTrackRating">
                   <strong>Trail Rating</strong>
                   <p class="subtitles">
-                      What is the trail difficulty level for the average hiker?
+                      Help people decide if your track is right for them.
                   </p>
               </label>
               <select name="Trail Rating" data-theme="b" id="createTrackRating">
@@ -582,6 +646,9 @@
           <div data-role="fieldcontain">
               <label for="createTrackSubject">
                   <strong>Subject</strong>
+                  <p class="subtitles">
+                      Help interested people find your track.
+                  </p>
               </label>
               <select name="Category" data-theme="b"id="createTrackSubject">
                   <option value="Nature">
@@ -589,6 +656,9 @@
                   </option>
                   <option value="Historical">
                       Historical
+                  </option>
+                  <option value="Other">
+                      Other
                   </option>
               </select>
           </div>
@@ -601,43 +671,48 @@
               <ul>
                   <li>
                       <a href="#viewTrackListPage" data-transition="fade">
-                          main
+                          Home
                       </a>
                   </li>
                   <li>
                       <a href="#InfoPage" data-transition="fade">
-                          info
+                          Help
                       </a>
                   </li>
                   <li>
                       <a href="#settingsPage" data-transition="fade">
-                          settings
-                      </a>
+                          Settings
                   </li>
               </ul>
           </div>
       </div>
   </div>
 
-<!-- CT input 2 -->
+<!-- Create a Track Input Page 2
+================================================================================ -->
+
   <div data-role="page" data-theme="a" id="createTrackInputPage2">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#createTrackInputPage1" class="ui-btn-left">
-              back
+              Back
           </a>
           <h2>
               Create a Track
           </h2>
       </div>
       <div data-role="content">
+  
+<!-- Should this commented out code be deleted? +AJW -->
+
           <!-- not needed here
           <a data-role="button" data-theme="b" href="#RecordAudioPage" data-transition="slide">
               Record Audio
           </a> 
           <div id="musicplayer-container"></div>-->
+
           <a data-role="button" data-theme="b" href="#createTrackUploadStartImagePage" data-transition="slide" id="createTrackImageUpload">
-              Upload Photo of Starting Point
+              Add a Cover Image for Your Track
           </a>
           <div id="createTrackImageDiv">
               <img  id="createTrackImage">
@@ -645,11 +720,11 @@
           <div style="height: 20px"></div>
           <div>
               <p>
-                  Now begin walking the path of your tour. We are tracking your path, so don't go off course.
+                  Begin walking the path of your track. Remember, we are recording your path for others, so don't go off course!
               </p>
           </div>
           <a data-role="button" data-transition="none" data-theme="c" href="#createTrackMainPage" id="createTrackStartRecording">
-              Start Your Track
+              Begin Recording Your Track
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
@@ -657,28 +732,32 @@
               <ul>
                   <li>
                       <a href="#viewTrackListPage" data-transition="fade">
-                          main
+                          Home
                       </a>
                   </li>
                   <li>
                       <a href="#settingsPage" data-transition="fade">
-                          info
+                          Help
                       </a>
                   </li>
                   <li>
                       <a href="#settingsPage" data-transition="fade">
-                          settings
+                          Settings
+
                       </a>
                   </li>
               </ul>
           </div>
       </div>
   </div>
-<!-- CT Photo Upload Start Image-->
+
+<!-- Create Track Photo Upload Start Image
+================================================================================ -->
+
   <div data-role="page" data-theme="a" id="createTrackUploadStartImagePage">
       <div data-theme="a" data-role="header" data-position="fixed">
       <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#createTrackInputPage2" class="ui-btn-left">
-          back
+          Back
       </a>
           <h3>
               Add Photo
@@ -686,10 +765,10 @@
       </div>
       <div data-role="content">
           <a data-role="button" data-theme="b" data-transition="slide" class="createTrackUploadImageLibrary" >
-              Upload from Library
+              Add from Library
           </a>
           <a data-role="button" data-transition="slide" data-theme="b" class="createTrackUploadImageCamera">
-              Take Photo
+              Take New Photo
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
@@ -697,29 +776,33 @@
               <ul>
                   <li>
                       <a href="#viewTrackListPage" data-transition="fade">
-                          main
+                          Home
                       </a>
                   </li>
                   <li>
                       <a href="#InfoPage" data-transition="fade">
-                          info
+                          Help
                       </a>
                   </li>
                   <li>
                       <a href="#settingsPage" data-transition="fade">
-                          settings
+                          Settings
+
                       </a>
                   </li>
               </ul>
           </div>
       </div>
   </div>
-<!-- CT Track Main Page -->
+
+<!-- Create Track Main Page (Between Dropping Points)
+================================================================================ -->
+
   <div data-role="page" data-theme="d" id="createTrackMainPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#CreateTrackInputPage2" class="ui-btn-left" id="createTrackCancelRecording">
-              cancel
+              Cancel
           </a>
           <h3>
               Tracking Path
@@ -746,17 +829,18 @@
               <ul>
                   <li>
                       <a href="#viewTrackListPage" data-transition="fade">
-                          main
+                          Home
                       </a>
                   </li>
                   <li>
                       <a href="#InfoPage" data-transition="fade">
-                          info
+                          Help
                       </a>
                   </li>
                   <li>
                       <a href="#settingsPage" data-transition="fade">
-                          settings
+                          Settings
+
                       </a>
                   </li>
               </ul>
@@ -812,17 +896,18 @@
               <ul>
                   <li>
                       <a href="#viewTrackListPage" data-transition="fade">
-                          main
+                          Home
                       </a>
                   </li>
                   <li>
                       <a href="#InfoPage" data-transition="fade">
-                          info
+                          Help
                       </a>
                   </li>
                   <li>
                       <a href="#settingsPage" data-transition="fade">
-                          settings
+                          Settings
+
                       </a>
                   </li>
               </ul>
@@ -834,7 +919,7 @@
   <div data-role="page" data-theme="a" id="createTrackPOIPage2">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#createTrackPOIPage1" class="ui-btn-left">
-              back
+              Back
           </a>
           <h3>
               Add Audio
@@ -854,17 +939,18 @@
               <ul>
                   <li>
                       <a href="#viewTrackListPage" data-transition="fade">
-                          main
+                          Home
                       </a>
                   </li>
                   <li>
                       <a href="#InfoPage" data-transition="fade">
-                          info
+                          Help
                       </a>
                   </li>
                   <li>
                       <a href="#settingsPage" data-transition="fade">
-                          settings
+                          Settings
+
                       </a>
                   </li>
               </ul>
@@ -876,7 +962,7 @@
       <div data-theme="a" data-role="header" data-position="fixed">
       <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#createTrackPOIPage2" class="ui-btn-left">
-              back
+              Back
       </a>
           <h3>
               Add Photo
@@ -895,17 +981,18 @@
               <ul>
                   <li>
                       <a href="#viewTrackListPage" data-transition="fade">
-                          main
+                          Home
                       </a>
                   </li>
                   <li>
                       <a href="#InfoPage" data-transition="fade">
-                          info
+                          Help
                       </a>
                   </li>
                   <li>
                       <a href="#settingsPage" data-transition="fade">
-                          settings
+                          Settings
+
                       </a>
                   </li>
               </ul>
@@ -934,17 +1021,18 @@
               <ul>
                   <li>
                       <a href="#viewTrackListPage" data-transition="fade">
-                          main
+                          Home
                       </a>
                   </li>
                   <li>
                       <a href="#InfoPage" data-transition="fade">
-                          info
+                          Help
                       </a>
                   </li>
                   <li>
                       <a href="#settingsPage" data-transition="fade">
-                          settings
+                          Settings
+
                       </a>
                   </li>
               </ul>
@@ -973,17 +1061,18 @@
               <ul>
                   <li>
                       <a href="#viewTrackListPage" data-transition="fade">
-                          main
+                          Home
                       </a>
                   </li>
                   <li>
                       <a href="#InfoPage" data-transition="fade">
-                          info
+                          Help
                       </a>
                   </li>
                   <li>
                       <a href="#settingsPage" data-transition="fade">
-                          settings
+                          Settings
+
                       </a>
                   </li>
               </ul>
@@ -1049,17 +1138,17 @@
           <ul>
               <li>
                   <a href="#viewTrackListPage" data-transition="fade">
-                      main
+                      Home
                   </a>
               </li>
               <li>
                   <a href="#InfoPage" data-transition="fade">
-                      info
+                      Help
                   </a>
               </li>
               <li>
                   <a href="#settingsPage" data-transition="fade">
-                      settings
+                      Settings
                   </a>
               </li>
           </ul>
@@ -1071,7 +1160,7 @@
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#EditTourList" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
-              back
+              Back
           </a>
           <h2>
               Edit a Tour
@@ -1104,17 +1193,17 @@
           <ul>
               <li>
                   <a href="#viewTrackListPage" data-transition="fade">
-                      main
+                      Home
                   </a>
               </li>
               <li>
                   <a href="#InfoPage" data-transition="fade">
-                      info
+                      Help
                   </a>
               </li>
               <li>
                   <a href="#settingsPage" data-transition="fade">
-                      settings
+                      Settings
                   </a>
               </li>
           </ul>
@@ -1203,29 +1292,30 @@
           <ul>
               <li>
                   <a href="#viewTrackListPage" data-transition="fade">
-                      main
+                      Home
                   </a>
               </li>
               <li>
                   <a href="#InfoPage" data-transition="fade">
-                      info
+                      Help
                   </a>
               </li>
               <li>
                   <a href="#settingsPage" data-transition="fade">
-                      settings
+                      Settings
                   </a>
               </li>
           </ul>
         </div>
       </div>
   </div>
+
   <!-- Edit POI -->
   <div data-role="page" data-theme="d" id="page18">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#page17" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
-              cancel
+              Cancel
           </a>
           <h2>
               Edit Point of Interest
@@ -1283,17 +1373,17 @@
           <ul>
               <li>
                   <a href="#viewTrackListPage" data-transition="fade">
-                      main
+                      Home
                   </a>
               </li>
               <li>
                   <a href="#InfoPage" data-transition="fade">
-                      info
+                      Help
                   </a>
               </li>
               <li>
                   <a href="#settingsPage" data-transition="fade">
-                      settings
+                      Settings
                   </a>
               </li>
           </ul>
