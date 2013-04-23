@@ -445,7 +445,47 @@
         </div>
       </div>
   </div>
-
+<!-- Photo Upload -->
+  <div data-role="page" data-theme="d" id="UploadPhotoPage">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <h3>
+              Add Photo
+          </h3>
+      </div>
+      <div data-role="content">
+          <a data-role="button" data-transition="slide" href="#AddPOIPage">
+              Upload from Library
+          </a>
+          <a data-role="button" data-transition="slide" data-theme="d" href="#AddPOIPage">
+              Take Photo
+          </a>
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
+          data-theme="d" href="#AddPOIPage">
+              Cancel
+          </a>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#viewTrackListPage" data-transition="fade">
+                      main
+                  </a>
+              </li>
+              <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
+                  </a>
+              </li>
+              <li>
+                  <a href="#settingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
 
 <!-- create a track section -->
   <!-- create a track info -->
@@ -578,7 +618,7 @@
   <div data-role="page" data-theme="a" id="createTrackInputPage2">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          href="#CreateTrackInputPage1" class="ui-btn-left">
+          href="#createTrackInputPage1" class="ui-btn-left">
               back
           </a>
           <h2>
@@ -604,8 +644,8 @@
                   Now begin walking the path of your tour. We are tracking your path, so don't go off course.
               </p>
           </div>
-          <a data-role="button" data-transition="none" data-theme="c" href="#BeginRecordingPage" id="createTrackStartRecording">
-              Begin Recording Track
+          <a data-role="button" data-transition="none" data-theme="c" href="#createTrackMainPage" id="createTrackStartRecording">
+              Start Your Track
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
@@ -630,11 +670,15 @@
         </div>
       </div>
   </div>
-  <!-- Begin Recording -->
-  <div data-role="page" data-theme="d" id="Begin RecordingPage">
+  <!-- Track Main Page -->
+  <div data-role="page" data-theme="d" id="createTrackMainPage">
       <div data-theme="a" data-role="header" data-position="fixed">
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
+          href="#CreateTrackInputPage2" class="ui-btn-left" id="createTrackCancelRecording">
+              cancel
+          </a>
           <h3>
-              Recording Track
+              Tracking Path
           </h3>
       </div>
       <div data-role="content">
@@ -644,14 +688,14 @@
               </p>
           </div>
           <div data-role="controlgroup" data-type="horizontal">
-            <a class="btn-short" data-role="button" data-transition="slide" href="#AddPOIPage" data-theme="c">
+            <a class="btn-short" data-role="button" data-transition="slide" href="#AddPOIPage" data-theme="c" id="reateTrackAddPoint">
               Add Point
             </a>
-            <a class="btn-short" data-role="button" data-transition="slide" data-theme="c" href="#CreateFinishPage">
+            <a class="btn-short" data-role="button" data-transition="slide" data-theme="c" href="#createTrackUploadPage" id="createTrackDone">
               Finish Track
             </a>
         </div>
-          <img class="map" id="RecordingMap" src="https://maps.googleapis.com/maps/api/staticmap?center=Akron, OH&amp;zoom=14&amp;size=288x200&amp;markers= Akron, OH&amp;sensor=false">
+          <img class="map" id="createTrackMapInProgress" src="https://maps.googleapis.com/maps/api/staticmap?center=Akron, OH&amp;zoom=14&amp;size=288x200&amp;markers= Akron, OH&amp;sensor=false">
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
         <div data-role="navbar">
@@ -675,12 +719,11 @@
         </div>
       </div>
   </div>
-
   <!-- Add Point of interest -->
   <div data-role="page" data-theme="a" id="AddPOIPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          href="#BeginRecordingPage" class="ui-btn-left">
+          href="#BegincreateTrackMainPage" class="ui-btn-left">
               cancel
           </a>
           <h2>
@@ -819,6 +862,45 @@
         </div>
       </div>
   </div>
+<!-- Upload Track Page -->
+   <div data-role="page" data-theme="d" id="createTrackUploadPage">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <h3>
+              Upload Track
+          </h3>
+      </div>
+      <div data-role="content">
+          <div class="textbox-white">
+              <p>
+              Instructions for this section
+              </p>
+          </div>
+          <a data-role="button" data-transition="slide" data-theme="c" href="#CreateFinishPage" id="createTrackUpload">
+              Sumbit Track
+          </a>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#viewTrackListPage" data-transition="fade">
+                      main
+                  </a>
+              </li>
+              <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
+                  </a>
+              </li>
+              <li>
+                  <a href="#settingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>   
   <!-- Finished -->
   <div data-role="page" data-theme="a" id="CreateFinishPage">
       <div data-theme="a" data-role="header">
@@ -866,6 +948,7 @@
         </div>
       </div>
   </div>
+
 
 
 <!-- Edit Tour Section -->
