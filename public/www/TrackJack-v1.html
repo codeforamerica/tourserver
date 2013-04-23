@@ -111,7 +111,10 @@
 ================================================================================ -->
 
 <!-- Help Page -->
-    <div data-role="page" data-theme="a" id="infopage">
+
+    <div data-role="page" data-theme="a" id="infoPage">
+
+    <div data-role="page" data-theme="a" id="infoPage">
 
 <!-- Note that I didn't change the id "infopage" above +AJW -->
 
@@ -326,7 +329,7 @@
 
                   TrackJack will buzz when you reach a place to pause and take a closer look. Or you can always tap "skip" to sneak a peek at what's ahead.</br>
                   
-                  You'll pass the next waymark <span class="viewTrackDistanceToPoint">[0.2]</span> miles.
+                  You'll pass the next place on this track in <span class="viewTrackDistanceToPoint">[0.2]</span> miles.
               </p>
           </div>
       </div>
@@ -615,8 +618,7 @@
                   <label for="createTrackDescription">
                       <strong>What You'll Learn</strong>
                   </label>
-                  <textarea name="" id="createTrackDescription" placeholder="">
-                      Tell people what they will learn on your track. Bullet points or a brief overview will work just fine.
+                  <textarea name="" id="createTrackDescription" placeholder=""> Tell people what they will learn on your track. Bullet points or a brief overview will work just fine.
                   </textarea>
               </fieldset>
           </div>
@@ -678,6 +680,7 @@
                   <li>
                       <a href="#settingsPage" data-transition="fade">
                           Settings
+                      </a>
                   </li>
               </ul>
           </div>
@@ -698,15 +701,6 @@
           </h2>
       </div>
       <div data-role="content">
-  
-<!-- Should this commented out code be deleted? +AJW -->
-
-          <!-- not needed here
-          <a data-role="button" data-theme="b" href="#RecordAudioPage" data-transition="slide">
-              Record Audio
-          </a> 
-          <div id="musicplayer-container"></div>-->
-
           <a data-role="button" data-theme="b" href="#createTrackUploadStartImagePage" data-transition="slide" id="createTrackImageUpload">
               Add a Cover Image for Your Track
           </a>
@@ -801,13 +795,17 @@
               Cancel
           </a>
           <h3>
-              Tracking Path
+              Create a Track
           </h3>
       </div>
       <div data-role="content">
           <div class="textbox-white">
               <p>
-                  Begin walking your path. Add a point of interestest when you reach your first desination. When you are finished adding point, hit Finish Tour to save your work.
+                  Begin walking your track!</br>
+
+                  Stop and tap “Add Point” where you’d like to share media or focus the attention of your audience.</br>
+
+                  When you’ve added all your points, tap "Finish Track" to wrap up.</br>
               </p>
           </div>
           <div data-role="controlgroup" data-type="horizontal">
@@ -843,15 +841,17 @@
           </div>
       </div>
   </div>
-<!-- CT Add POI -->
+
+<!-- Create Track Add POI Page 1
+================================================================================ -->
   <div data-role="page" data-theme="a" id="createTrackPOIPage1">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#createTrackMainPage" class="ui-btn-left" id="createTrackCancelPOI">
-              cancel
+              Cancel
           </a>
           <h2>
-              Add Point
+              Create a Place
           </h2>
       </div>
       <div data-role="content">
@@ -859,7 +859,7 @@
               <fieldset data-role="controlgroup">
                   <label for="createTrackPOIName"> 
                       <strong>
-                          Name Point of Interest
+                          Name This Place
                       </strong>
                   </label>
                   <input name="" id="createTrackPOIName" placeholder="" value=""type="text">
@@ -869,11 +869,11 @@
               <fieldset data-role="controlgroup">
                   <label for="createTrackPOIDescription">
                       <strong>
-                          Description
+                          Describe This Place
                       </strong>
                   </label>
                   <textarea name="" id="createTrackPOIDescription" placeholder="">
-                      What’s so cool about this point? Take notes here and edit later, if necessary.
+                      Tell your audience what is significant here. You can also use this space to take notes, and edit it later.
                   </textarea>
               </fieldset>
           </div>
@@ -911,7 +911,9 @@
       </div>
   </div>
 
-<!-- CT Add POI 2 -->
+<!-- Create Track Add POI Page 2
+================================================================================ -->
+
   <div data-role="page" data-theme="a" id="createTrackPOIPage2">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#createTrackPOIPage1" class="ui-btn-left">
@@ -925,9 +927,13 @@
       <div data-role="content">
           <a data-role="button" data-theme="b" href="#RecordAudioPage" data-transition="slide">
               Record Audio
-          </a>  
+          </a>
+            <textarea name="" id="createTrackPOISubmitHelp" placeholder="">
+              <strong>Brilliant!</strong></br>
+              You’ve created a place for learning. Submit this place, keep moving and add more places along your track!
+            </textarea>  
           <a data-role="button" data-theme="c" href="#createTrackMainPage" data-transition="slide">
-              Submit Point
+              Submit This Place
           </a>    
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
@@ -946,30 +952,32 @@
                   <li>
                       <a href="#settingsPage" data-transition="fade">
                           Settings
-
                       </a>
                   </li>
               </ul>
           </div>
       </div>
   </div>
-<!-- CT Photo Upload POI -->
+
+<!-- CT Photo Upload POI
+================================================================================ -->
+
   <div data-role="page" data-theme="d" id="createTrackUploadPointImagePage">
       <div data-theme="a" data-role="header" data-position="fixed">
       <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#createTrackPOIPage2" class="ui-btn-left">
-              Back
+          Back
       </a>
-          <h3>
-              Add Photo
-          </h3>
+        <h3>
+          Add Photo
+        </h3>
       </div>
       <div data-role="content">
           <a data-role="button" data-transition="slide" data-theme="b" href="" class="createTrackUploadImageLibrary">
-              Upload from Library
+              Add from Library
           </a>
           <a data-role="button" data-transition="slide" data-theme="b" href="" class="createTrackUploadImageCamera">
-              Take Photo
+              Take New Photo
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
@@ -988,14 +996,16 @@
                   <li>
                       <a href="#settingsPage" data-transition="fade">
                           Settings
-
                       </a>
                   </li>
               </ul>
           </div>
       </div>
   </div>
-<!-- CT Upload Track -->
+
+<!-- Create Track Upload Track Page
+================================================================================ -->
+
   <div data-role="page" data-theme="d" id="createTrackUploadPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <h3>
@@ -1005,11 +1015,15 @@
       <div data-role="content">
           <div class="textbox-white">
               <p>
-                  Instructions for this section
+                  Congratulations!
+
+                  You've created an entire track for your audience to walk. They will pass by the Places you've created, experience the lessons you've left for them, and have the opportunity to learn a little bit more about the amazing world around them. And remember, you can always come back and improve your work later.
+
+                  Tap "Submit Your Track", and we'll upload your work for other people to enjoy. It may take a minute, but don't worry. If you're afraid yout track wasn't save, you can tap "Submit" again. 
               </p>
           </div>
           <a data-role="button" data-transition="slide" data-theme="c" href="#CreateFinishPage" id="createTrackUpload">
-              Sumbit Track
+              Sumbit Your Track
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
@@ -1035,7 +1049,10 @@
           </div>
       </div>
   </div>   
-<!-- CT Finished -->
+
+<!-- Create Track Finish Page
+================================================================================ -->
+
   <div data-role="page" data-theme="a" id="CreateFinishPage">
       <div data-theme="a" data-role="header">
           <h3>
@@ -1048,7 +1065,7 @@
                   Success!
               </p>
               <p>
-                  Your track has been recorded and added to the list. </br>More text?
+                  Your Track has been recorded. People can now discover your work and the knowledge you've shared. Great job!</br>
               </p>
           </div>
       </div>
@@ -1078,53 +1095,60 @@
 
 
 
-<!-- Edit Tour Section -->
-  <!-- Edit Tour List -->
+<!-- Edit Track Section
+================================================================================ -->
+
+<!-- Edit Track List 
+================================================================================ -->
+
   <div data-role="page" data-theme="a" id="EditTourList">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-transition="slide"
           href="#settingsPage" class="ui-btn-left">
-              cancel
+              Cancel
           </a>
           <h2>
               Edit a Track
           </h2>
       </div>
+
+<!-- What are we going to do with all these dummy list items in the edit section? +AJW -->
+
       <div data-theme="b" data-divider-theme="b" data-inset="true">
          <ul data-role="listview" data-divider-theme="b">
           <li data-theme="b">
             <a href="#page17" data-transition="slide">
-            <h1 style="white-space: normal">Invasive Species on Bike and Hike Trail</h1>
+            <h1 style="white-space: normal">[Invasive Species on Bike and Hike Trail]</h1>
             <img src="https://dl.dropbox.com/u/137249874/_square/Logo-MetroParks-Other.png" alt="test image">
-            <p>1.3 miles, easy, 6 chapters</p>
+            <p>[1.3 miles, easy, 6 chapters]</p>
             </a>
           </li>
           <li data-theme="b">
             <a href="#page17" data-transition="slide">
-            <h1 style="white-space: normal">History of Bridal Veil Falls</h1>
+            <h1 style="white-space: normal">[History of Bridal Veil Falls]</h1>
             <img src="https://dl.dropbox.com/u/137249874/_square/Logo-CVNP.png" alt="test image">
-            <p>.5 miles, easy, 5 chapters</p>
+            <p>[.5 miles, easy, 5 chapters]</p>
             </a>
           </li>
           <li data-theme="b">
             <a href="#page17" data-transition="slide">
-            <h1 style="white-space: normal">Highlights along the Towpath</h1>
+            <h1 style="white-space: normal">[Highlights along the Towpath]</h1>
             <img src="https://dl.dropbox.com/u/137249874/_square/Logo-CVNP.png" alt="test image">
-            <p>2.5 miles, easy, 13 chapters</p>
+            <p>[2.5 miles, easy, 13 chapters]</p>
             </a>
           </li>
           <li data-theme="b">
             <a href="#page17" data-transition="slide">
-            <h1 style="white-space: normal">Historical Highlights along the Towpath</h1>
+            <h1 style="white-space: normal">[Historical Highlights along the Towpath]</h1>
             <img src="https://dl.dropbox.com/u/137249874/_square/Logo-MetroParks-Other.jpg" alt="test image">
-            <p>4 miles, easy, 15 chapters</p>
+            <p>[4 miles, easy, 15 chapters]</p>
             </a>
           </li>
           <li data-theme="b">
             <a href="#page17" data-transition="slide">
-            <h1 style="white-space: normal">Nature along the Deep Lock Quarry</h1>
+            <h1 style="white-space: normal">[Nature along the Deep Lock Quarry]</h1>
             <img src="https://dl.dropbox.com/u/137249874/_square/Logo-CVNP.png" alt="test image">
-            <p>1.2 miles, moderate, 8 chapters</p>
+            <p>[1.2 miles, moderate, 8 chapters]</p>
             </a>
           </li>
         </ul>
@@ -1151,7 +1175,10 @@
         </div>
       </div>
   </div>
-  <!-- Edit Tour Chapter List -->
+
+<!-- Edit Track Places List
+================================================================================ -->
+
   <div data-role="page" data-theme="d" id="page17">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
@@ -1166,19 +1193,19 @@
         <ul data-role="listview" data-divider-theme="b">
           <li data-theme="c">
             <a href="#page19" data-transition="slide">
-            <h1 style="white-space: normal">Introduction</h1>
+            <h1 style="white-space: normal">[Introduction]</h1>
             <img src="https://dl.dropbox.com/u/137249874/_square/BikeHike-square.jpg" alt="test image">
             </a>
           </li>
           <li data-theme="c">
             <a href="#page18" data-transition="slide">
-            <h1 style="white-space: normal">Garlic Mustard</h1>
+            <h1 style="white-space: normal">[Garlic Mustard]</h1>
             <img src="https://dl.dropbox.com/u/137249874/_square/GarlicMustard-squ.jpg" alt="test image">
             </a>
           </li>
           <li> 
             <a href="#page18" data-transition="slide">
-            <h1 style="white-space: normal">Thin Leaved Cattails</h1>
+            <h1 style="white-space: normal">[Thin Leaved Cattails]</h1>
             <img src="https://dl.dropbox.com/u/137249874/_square/thinleavedcattails%3Dsq.jpg" alt="test image">
             </a>
           </li>
@@ -1206,12 +1233,15 @@
         </div>
       </div>
   </div>
-  <!-- Edit Intro -->
+  
+  <!-- Edit Intro
+  ================================================================================ -->
+  
   <div data-role="page" data-theme="d" id="page19">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#page17" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
-              cancel
+              Cancel
           </a>
           <h2>
               Edit Intro
@@ -1229,7 +1259,7 @@
               <fieldset data-role="controlgroup">
                   <label for="textarea6">
                   </label>
-                  <textarea name="" id="textarea6" placeholder="">Discover the most prevalent invasive species on the Bike and Hike Trails. Invasive plants are aggressive species that grow in areas where they do not historically occur. Some were introduced accidentally, while others may have been planted for herbal or medicinal purposes, for soil stabilization and wildlife habitat, or because of their showy flowers, fruit, leaves or bark.</textarea>
+                  <textarea name="" id="textarea6" placeholder="">[Discover the most prevalent invasive species on the Bike and Hike Trails. Invasive plants are aggressive species that grow in areas where they do not historically occur. Some were introduced accidentally, while others may have been planted for herbal or medicinal purposes, for soil stabilization and wildlife habitat, or because of their showy flowers, fruit, leaves or bark.]</textarea>
               </fieldset>
           </div>
           <div data-role="fieldcontain">
@@ -1306,7 +1336,9 @@
       </div>
   </div>
 
-  <!-- Edit POI -->
+<!-- Edit POI
+================================================================================ -->
+
   <div data-role="page" data-theme="d" id="page18">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
