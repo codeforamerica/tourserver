@@ -330,7 +330,10 @@ function onDeviceReady() {
       distanceToNextPoint = getDistanceFromLatLonInKm(lat, lng, position.coords.latitude, position.coords.longitude) * 1000;
       distanceToNextPoint = distanceToNextPoint.toFixed(0);
       console.log(distanceToNextPoint);
-      $('.viewTrackDistanceToPoint').text(distanceToNextPoint);
+      // $('.viewTrackDistanceToPoint').text(distanceToNextPoint);
+      var distanceToNextPointMiles = distanceToNextPoint * 0.000621371192;
+      distanceToNextPointMiles = distanceToNextPointMiles.toFixed(2);
+      $('.viewTrackDistanceToPoint').text(distanceToNextPointMiles);
       $("#status").html(distanceToNextPoint + "m to this point of interest");
       if (distanceToNextPoint < triggerCurrentPointDistance) {
         console.log("distance trigger");
