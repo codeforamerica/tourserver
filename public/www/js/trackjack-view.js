@@ -20,6 +20,7 @@ function onDeviceReady() {
 
   $("#viewTrackListPage").on('pageinit', getTourList);
   $("#viewTrackInfoPage").on('pagebeforeshow', showTourInfo);
+  $("#viewTrackInstructionsPage").on('pagebeforeshow', startTour);
   //getTourList();
 
   // skip the geolocation and display the upcoming point
@@ -51,7 +52,7 @@ function onDeviceReady() {
   function showTourList(response) {
     console.log("showTourList");
     var $tourTemplate = $(".viewTrackList li:first");
-    $tourTemplate.remove();
+
     for (var i = 0; i < response.length; i++) {
       //console.log(response[i]);
       var $tourListEntry = $tourTemplate.clone(false);
@@ -59,7 +60,8 @@ function onDeviceReady() {
       $viewTrackTitle.text(response[i].name);
       console.log(response[i].name);
       console.log(response[i].chapters.length);
-      $(".viewTrackChapters").text(response[i].chapters.length + " chapters");
+      console.log($tourListEntry.children(".viewTrackChapters"));
+      $tourListEntry.find(".viewTrackChapters").text(response[i].chapters.length + " chapters");
 
       //TODO: figure out why jqmdata doesn't work
       $tourListEntry.data("tourid", response[i].id);
@@ -73,6 +75,7 @@ function onDeviceReady() {
       moveToTourInfo(tourid);
 
     });
+        $tourTemplate.remove();
     $('#viewTrackList').listview('refresh');
   }
 
@@ -287,6 +290,7 @@ function onDeviceReady() {
       distanceToNextPoint = getDistanceFromLatLonInKm(lat, lng, position.coords.latitude, position.coords.longitude) * 1000;
       distanceToNextPoint = distanceToNextPoint.toFixed(0);
       console.log(distanceToNextPoint);
+      $('#viewTrackDistanceToPoint').text(distanceToNextPoint);
       $("#status").html(distanceToNextPoint + "m to this point of interest");
       if (distanceToNextPoint < triggerCurrentPointDistance) {
         console.log("distance trigger");
