@@ -2,7 +2,6 @@
 
 // 22 April 2013 - A copy of trackrunner.js for modification and integration into the real app
 
-var currentViewingTour;
 
 function onDeviceReady() {
   console.log("onDeviceReady");
@@ -23,6 +22,7 @@ function onDeviceReady() {
   $("#viewTrackInfoPage").on('pagebeforeshow', showTourInfo);
   $("#viewTrackInstructionsPage").on('pagebeforeshow', startTour);
   $("#viewTrackPointPage").on('pagebeforeshow', showCurrentInterestPoint);
+  $(".viewTrackNextInBetween").click(advancePointIndex);
   //getTourList();
 
   // skip the geolocation and display the upcoming point
@@ -31,10 +31,10 @@ function onDeviceReady() {
   });
 
   // leave the current point and start going to the next point
-  $("#nextPoint").click(function(event) {
+  function advancePointIndex() {
+    console.log("advancePointIndex");
     currentViewPointIndex++;
-    showInBetweenScreen();
-  });
+  }
 
   // tour is over (if you want it)
   $("#done").click(function(event) {
@@ -43,6 +43,7 @@ function onDeviceReady() {
   });
 
   function getTourList() {
+    currentViewPointIndex = 0;
     console.log("getTourList");
     var callData = {
       type: "GET",
@@ -100,7 +101,12 @@ function onDeviceReady() {
   }
 
   function startTour(event) {
-    loadMediaItems();
+    if (currentViewPointIndex) {
+      showInBetweenScreen();
+    }
+    else {
+     loadMediaItems();
+    }
   }
 
   function loadMediaItems() {
@@ -140,6 +146,7 @@ function onDeviceReady() {
   }
 
   function showInBetweenScreen() {
+    $("#tracklist-header").text(currentViewingTour.name);
     $("#currentViewPointIndex").html(currentViewPointIndex);
     $("#endPointIndex").text(currentViewingTour.interest_points.length - 1);
     if (geoWatchID == null) {
@@ -158,30 +165,27 @@ function onDeviceReady() {
       console.log("last point");
 
     }
-    console.log(currentPoint);
     var myAudio = null;
+    console.log(myAudio);
     $("#viewTrackCurrentPointIndex").text(currentViewPointIndex + 1);
     $("#viewTrackTotalPoints").text(currentViewingTour.interest_points.length);
+    console.log("currentPoint.name");
+    console.log(currentPoint.name);
     $("#viewTrackPointName").text(currentPoint.name);
     $.each(currentPoint.interp_items, function(index, interp_item) {
       $.each(interp_item.media_items, function(index, media_item) {
         var mimeType = media_item.item_content_type;
         var filename = media_item.item_file_name;
-        console.log("mediaFiles[filename].fullPath");
-        console.log(mediaFiles[filename].fullPath);
         if (mimeType.indexOf("text") == 0) {
           getTextItem(filename, function(textContents) {
-            $("#pointText").append("<span>" + textContents + "</span>");
+            $("#viewTrackPointDescription").html(textContents);
           });
         } else if (mimeType.indexOf("audio") == 0) {
           $("#viewTrackAudioPointPlay").click(function(event) {
-            console.log("play click");
             event.preventDefault();
             if (myAudio == null) {
-              console.log("getting audio");
               myAudio = new Media(mediaFiles[filename].fullPath, audioSuccess, audioError, audioStatus);
             }
-            console.log(myAudio);
             myAudio.play({numberOfLoops: 1});
           });
         } else if (mimeType.indexOf("image") == 0) {
@@ -193,9 +197,7 @@ function onDeviceReady() {
     return;
 
     function audioSuccess() {
-      console.log("audio success");
       $("#viewTrackAudioPointPause").click(function(event) {
-        console.log("pause click");
         event.preventDefault();
         myAudio.pause();
       });
@@ -206,7 +208,8 @@ function onDeviceReady() {
     }
 
     function audioStatus(code) {
-      console.log("Status: " + code);
+      // may need this for control updates
+      console.log("Audio Status: " + code);
     }
 
     function audioError() {
@@ -262,8 +265,6 @@ function onDeviceReady() {
       doneCallback("downloadFail", itemInfo.fullitem);
     }
   }
-
-
 
   function makeAPICall(callData, doneCallback) {
     console.log('makeAPICall');
