@@ -53,9 +53,14 @@ function onDeviceReady() {
     var $tourTemplate = $(".viewTrackList li:first");
     $tourTemplate.remove();
     for (var i = 0; i < response.length; i++) {
+      //console.log(response[i]);
       var $tourListEntry = $tourTemplate.clone(false);
       var $viewTrackTitle = $tourListEntry.find(".viewTrackTitle");
       $viewTrackTitle.text(response[i].name);
+      console.log(response[i].name);
+      console.log(response[i].chapters.length);
+      $(".viewTrackChapters").text(response[i].chapters.length + " chapters");
+
       //TODO: figure out why jqmdata doesn't work
       $tourListEntry.data("tourid", response[i].id);
       $(".viewTrackList").append($tourListEntry);
@@ -77,10 +82,10 @@ function onDeviceReady() {
       path: "/tours/" + tourid + ".json"
     };
     makeAPICall(callData, function(response) {
-      window.currentTourSummaryInfo = response;
-      //$.mobile.changePage($("#viewTrackInfoPage"), {
-      //  transition: "slide"
-      //});
+      currentTourSummaryInfo = response;
+      $.mobile.changePage($("#viewTrackInfoPage"), {
+       transition: "slide"
+      });
     });
   }
 
@@ -90,6 +95,8 @@ function onDeviceReady() {
     console.log(currentTourSummaryInfo);
     console.log(currentTourSummaryInfo["name"]);
     $("#viewTrackTitle").text(currentTourSummaryInfo.name);
+    $("#viewTrackDescription").text("Placeholder");
+    $(".viewTrackChapters").text(currentTourSummaryInfo.interest_points.length + " chapters");
   }
 
   function startTour(event) {
