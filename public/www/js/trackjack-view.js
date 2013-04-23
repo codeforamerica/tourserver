@@ -2,7 +2,8 @@
 
 // 22 April 2013 - A copy of trackrunner.js for modification and integration into the real app
 
-  var currentTourSummaryInfo;
+var currentViewingTour;
+
 function onDeviceReady() {
   console.log("onDeviceReady");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
@@ -21,6 +22,7 @@ function onDeviceReady() {
   $("#viewTrackListPage").on('pageinit', getTourList);
   $("#viewTrackInfoPage").on('pagebeforeshow', showTourInfo);
   $("#viewTrackInstructionsPage").on('pagebeforeshow', startTour);
+  $("#viewTrackPointPage").on('pagebeforeshow', showCurrentInterestPoint);
   //getTourList();
 
   // skip the geolocation and display the upcoming point
@@ -58,9 +60,6 @@ function onDeviceReady() {
       var $tourListEntry = $tourTemplate.clone(false);
       var $viewTrackTitle = $tourListEntry.find(".viewTrackTitle");
       $viewTrackTitle.text(response[i].name);
-      console.log(response[i].name);
-      console.log(response[i].chapters.length);
-      console.log($tourListEntry.children(".viewTrackChapters"));
       $tourListEntry.find(".viewTrackChapters").text(response[i].chapters.length + " chapters");
 
       //TODO: figure out why jqmdata doesn't work
@@ -71,11 +70,10 @@ function onDeviceReady() {
     // tour id should be in 'data-tourid' attribute
     $(".viewTrackListItem").click(function(event) {
       var tourid = $(this).data('tourid');
-      console.log("clicked: " + tourid);
       moveToTourInfo(tourid);
 
     });
-        $tourTemplate.remove();
+    $tourTemplate.remove();
     $('#viewTrackList').listview('refresh');
   }
 
@@ -85,21 +83,20 @@ function onDeviceReady() {
       path: "/tours/" + tourid + ".json"
     };
     makeAPICall(callData, function(response) {
-      currentTourSummaryInfo = response;
+      currentViewingTour = response;
       $.mobile.changePage($("#viewTrackInfoPage"), {
-       transition: "slide"
+        transition: "slide"
       });
     });
   }
 
-
   function showTourInfo() {
     console.log("showTourInfo");
-    console.log(currentTourSummaryInfo);
-    console.log(currentTourSummaryInfo["name"]);
-    $("#viewTrackTitle").text(currentTourSummaryInfo.name);
+    console.log(currentViewingTour);
+    console.log(currentViewingTour["name"]);
+    $("#viewTrackTitle").text(currentViewingTour.name);
     $("#viewTrackDescription").text("Placeholder");
-    $(".viewTrackChapters").text(currentTourSummaryInfo.interest_points.length + " chapters");
+    $(".viewTrackChapters").text(currentViewingTour.interest_points.length + " chapters");
   }
 
   function startTour(event) {
@@ -112,6 +109,7 @@ function onDeviceReady() {
     var mediaTaskArray = [];
 
     // TODO: this won't work if any interp_point has no media items.
+    console.log(currentViewingTour);
     $.each(currentViewingTour.interest_points, function(index, interest_point) {
       $.each(interest_point.interp_items, function(index, interp_item) {
         $.each(interp_item.media_items, function(index, media_item) {
@@ -160,30 +158,60 @@ function onDeviceReady() {
       console.log("last point");
 
     }
+    console.log(currentPoint);
+    var myAudio = null;
+    $("#viewTrackCurrentPointIndex").text(currentViewPointIndex + 1);
+    $("#viewTrackTotalPoints").text(currentViewingTour.interest_points.length);
+    $("#viewTrackPointName").text(currentPoint.name);
     $.each(currentPoint.interp_items, function(index, interp_item) {
       $.each(interp_item.media_items, function(index, media_item) {
         var mimeType = media_item.item_content_type;
         var filename = media_item.item_file_name;
+        console.log("mediaFiles[filename].fullPath");
+        console.log(mediaFiles[filename].fullPath);
         if (mimeType.indexOf("text") == 0) {
           getTextItem(filename, function(textContents) {
             $("#pointText").append("<span>" + textContents + "</span>");
           });
         } else if (mimeType.indexOf("audio") == 0) {
-
-          var $audioItem = $("<button>Play Sound</button>").addClass("audio");
-          $("#pointAudio").append($audioItem);
-          $(".audio").click(function(event) {
-            var myMedia = new Media(mediaFiles[filename].fullPath, function() {
-              console.log("audio success");
-            });
-            myMedia.play();
+          $("#viewTrackAudioPointPlay").click(function(event) {
+            console.log("play click");
+            event.preventDefault();
+            if (myAudio == null) {
+              console.log("getting audio");
+              myAudio = new Media(mediaFiles[filename].fullPath, audioSuccess, audioError, audioStatus);
+            }
+            console.log(myAudio);
+            myAudio.play({numberOfLoops: 1});
           });
         } else if (mimeType.indexOf("image") == 0) {
-          var $imageItem = $("<img width='100%'>").attr('src', mediaFiles[filename].fullPath);
-          $("#pointImage").append($imageItem);
+          $("#viewTrackPointImage").attr('src', mediaFiles[filename].fullPath);
         }
       });
     });
+
+    return;
+
+    function audioSuccess() {
+      console.log("audio success");
+      $("#viewTrackAudioPointPause").click(function(event) {
+        console.log("pause click");
+        event.preventDefault();
+        myAudio.pause();
+      });
+      $("#viewTrackAudioPointRestart").click(function(event) {
+        event.preventDefault();
+        myAudio.seekTo(0);
+      });
+    }
+
+    function audioStatus(code) {
+      console.log("Status: " + code);
+    }
+
+    function audioError() {
+      console.log("Error: " + response);
+    }
   }
 
   function getTextItem(filename, CB) {
@@ -290,7 +318,7 @@ function onDeviceReady() {
       distanceToNextPoint = getDistanceFromLatLonInKm(lat, lng, position.coords.latitude, position.coords.longitude) * 1000;
       distanceToNextPoint = distanceToNextPoint.toFixed(0);
       console.log(distanceToNextPoint);
-      $('#viewTrackDistanceToPoint').text(distanceToNextPoint);
+      $('.viewTrackDistanceToPoint').text(distanceToNextPoint);
       $("#status").html(distanceToNextPoint + "m to this point of interest");
       if (distanceToNextPoint < triggerCurrentPointDistance) {
         console.log("distance trigger");
