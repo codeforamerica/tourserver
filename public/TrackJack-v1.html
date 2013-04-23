@@ -44,7 +44,7 @@
                   Manage Tours
               </li>
               <li data-theme="b">
-                  <a href="#CreateviewTrackInfoPage" data-transition="slide">
+                  <a href="#createTrackInputPage1" data-transition="slide">
                       Create a Tour
                   </a>
               </li>
@@ -449,13 +449,13 @@
 
 <!-- create a track section -->
   <!-- create a track info -->
-  <div data-role="page" data-theme="a" id="CreateviewTrackInfoPage">
+  <div data-role="page" data-theme="a" id="createTrackInputPage1">
       <div data-theme="a" data-role="header" data-position="fixed">
           <span class="ui-title">Create A Track</span>
           <a data-role="button" data-direction="reverse" data-transition="slide" class="ui-btn-left" href="#settingsPage">
               cancel
           </a>
-          <a data-role="button" data-transition="slide" data-theme="c" href="#CreateTrackInputPage1" class="ui-btn-right">
+          <a data-role="button" data-transition="slide" data-theme="c" href="#createTrackInputPage1" class="ui-btn-right">
               start
           </a>
       </div>
@@ -491,10 +491,10 @@
   </div>
 
   <!-- create a tour input 1 -->
-  <div data-role="page" data-theme="a" id="CreateTrackInputPage1">
+  <div data-role="page" data-theme="a" id="createTrackInputPage1">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          href="#settingsPage" class="ui-btn-left">
+          href="#createTrackInputPage1" class="ui-btn-left">
               back
           </a>
           <h2>
@@ -504,25 +504,25 @@
       <div data-role="content">
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
-                  <label for="textinput1">
+                  <label for="createTrackName">
                     <strong>Name Your Track</strong>
                   </label>
-                  <input name="" id="textinput1" placeholder="" type="text">
+                  <input name="" id="createTrackName" placeholder="" type="text">
               </fieldset>
           </div>
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
-                  <label for="textarea3">
+                  <label for="createTrackDescription">
                     <strong>What You'll See</strong>
                   </label>
-                  <textarea name="" id="textarea3" placeholder="">What will people see on the path? List items broadly, like plants, birds, etc</textarea>
+                  <textarea name="" id="createTrackDescription" placeholder="">What will people see on the path? List items broadly, like plants, birds, etc</textarea>
               </fieldset>
           </div>
           <div data-role="fieldcontain">
-              <label for="selectmenu1">
+              <label for="createTrackRating">
                   <strong>Trail Rating</strong><p class="subtitles">What is the trail difficulty level for the average hiker?</p>
               </label>
-              <select name="Trail Rating" data-theme="b">
+              <select name="Trail Rating" data-theme="b" id="createTrackRating">
                   <option value="Easy">
                       Easy
                   </option>
@@ -535,10 +535,10 @@
               </select>
           </div>
           <div data-role="fieldcontain">
-              <label for="selectmenu2">
+              <label for="createTrackSubject">
                   <strong>Subject</strong>
               </label>
-              <select name="Category" data-theme="b">
+              <select name="Category" data-theme="b"id="createTrackSubject">
                   <option value="Nature">
                       Nature
                   </option>
@@ -547,7 +547,7 @@
                   </option>
               </select>
           </div>
-          <a data-role="button" data-transition="none" data-theme="c" href="#CreateTrackInputPage2">
+          <a data-role="button" data-transition="none" data-theme="c" href="#createTrackInputPage2" id="createTrackGoToPage2">
               Continue
           </a>
       </div>
@@ -575,7 +575,7 @@
   </div>
 
   <!-- create a tour input 2 -->
-  <div data-role="page" data-theme="a" id="CreateTrackInputPage2">
+  <div data-role="page" data-theme="a" id="createTrackInputPage2">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#CreateTrackInputPage1" class="ui-btn-left">
@@ -591,10 +591,12 @@
               Record Audio
           </a> 
           <div id="musicplayer-container"></div>-->
-          <a data-role="button" data-theme="b" href="#UploadPhotoPage" data-transition="slide">
+          <a data-role="button" data-theme="b" href="#UploadPhotoPage" data-transition="slide" id="createTrackImageUpload">
               Upload Photo of Starting Point
           </a>
-          <div id="image-start-none"></div>
+          <div id="createTrackImageDiv">
+            <img  id="createTrackImage">
+          </div>
           <div style="height: 20px">
           </div>
           <div>
@@ -602,7 +604,7 @@
                   Now begin walking the path of your tour. We are tracking your path, so don't go off course.
               </p>
           </div>
-          <a data-role="button" data-transition="none" data-theme="c" href="#BeginRecordingPage">
+          <a data-role="button" data-transition="none" data-theme="c" href="#BeginRecordingPage" id="createTrackStartRecording">
               Begin Recording Track
           </a>
       </div>

@@ -95,7 +95,7 @@
 .subtitles {
   font-size: small;
 }
-#image-start-none {
+#createTrackImageDiv {
   width: 288px;
   height: 200px;
   background-color: #fbfbfb;
