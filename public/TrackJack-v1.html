@@ -239,7 +239,7 @@
         </div>
       </div>
   </div>
-  <!-- Instructions Page -->
+  <!-- VT Instructions Page -->
   <div data-role="page" data-theme="d" id="viewTrackInstructionsPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <span class="ui-title"></span>
@@ -291,7 +291,7 @@
         </div>
       </div>
   </div>
-  <!-- In Between Page (Use this yet?)
+  <!-- VT In Between Page (Use this yet?)
   <div data-role="page" data-theme="d" id="viewTrackInBetweenPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <span class="ui-title"></span>
@@ -344,7 +344,7 @@
       </div>
   </div> 
 -->
-  <!-- Interp Item -->
+  <!-- VT Interp Item -->
   <div data-role="page" data-theme="d" id="viewTrackPointPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <h2 id="InterpItem-Header">
@@ -398,7 +398,7 @@
       </div>
   </div>
 
-  <!-- Finished -->
+  <!-- VT Finished -->
   <div data-role="page" data-theme="d" id="viewTrackCompletePage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <span class="ui-title"></span>
@@ -421,47 +421,6 @@
           </div>
           <a data-role="button" data-transition="slide" href="#viewTrackListPage" data-theme="c">
               Ready for your next adventure?
-          </a>
-      </div>
-      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      main
-                  </a>
-              </li>
-              <li>
-                  <a href="#InfoPage" data-transition="fade">
-                      info
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      settings
-                  </a>
-              </li>
-          </ul>
-        </div>
-      </div>
-  </div>
-<!-- Photo Upload -->
-  <div data-role="page" data-theme="d" id="UploadPhotoPage">
-      <div data-theme="a" data-role="header" data-position="fixed">
-          <h3>
-              Add Photo
-          </h3>
-      </div>
-      <div data-role="content">
-          <a data-role="button" data-transition="slide" href="#AddPOIPage">
-              Upload from Library
-          </a>
-          <a data-role="button" data-transition="slide" data-theme="d" href="#AddPOIPage">
-              Take Photo
-          </a>
-          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          data-theme="d" href="#AddPOIPage">
-              Cancel
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
@@ -631,7 +590,7 @@
               Record Audio
           </a> 
           <div id="musicplayer-container"></div>-->
-          <a data-role="button" data-theme="b" href="#UploadPhotoPage" data-transition="slide" id="createTrackImageUpload">
+          <a data-role="button" data-theme="b" href="#createTrackUploadStartImagePage" data-transition="slide" id="createTrackImageUpload">
               Upload Photo of Starting Point
           </a>
           <div id="createTrackImageDiv">
@@ -670,6 +629,47 @@
         </div>
       </div>
   </div>
+  <!-- Photo Upload Start Image-->
+  <div data-role="page" data-theme="a" id="createTrackUploadStartImagePage">
+      <div data-theme="a" data-role="header" data-position="fixed">
+      <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
+          href="#createTrackInputPage2" class="ui-btn-left">
+              back
+      </a>
+          <h3>
+              Add Photo
+          </h3>
+      </div>
+      <div data-role="content">
+          <a data-role="button" data-theme="b" data-transition="slide" class="createTrackUploadImageCamera" >
+              Upload from Library
+          </a>
+          <a data-role="button" data-transition="slide" data-theme="b" class="createTrackUploadImageLibrary">
+              Take Photo
+          </a>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#viewTrackListPage" data-transition="fade">
+                      main
+                  </a>
+              </li>
+              <li>
+                  <a href="#InfoPage" data-transition="fade">
+                      info
+                  </a>
+              </li>
+              <li>
+                  <a href="#settingsPage" data-transition="fade">
+                      settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
   <!-- Track Main Page -->
   <div data-role="page" data-theme="d" id="createTrackMainPage">
       <div data-theme="a" data-role="header" data-position="fixed">
@@ -688,7 +688,7 @@
               </p>
           </div>
           <div data-role="controlgroup" data-type="horizontal">
-            <a class="btn-short" data-role="button" data-transition="slide" href="#AddPOIPage" data-theme="c" id="reateTrackAddPoint">
+            <a class="btn-short" data-role="button" data-transition="slide" href="#AddPOIPage" data-theme="c" id="createTrackAddPoint">
               Add Point
             </a>
             <a class="btn-short" data-role="button" data-transition="slide" data-theme="c" href="#createTrackUploadPage" id="createTrackDone">
@@ -818,11 +818,8 @@
         </div>
       </div>
   </div>
-
-
-
-  <!-- Photo Upload -->
-  <div data-role="page" data-theme="d" id="UploadPhotoPage">
+  <!-- Photo Upload POI -->
+  <div data-role="page" data-theme="d" id="createTrackUploadPointImagePage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <h3>
               Add Photo
@@ -834,10 +831,6 @@
           </a>
           <a data-role="button" data-transition="slide" data-theme="d" href="#AddPOIPage">
               Take Photo
-          </a>
-          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          data-theme="d" href="#AddPOIPage">
-              Cancel
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
