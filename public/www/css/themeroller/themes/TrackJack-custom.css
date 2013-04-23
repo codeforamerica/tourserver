@@ -1,7 +1,8 @@
 
 /* Background image (currently linked through dropbox) */
 .ui-page {
-    background: transparent url(https://dl.dropboxusercontent.com/u/137249874/TempBackground-26.png);
+    background: transparent url(img/TempBackground-26.png);
+    background-color: green
 }
 
 /* white textboxes */
@@ -14,24 +15,24 @@
     color: #716552;
 }
 .textbox-text {
-  font-family: Arial;
-  color: #716552;
+    font-family: Arial;
+    color: #716552;
 }
 .textbox-header {
-  font-family: Arial;
-  font-weight: bold;
-  color: #716552;
+    font-family: Arial;
+    font-weight: bold;
+    color: #716552;
 }
 
 /* track name header (this one is being funny-
   the styling won't work as a class, so I just made it an id...
   might need to be solved eventually because this style is used multiple times */
 .tracklist-header {
-  white-space: normal; 
-  width: 260px; 
-  height: 40px; 
-  margin:15px; 
-  text-align: left;
+    white-space: normal; 
+    width: 260px; 
+    height: 40px; 
+    margin:15px; 
+    text-align: left;
 }
 
 /* map + start image + labels */
