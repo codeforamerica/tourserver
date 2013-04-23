@@ -90,7 +90,7 @@ function onDeviceReady() {
     // make an array of download functions, then call async.parallel on it
     var mediaTaskArray = [];
 
-    // this won't work if any interp_point has no media items.
+    // TODO: this won't work if any interp_point has no media items.
     $.each(currentTour.interest_points, function(index, interest_point) {
       $.each(interest_point.interp_items, function(index, interp_item) {
         $.each(interp_item.media_items, function(index, media_item) {

@@ -2,12 +2,15 @@
 
 // 22 April 2013 - A copy of trackrunner.js for modification and integration into the real app
 
+  var currentTourSummaryInfo;
 function onDeviceReady() {
+  console.log("onDeviceReady");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
   // change this to your server's IP
   var host = "http://trackserver-test.herokuapp.com";
   var minCheckLocationAccuracy = 200; // meters to trigger a point
   var currentViewingTour = {};
+
   var mediaFiles = {};
   // should this be global?
   var currentViewPointIndex = 0;
@@ -15,11 +18,9 @@ function onDeviceReady() {
   var triggerCurrentPointDistance = 10;
   var distanceToNextPoint = 100000;
 
-  $("#tourIntroDisplay").hide();
-  $("#tourLoadDisplay").hide();
-  $("#tourActionDisplay").hide();
-  $("#tourBetweenPointsDisplay").hide();
-  getTourList();
+  $("#viewTrackListPage").on('pageinit', getTourList);
+  $("#viewTrackInfoPage").on('pagebeforeshow', showTourInfo);
+  //getTourList();
 
   // skip the geolocation and display the upcoming point
   $("#skipInBetween").click(function() {
@@ -27,9 +28,8 @@ function onDeviceReady() {
   });
 
   // leave the current point and start going to the next point
-  $("#nextPoint").html("Continue Tour").show().click(function(event) {
+  $("#nextPoint").click(function(event) {
     currentViewPointIndex++;
-    $("#status").html("");
     showInBetweenScreen();
   });
 
@@ -40,6 +40,7 @@ function onDeviceReady() {
   });
 
   function getTourList() {
+    console.log("getTourList");
     var callData = {
       type: "GET",
       path: "/tours.json"
@@ -48,42 +49,50 @@ function onDeviceReady() {
   }
 
   function showTourList(response) {
+    console.log("showTourList");
+    var $tourTemplate = $(".viewTrackList li:first");
+    $tourTemplate.remove();
     for (var i = 0; i < response.length; i++) {
-      var $tourInfo = $('<div>', {
-        class: "tourListItem",
-        "data-tourid": response[i].id
-      });
-      $tourInfo.text(response[i].name);
-      $('#tourList').append($tourInfo);
-      $('<hr>').appendTo($tourInfo);
+      var $tourListEntry = $tourTemplate.clone(false);
+      var $viewTrackTitle = $tourListEntry.find(".viewTrackTitle");
+      $viewTrackTitle.text(response[i].name);
+      //TODO: figure out why jqmdata doesn't work
+      $tourListEntry.data("tourid", response[i].id);
+      $(".viewTrackList").append($tourListEntry);
     }
     // class for tours in selectable list.
     // tour id should be in 'data-tourid' attribute
-    $(".tourListItem").click(function(event) {
+    $(".viewTrackListItem").click(function(event) {
       var tourid = $(this).data('tourid');
-      getTourInfo(tourid);
+      console.log("clicked: " + tourid);
+      moveToTourInfo(tourid);
+
+    });
+    $('#viewTrackList').listview('refresh');
+  }
+
+  function moveToTourInfo(tourid) {
+    var callData = {
+      type: "GET",
+      path: "/tours/" + tourid + ".json"
+    };
+    makeAPICall(callData, function(response) {
+      window.currentTourSummaryInfo = response;
+      //$.mobile.changePage($("#viewTrackInfoPage"), {
+      //  transition: "slide"
+      //});
     });
   }
 
-  function showTourInfo(response) {
-    currentViewingTour = response;
-    $("#tourList").hide();
-    $("#tourInfoName").text(currentViewingTour.name);
 
-    // start running selected tour
-    $("#startTour").click(startTour);
-
-    // cancel selected tour
-    $("#cancelTour").click(function(event) {
-      window.location.reload(false);
-    });
-    $("#tourIntroDisplay").show();
+  function showTourInfo() {
+    console.log("showTourInfo");
+    console.log(currentTourSummaryInfo);
+    console.log(currentTourSummaryInfo["name"]);
+    $("#viewTrackTitle").text(currentTourSummaryInfo.name);
   }
 
   function startTour(event) {
-    $("#tourIntroDisplay").hide();
-    $("#tourLoadDisplay").show();
-
     loadMediaItems();
   }
 
@@ -118,19 +127,11 @@ function onDeviceReady() {
   }
 
   function startPointSequence() {
-    $("#tourLoadDisplay").hide();
-    $("#tourBetweenPointsDisplay").show();
-    console.log(currentViewingTour);
     currentViewPointIndex = 0;
     showInBetweenScreen();
   }
 
   function showInBetweenScreen() {
-    $("#tourActionDisplay").hide();
-    $("#pointText").html("");
-    $("#pointAudio").html("");
-    $("#pointImage").html("");
-    $("#tourBetweenPointsDisplay").show();
     $("#currentViewPointIndex").html(currentViewPointIndex);
     $("#endPointIndex").text(currentViewingTour.interest_points.length - 1);
     if (geoWatchID == null) {
@@ -142,18 +143,12 @@ function onDeviceReady() {
     console.log("showCurrentInterestPoint: " + currentViewPointIndex + " " + currentViewingTour.interest_points.length);
     stopGeolocation();
     var currentPoint = currentViewingTour.interest_points[currentViewPointIndex];
-    $("#status").html("");
-    $("#tourBetweenPointsDisplay").hide();
-    $("#tourActionDisplay").show();
     if (currentViewPointIndex < currentViewingTour.interest_points.length - 1) {
       console.log("not last point");
-      $("#done").hide();
-      $("#nextPoint").show();
+
     } else {
       console.log("last point");
-      $("#nextPoint").hide();
-      $("#done").show();
-      $("#status").html();
+
     }
     $.each(currentPoint.interp_items, function(index, interp_item) {
       $.each(interp_item.media_items, function(index, media_item) {
@@ -230,13 +225,7 @@ function onDeviceReady() {
     }
   }
 
-  function getTourInfo(tourid) {
-    var callData = {
-      type: "GET",
-      path: "/tours/" + tourid + ".json"
-    };
-    makeAPICall(callData, showTourInfo);
-  }
+
 
   function makeAPICall(callData, doneCallback) {
     console.log('makeAPICall');
@@ -282,7 +271,6 @@ function onDeviceReady() {
   function geoSuccess(position) {
     var latestPosition = position;
     $("#accuracy").html("GPS Accuracy: " + latestPosition.coords.accuracy + "m");
-    $("#betweenAccuracy").html("GPS accuracy: " + latestPosition.coords.accuracy + "m");
 
     if ((latestPosition.coords.accuracy) < minCheckLocationAccuracy) {
       var currentPointWKT = currentViewingTour.interest_points[currentViewPointIndex].location;
@@ -293,7 +281,6 @@ function onDeviceReady() {
       distanceToNextPoint = distanceToNextPoint.toFixed(0);
       console.log(distanceToNextPoint);
       $("#status").html(distanceToNextPoint + "m to this point of interest");
-      $("#betweenStatus").html(distanceToNextPoint + "m to next point of interest");
       if (distanceToNextPoint < triggerCurrentPointDistance) {
         console.log("distance trigger");
         navigator.notification.vibrate(1500);
@@ -310,31 +297,31 @@ function onDeviceReady() {
   }
 
 }
-  //don't like using this. would like to get better distances via PostGIS
+//don't like using this. would like to get better distances via PostGIS
 
-  function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-    var R = 6371; // Radius of the earth in km
-    var dLat = deg2rad(lat2 - lat1); // deg2rad below
-    var dLon = deg2rad(lon2 - lon1);
-    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c; // Distance in km
-    return d;
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2 - lat1); // deg2rad below
+  var dLon = deg2rad(lon2 - lon1);
+  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c; // Distance in km
+  return d;
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI / 180)
+}
+$(document).ready(function() {
+  // are we running in native app or in browser?
+  window.isphone = false;
+  if (document.URL.indexOf("http://") == -1) {
+    window.isphone = true;
   }
 
-  function deg2rad(deg) {
-    return deg * (Math.PI / 180)
+  if (window.isphone) {
+    document.addEventListener("deviceready", onDeviceReady, false);
+  } else {
+    onDeviceReady();
   }
-  $(document).ready(function() {
-    // are we running in native app or in browser?
-    window.isphone = false;
-    if (document.URL.indexOf("http://") == -1) {
-      window.isphone = true;
-    }
-
-    if (window.isphone) {
-      document.addEventListener("deviceready", onDeviceReady, false);
-    } else {
-      onDeviceReady();
-    }
-  });
+});
