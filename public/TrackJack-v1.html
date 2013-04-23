@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <title>Test Prototype</title>
-  <link rel="stylesheet" href="themeroller/themes/TrackJack-Draft1.css" />
-  <link rel="stylesheet" href="themeroller/themes/TrackJack-custom.css" />
-  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile.structure-1.3.1.min.css" />
-  <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-  <script src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
-  <script src="my.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>Test Prototype</title>
+    <link rel="stylesheet" href="themeroller/themes/TrackJack-Draft1.css" />
+    <link rel="stylesheet" href="themeroller/themes/TrackJack-custom.css" />
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile.structure-1.3.1.min.css" />
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
+    <script src="my.js"></script>
 
   <!-- User-generated css -->
   <style type="text/css">
@@ -31,7 +31,7 @@
   </script>
 </head>
 <body>
-  <!-- Settings -->
+<!-- Settings -->
   <div data-role="page" id="settingsPage">
       <div data-theme="a" data-role="header">
           <h3>
@@ -98,7 +98,7 @@
       </div>
   </div>
 
-  <!--Info Page -->
+<!--Info Page -->
     <div data-role="page" data-theme="a" id="InfoPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <span class="ui-title">Info</span>
@@ -137,7 +137,7 @@
       </div>
   </div>
 
-  <!-- VT List -->
+<!-- VT List -->
   <div data-role="page" data-theme="d" id="viewTrackListPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <h2>
@@ -191,7 +191,7 @@
         </div>
       </div>
   </div>
-  <!-- Track Info -->
+<!-- Track Info -->
   <div data-role="page" data-theme="d" id="viewTrackInfoPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#page1" class="ui-btn-left">
@@ -263,12 +263,12 @@
           </div>
       </div>
   </div>
-  <!-- VT Instructions Page -->
+<!-- VT Instructions Page -->
   <div data-role="page" data-theme="d" id="viewTrackInstructionsPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <span class="ui-title"></span>
           <a data-role="button" data-transition="slide" data-theme="a" href="#viewTrackPointPage" class="ui-btn-right viewTrackSkipToCurrent">
-          skip
+              skip
           </a>
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#viewTrackInfoPage" class="ui-btn-left viewTrackBackToPrevious">
@@ -286,36 +286,36 @@
                   Let's go!
               </p>
               <p>
-                  It’s <span class="viewTrackDistanceToPoint">0.2</span> miles until the next chapter. </br></br> Enjoy the scenery, and we’ll give you a buzz when you reach the next stop.
+                    It’s <span class="viewTrackDistanceToPoint">0.2</span> miles until the next chapter. </br></br> Enjoy the scenery, and we’ll give you a buzz when you reach the next stop.
               </p>
               <p style="font-style: italic">
-                or skip ahead to see it now.
+                    or skip ahead to see it now.
               </p>
           </div>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      main
-                  </a>
-              </li>
-              <li>
-                  <a href="#InfoPage" data-transition="fade">
-                      info
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      settings
-                  </a>
-              </li>
-          </ul>
-        </div>
+          <div data-role="navbar">
+              <ul>
+                  <li>
+                      <a href="#viewTrackListPage" data-transition="fade">
+                          main
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#InfoPage" data-transition="fade">
+                          info
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#settingsPage" data-transition="fade">
+                          settings
+                      </a>
+                  </li>
+              </ul>
+          </div>
       </div>
   </div>
-  <!-- VT In Between Page (Use this yet?)
+<!-- VT In Between Page (Use this yet?)
   <div data-role="page" data-theme="d" id="viewTrackInBetweenPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <span class="ui-title"></span>
@@ -368,11 +368,17 @@
       </div>
   </div> 
 -->
-  <!-- VT Interp Item -->
+<!-- VT Interp Item -->
   <div data-role="page" data-theme="d" id="viewTrackPointPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <h2 id="InterpItem-Header">
-              <span id="viewTrackTotalPointIndex">1</span> of <span id="viewTrackTotalPoints">12</span>
+              <span id="viewTrackTotalPointIndex">
+                  1
+              </span> 
+                  of 
+              <span id="viewTrackTotalPoints">
+                  12
+              </span>
           </h2>
           <a data-role="button" data-transition="slide" data-theme="c" href="#viewTrackCompletePage" class="ui-btn-right viewTrackNextInBetween">
               next
@@ -383,46 +389,48 @@
           </a>
       </div>
       <div id="musicplayer-container">
-        <div id="viewTrackAudioPointPlay"></div>
-        <div id="viewTrackAudioPointPause"></div>
-        <div id="viewTrackAudioPointRestart"></div>
+          <div id="viewTrackAudioPointPlay"></div>
+          <div id="viewTrackAudioPointPause"></div>
+          <div id="viewTrackAudioPointRestart"></div>
       </div>
       <div data-role="content">
-        <img id="viewTrackPointImage" src="https://dl.dropbox.com/u/137249874/Interp/GarlicMustard-290x360.jpg">
-        <div id="interp-label-container">
-          <h id="viewTrackPointName">Garlic Mustard</h>
+          <img id="viewTrackPointImage" src="https://dl.dropbox.com/u/137249874/Interp/GarlicMustard-290x360.jpg">
+          <div id="interp-label-container">
+              <h id="viewTrackPointName">
+                  Garlic Mustard
+              </h>
           <div id="viewTrackShowDescription"></div>
-        </div>
-        <div class="textbox-white">
-          <p class="textbox-text" id="viewTrackPointDescription">
-           Garlic mustardis a biennial herb with stalked, triangular-shaped leaves that smell like garlic when crushed. Plants first appear as rosettes of green leaves close to the ground. The following year they reach two to 3.5 feet tall and produce button-like clusters of small white flowers with four petals in the shape of a cross. Slender seed pods are present by June; each contains thousands of seeds per plant. The seeds can be viable in the soil for up to seven years. This non-native plant aggressively monopolizes light, moisture, nutrients, soil and growing space.       
-          </p>
-        </div>
+      </div>
+          <div class="textbox-white">
+              <p class="textbox-text" id="viewTrackPointDescription">
+                  Garlic mustardis a biennial herb with stalked, triangular-shaped leaves that smell like garlic when crushed. Plants first appear as rosettes of green leaves close to the ground. The following year they reach two to 3.5 feet tall and produce button-like clusters of small white flowers with four petals in the shape of a cross. Slender seed pods are present by June; each contains thousands of seeds per plant. The seeds can be viable in the soil for up to seven years. This non-native plant aggressively monopolizes light, moisture, nutrients, soil and growing space.       
+              </p>
+          </div>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      main
-                  </a>
-              </li>
-              <li>
-                  <a href="#InfoPage" data-transition="fade">
-                      info
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      settings
-                  </a>
-              </li>
-          </ul>
-        </div>
+          <div data-role="navbar">
+              <ul>
+                  <li>
+                      <a href="#viewTrackListPage" data-transition="fade">
+                          main
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#InfoPage" data-transition="fade">
+                          info
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#settingsPage" data-transition="fade">
+                          settings
+                      </a>
+                  </li>
+              </ul>
+          </div>
       </div>
   </div>
 
-  <!-- VT Finished -->
+<!-- VT Finished -->
   <div data-role="page" data-theme="d" id="viewTrackCompletePage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <span class="ui-title"></span>
@@ -431,9 +439,9 @@
           </a>
       </div>
       <div data-theme="b" data-role="header">
-        <h3 id="tracklist-header">
-                  Invasive Species on the Bike and Hike Trail
-        </h3>
+          <h3 id="tracklist-header">
+              Invasive Species on the Bike and Hike Trail
+          </h3>
       </div>
       <div data-role="content">
           <div class="textbox-white textbox-text">
@@ -448,30 +456,30 @@
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      main
-                  </a>
-              </li>
-              <li>
-                  <a href="#InfoPage" data-transition="fade">
-                      info
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      settings
-                  </a>
-              </li>
-          </ul>
-        </div>
+          <div data-role="navbar">
+              <ul>
+                  <li>
+                      <a href="#viewTrackListPage" data-transition="fade">
+                          main
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#InfoPage" data-transition="fade">
+                          info
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#settingsPage" data-transition="fade">
+                          settings
+                      </a>
+                  </li>
+              </ul>
+          </div>
       </div>
   </div>
 
 <!-- create a track section -->
-  <!-- create a track info -->
+<!-- create a track info -->
   <div data-role="page" data-theme="a" id="createTrackInputPage1">
       <div data-theme="a" data-role="header" data-position="fixed">
           <span class="ui-title">Create A Track</span>
@@ -484,36 +492,38 @@
       </div>
       <div data-role="content">
           <div class="textbox-white textbox-text">
-              <h class="textbox-header">Congrats!</h>
+              <h class="textbox-header">
+                  Congrats!
+              </h>
               <p>
                   create a tour instructions go here....?</br></br></br></br></br></br></br>
               </p>
           </div>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      main
-                  </a>
-              </li>
-              <li>
-                  <a href="#InfoPage" data-transition="fade">
-                      info
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      settings
-                  </a>
-              </li>
-          </ul>
-        </div>
+          <div data-role="navbar">
+              <ul>
+                  <li>
+                      <a href="#viewTrackListPage" data-transition="fade">
+                          main
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#InfoPage" data-transition="fade">
+                          info
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#settingsPage" data-transition="fade">
+                          settings
+                      </a>
+                  </li>
+              </ul>
+          </div>
       </div>
   </div>
 
-  <!-- CT input 1 -->
+<!-- CT input 1 -->
   <div data-role="page" data-theme="a" id="createTrackInputPage1">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
@@ -528,7 +538,7 @@
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
                   <label for="createTrackName">
-                    <strong>Name Your Track</strong>
+                      <strong>Name Your Track</strong>
                   </label>
                   <input name="" id="createTrackName" placeholder="" type="text">
               </fieldset>
@@ -536,14 +546,18 @@
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
                   <label for="createTrackDescription">
-                    <strong>What You'll See</strong>
+                      <strong>What You'll See</strong>
                   </label>
-                  <textarea name="" id="createTrackDescription" placeholder="">What will people see on the path? List items broadly, like plants, birds, etc</textarea>
+                  <textarea name="" id="createTrackDescription" placeholder="">
+                      What will people see on the path? List items broadly, like plants, birds, etc</textarea>
               </fieldset>
           </div>
           <div data-role="fieldcontain">
               <label for="createTrackRating">
-                  <strong>Trail Rating</strong><p class="subtitles">What is the trail difficulty level for the average hiker?</p>
+                  <strong>Trail Rating</strong>
+                  <p class="subtitles">
+                      What is the trail difficulty level for the average hiker?
+                  </p>
               </label>
               <select name="Trail Rating" data-theme="b" id="createTrackRating">
                   <option value="Easy">
@@ -575,29 +589,29 @@
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      main
-                  </a>
-              </li>
-              <li>
-                  <a href="#InfoPage" data-transition="fade">
-                      info
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      settings
-                  </a>
-              </li>
-          </ul>
-        </div>
+          <div data-role="navbar">
+              <ul>
+                  <li>
+                      <a href="#viewTrackListPage" data-transition="fade">
+                          main
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#InfoPage" data-transition="fade">
+                          info
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#settingsPage" data-transition="fade">
+                          settings
+                      </a>
+                  </li>
+              </ul>
+          </div>
       </div>
   </div>
 
-  <!-- CT input 2 -->
+<!-- CT input 2 -->
   <div data-role="page" data-theme="a" id="createTrackInputPage2">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
@@ -618,10 +632,9 @@
               Upload Photo of Starting Point
           </a>
           <div id="createTrackImageDiv">
-            <img  id="createTrackImage">
+              <img  id="createTrackImage">
           </div>
-          <div style="height: 20px">
-          </div>
+          <div style="height: 20px"></div>
           <div>
               <p>
                   Now begin walking the path of your tour. We are tracking your path, so don't go off course.
@@ -632,33 +645,32 @@
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      main
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      info
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      settings
-                  </a>
-              </li>
-          </ul>
-        </div>
+          <div data-role="navbar">
+              <ul>
+                  <li>
+                      <a href="#viewTrackListPage" data-transition="fade">
+                          main
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#settingsPage" data-transition="fade">
+                          info
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#settingsPage" data-transition="fade">
+                          settings
+                      </a>
+                  </li>
+              </ul>
+          </div>
       </div>
   </div>
-  <!-- CT Photo Upload Start Image-->
+<!-- CT Photo Upload Start Image-->
   <div data-role="page" data-theme="a" id="createTrackUploadStartImagePage">
       <div data-theme="a" data-role="header" data-position="fixed">
-      <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          href="#createTrackInputPage2" class="ui-btn-left">
-              back
+      <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#createTrackInputPage2" class="ui-btn-left">
+          back
       </a>
           <h3>
               Add Photo
@@ -673,28 +685,28 @@
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      main
-                  </a>
-              </li>
-              <li>
-                  <a href="#InfoPage" data-transition="fade">
-                      info
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      settings
-                  </a>
-              </li>
-          </ul>
-        </div>
+          <div data-role="navbar">
+              <ul>
+                  <li>
+                      <a href="#viewTrackListPage" data-transition="fade">
+                          main
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#InfoPage" data-transition="fade">
+                          info
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#settingsPage" data-transition="fade">
+                          settings
+                      </a>
+                  </li>
+              </ul>
+          </div>
       </div>
   </div>
-  <!-- CT Track Main Page -->
+<!-- CT Track Main Page -->
   <div data-role="page" data-theme="d" id="createTrackMainPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
@@ -708,42 +720,42 @@
       <div data-role="content">
           <div class="textbox-white">
               <p>
-              Begin walking your path. Add a point of interestest when you reach your first desination. When you are finished adding point, hit Finish Tour to save your work.
+                  Begin walking your path. Add a point of interestest when you reach your first desination. When you are finished adding point, hit Finish Tour to save your work.
               </p>
           </div>
           <div data-role="controlgroup" data-type="horizontal">
-            <a class="btn-short" data-role="button" data-transition="slide" href="#createTrackPOIPage1" data-theme="c" id="createTrackAddPoint">
-              Add Point
-            </a>
-            <a class="btn-short" data-role="button" data-transition="slide" data-theme="c" href="#createTrackUploadPage" id="createTrackDone">
-              Finish Track
-            </a>
-        </div>
+              <a class="btn-short" data-role="button" data-transition="slide" href="#createTrackPOIPage1" data-theme="c" id="createTrackAddPoint">
+                  Add Point
+              </a>
+              <a class="btn-short" data-role="button" data-transition="slide" data-theme="c" href="#createTrackUploadPage" id="createTrackDone">
+                  Finish Track
+              </a>
+          </div>
           <img class="map" id="createTrackMapInProgress" src="https://maps.googleapis.com/maps/api/staticmap?center=Akron, OH&amp;zoom=14&amp;size=288x200&amp;markers= Akron, OH&amp;sensor=false">
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      main
-                  </a>
-              </li>
-              <li>
-                  <a href="#InfoPage" data-transition="fade">
-                      info
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      settings
-                  </a>
-              </li>
-          </ul>
-        </div>
+          <div data-role="navbar">
+              <ul>
+                  <li>
+                      <a href="#viewTrackListPage" data-transition="fade">
+                          main
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#InfoPage" data-transition="fade">
+                          info
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#settingsPage" data-transition="fade">
+                          settings
+                      </a>
+                  </li>
+              </ul>
+          </div>
       </div>
   </div>
-  <!-- CT Add POI -->
+<!-- CT Add POI -->
   <div data-role="page" data-theme="a" id="createTrackPOIPage1">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
@@ -757,56 +769,63 @@
       <div data-role="content">
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
-                  <label for="createTrackPOIName"> <strong>Name Point of Interest</strong>
+                  <label for="createTrackPOIName"> 
+                      <strong>
+                          Name Point of Interest
+                      </strong>
                   </label>
                   <input name="" id="createTrackPOIName" placeholder="" value=""type="text">
               </fieldset>
           </div>
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
-                  <label for="createTrackPOIDescription"> <strong>Description</strong>
+                  <label for="createTrackPOIDescription">
+                      <strong>
+                          Description
+                      </strong>
                   </label>
-                  <textarea name="" id="createTrackPOIDescription" placeholder="">What’s so cool about this point? Take notes here and edit later, if necessary.</textarea>
+                  <textarea name="" id="createTrackPOIDescription" placeholder="">
+                      What’s so cool about this point? Take notes here and edit later, if necessary.
+                  </textarea>
               </fieldset>
           </div>
           <a data-role="button" data-theme="b" href="#createTrackUploadPointImagePage" data-transition="slide" id="createTrackPOIImageUpload">
                 Add Photo
           </a>
           <div id="createTrackPOIImageDiv">
-            <img id="createTrackPOIImage">
+              <img id="createTrackPOIImage">
           </div>
           <a data-role="button" data-transition="slide" data-theme="c" href="#createTrackPOIPage2" id="createTrackGoToPOIPage2">
               Continue to Audio
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      main
-                  </a>
-              </li>
-              <li>
-                  <a href="#InfoPage" data-transition="fade">
-                      info
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      settings
-                  </a>
-              </li>
-          </ul>
-        </div>
+          <div data-role="navbar">
+              <ul>
+                  <li>
+                      <a href="#viewTrackListPage" data-transition="fade">
+                          main
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#InfoPage" data-transition="fade">
+                          info
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#settingsPage" data-transition="fade">
+                          settings
+                      </a>
+                  </li>
+              </ul>
+          </div>
       </div>
   </div>
 
 <!-- CT Add POI 2 -->
-<div data-role="page" data-theme="a" id="createTrackPOIPage2">
+  <div data-role="page" data-theme="a" id="createTrackPOIPage2">
       <div data-theme="a" data-role="header" data-position="fixed">
-          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          href="#createTrackPOIPage1" class="ui-btn-left">
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#createTrackPOIPage1" class="ui-btn-left">
               back
           </a>
           <h3>
@@ -823,28 +842,28 @@
           </a>    
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      main
-                  </a>
-              </li>
-              <li>
-                  <a href="#InfoPage" data-transition="fade">
-                      info
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      settings
-                  </a>
-              </li>
-          </ul>
-        </div>
+          <div data-role="navbar">
+              <ul>
+                  <li>
+                      <a href="#viewTrackListPage" data-transition="fade">
+                          main
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#InfoPage" data-transition="fade">
+                          info
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#settingsPage" data-transition="fade">
+                          settings
+                      </a>
+                  </li>
+              </ul>
+          </div>
       </div>
   </div>
-  <!-- CT Photo Upload POI -->
+<!-- CT Photo Upload POI -->
   <div data-role="page" data-theme="d" id="createTrackUploadPointImagePage">
       <div data-theme="a" data-role="header" data-position="fixed">
       <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
@@ -864,29 +883,29 @@
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      main
-                  </a>
-              </li>
-              <li>
-                  <a href="#InfoPage" data-transition="fade">
-                      info
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      settings
-                  </a>
-              </li>
-          </ul>
-        </div>
+          <div data-role="navbar">
+              <ul>
+                  <li>
+                      <a href="#viewTrackListPage" data-transition="fade">
+                          main
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#InfoPage" data-transition="fade">
+                          info
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#settingsPage" data-transition="fade">
+                          settings
+                      </a>
+                  </li>
+              </ul>
+          </div>
       </div>
   </div>
 <!-- CT Upload Track -->
-   <div data-role="page" data-theme="d" id="createTrackUploadPage">
+  <div data-role="page" data-theme="d" id="createTrackUploadPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <h3>
               Upload Track
@@ -895,7 +914,7 @@
       <div data-role="content">
           <div class="textbox-white">
               <p>
-              Instructions for this section
+                  Instructions for this section
               </p>
           </div>
           <a data-role="button" data-transition="slide" data-theme="c" href="#CreateFinishPage" id="createTrackUpload">
@@ -903,28 +922,28 @@
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      main
-                  </a>
-              </li>
-              <li>
-                  <a href="#InfoPage" data-transition="fade">
-                      info
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      settings
-                  </a>
-              </li>
-          </ul>
-        </div>
+          <div data-role="navbar">
+              <ul>
+                  <li>
+                      <a href="#viewTrackListPage" data-transition="fade">
+                          main
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#InfoPage" data-transition="fade">
+                          info
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#settingsPage" data-transition="fade">
+                          settings
+                      </a>
+                  </li>
+              </ul>
+          </div>
       </div>
   </div>   
-  <!-- CT Finished -->
+<!-- CT Finished -->
   <div data-role="page" data-theme="a" id="CreateFinishPage">
       <div data-theme="a" data-role="header">
           <h3>
@@ -942,25 +961,25 @@
           </div>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      main
-                  </a>
-              </li>
-              <li>
-                  <a href="#InfoPage" data-transition="fade">
-                      info
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      settings
-                  </a>
-              </li>
-          </ul>
-        </div>
+          <div data-role="navbar">
+              <ul>
+                  <li>
+                      <a href="#viewTrackListPage" data-transition="fade">
+                          main
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#InfoPage" data-transition="fade">
+                          info
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#settingsPage" data-transition="fade">
+                          settings
+                      </a>
+                  </li>
+              </ul>
+          </div>
       </div>
   </div>
 
