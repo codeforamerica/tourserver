@@ -641,10 +641,10 @@
           </h3>
       </div>
       <div data-role="content">
-          <a data-role="button" data-theme="b" data-transition="slide" class="createTrackUploadImageCamera" >
+          <a data-role="button" data-theme="b" data-transition="slide" class="createTrackUploadImageLibrary" >
               Upload from Library
           </a>
-          <a data-role="button" data-transition="slide" data-theme="b" class="createTrackUploadImageLibrary">
+          <a data-role="button" data-transition="slide" data-theme="b" class="createTrackUploadImageCamera">
               Take Photo
           </a>
       </div>
@@ -688,7 +688,7 @@
               </p>
           </div>
           <div data-role="controlgroup" data-type="horizontal">
-            <a class="btn-short" data-role="button" data-transition="slide" href="#AddPOIPage" data-theme="c" id="createTrackAddPoint">
+            <a class="btn-short" data-role="button" data-transition="slide" href="#createTrackPOIPage1" data-theme="c" id="createTrackAddPoint">
               Add Point
             </a>
             <a class="btn-short" data-role="button" data-transition="slide" data-theme="c" href="#createTrackUploadPage" id="createTrackDone">
@@ -720,10 +720,10 @@
       </div>
   </div>
   <!-- Add Point of interest -->
-  <div data-role="page" data-theme="a" id="AddPOIPage">
+  <div data-role="page" data-theme="a" id="createTrackPOIPage1">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          href="#BegincreateTrackMainPage" class="ui-btn-left">
+          href="#createTrackMainPage" class="ui-btn-left" id="createTrackCancelPOI">
               cancel
           </a>
           <h2>
@@ -733,23 +733,25 @@
       <div data-role="content">
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
-                  <label for="textinput5"> <strong>Name Point of Interest</strong>
+                  <label for="createTrackPOIName"> <strong>Name Point of Interest</strong>
                   </label>
-                  <input name="" id="textinput5" placeholder="" value=""type="text">
+                  <input name="" id="createTrackPOIName" placeholder="" value=""type="text">
               </fieldset>
           </div>
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
-                  <label for="textarea4"> <strong>Description</strong>
+                  <label for="createTrackPOIDescription"> <strong>Description</strong>
                   </label>
-                  <textarea name="" id="textarea4" placeholder="">What’s so cool about this point? Take notes here and edit later, if necessary.</textarea>
+                  <textarea name="" id="createTrackPOIDescription" placeholder="">What’s so cool about this point? Take notes here and edit later, if necessary.</textarea>
               </fieldset>
           </div>
-          <a data-role="button" data-theme="b" href="#UploadPhotoPage" data-transition="slide">
-                Upload Photo
+          <a data-role="button" data-theme="b" href="#createTrackUploadPointImagePage" data-transition="slide" id="createTrackPOIImageUpload">
+                Add Photo
           </a>
-          <div id="image-interp-none"></div>
-          <a data-role="button" data-transition="slide" data-theme="c" href="#AddPOIPage2">
+          <div id="createTrackPOIImageDiv">
+            <img id="createTrackPOIImage">
+          </div>
+          <a data-role="button" data-transition="slide" data-theme="c" href="#createTrackPOIPage2" id="createTrackGoToPOIPage2">
               Continue to Audio
           </a>
       </div>
@@ -777,10 +779,10 @@
   </div>
 
 <!-- Add POI Page 2 -->
-<div data-role="page" data-theme="a" id="AddPOIPage2">
+<div data-role="page" data-theme="a" id="createTrackPOIPage2">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          href="#AddPOIPage" class="ui-btn-left">
+          href="#createTrackPOIPage1" class="ui-btn-left">
               back
           </a>
           <h3>
@@ -792,7 +794,7 @@
           <a data-role="button" data-theme="b" href="#RecordAudioPage" data-transition="slide">
               Record Audio
           </a>  
-          <a data-role="button" data-theme="c" href="#CreateFinishPage" data-transition="slide">
+          <a data-role="button" data-theme="c" href="#createTrackMainPage" data-transition="slide">
               Submit Point
           </a>    
       </div>
@@ -821,15 +823,19 @@
   <!-- Photo Upload POI -->
   <div data-role="page" data-theme="d" id="createTrackUploadPointImagePage">
       <div data-theme="a" data-role="header" data-position="fixed">
+      <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
+          href="#createTrackPOIPage2" class="ui-btn-left">
+              back
+      </a>
           <h3>
               Add Photo
           </h3>
       </div>
       <div data-role="content">
-          <a data-role="button" data-transition="slide" href="#AddPOIPage">
+          <a data-role="button" data-transition="slide" data-theme="b" href="" class="createTrackUploadImageLibrary">
               Upload from Library
           </a>
-          <a data-role="button" data-transition="slide" data-theme="d" href="#AddPOIPage">
+          <a data-role="button" data-transition="slide" data-theme="b" href="" class="createTrackUploadImageCamera">
               Take Photo
           </a>
       </div>
@@ -909,14 +915,6 @@
               <p>
                   Your track has been recorded and added to the list. </br>More text?
               </p>
-          </div>
-          <div data-role="controlgroup" data-type="horizontal">
-            <a data-role="button" data-transition="slide" href="#viewTrackInfoPage" data-theme="c">
-              Test Track
-            </a>
-            <a data-role="button" data-transition="slide" data-theme="c" href="#EditTourList">
-              Edit Track
-            </a>
           </div>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
