@@ -47,7 +47,7 @@
           </h3>
       </div>
       <div data-role="content">
-          <ul data-role="listview" data-divider-theme="b" data-inset="true">
+          <ul data-role="listview" data-divider-theme="d" data-inset="true">
               <li data-role="list-divider" role="heading">
                   Manage Tracks
               </li>
@@ -62,7 +62,9 @@
                   </a>
               </li>
           </ul>
-          <ul data-role="listview" data-divider-theme="b" data-inset="true">
+
+      <!-- What are the group's final thoughts about adding this content? I think that it could be the MVP of giving the parks credit - not necessarily how we will do this down the road, but okay for now -KL-->
+          <ul data-role="listview" data-divider-theme="d" data-inset="true">
               <li data-role="list-divider" role="heading">
                   Parks Partners
               </li>
@@ -270,7 +272,7 @@
               <div class="image-map-container">
                   <div class="image-map-label-container">
 
-<!-- I have reservations about requiring that the track creator include an image of the starting point. +AJW -->
+<!-- I have reservations about requiring that the track creator include an image of the starting point. +AJW It could be something that is just left blank -KL-->
 
                       <h> Starting Location</h>
                   </div>
@@ -603,7 +605,6 @@
               Create a Track
           </h2>
       </div>
-
       <div data-role="content">
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
@@ -618,8 +619,7 @@
                   <label for="createTrackDescription">
                       <strong>What You'll Learn</strong>
                   </label>
-                  <textarea name="" id="createTrackDescription" placeholder=""> Tell people what they will learn on your track. Bullet points or a brief overview will work just fine.
-                  </textarea>
+                  <textarea name="" id="createTrackDescription" placeholder=""> Tell people what they will learn on your track. Bullet points or a brief overview will work just fine.</textarea>
               </fieldset>
           </div>
           <div data-role="fieldcontain">
@@ -627,6 +627,7 @@
                   <strong>Trail Rating</strong>
                   <p class="subtitles">
                       Help people decide if your track is right for them.
+                      <!-- should we be more specific about wether this is difficulty of content or the trail? maybe "hike" instead of track? -KL-->
                   </p>
               </label>
               <select name="Trail Rating" data-theme="b" id="createTrackRating">
