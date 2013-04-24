@@ -1,8 +1,6 @@
 "use strict";
 
-
-// 22 April 2013 - A copy of newPOI.js for modification and integration into the real app
-
+// track creation code for TrackJack mobile app
 function onDeviceReady() {
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
   // change this to your server's IP
@@ -26,8 +24,17 @@ function onDeviceReady() {
 
   // start Tour button
   $("#createTrackStartRecording").click(function(event) {
-    // start tracking the path
-    startGeolocation();
+    if ($("#createTrackName").val()) {
+      tour.name = $("#createTrackName").val();
+      tour.difficulty = $("#createTrackRating").val();
+      // TODO: tour.subject = $("#createTrackSubject").val();
+      // start tracking the path
+      startGeolocation();
+    }
+    else {
+      alert("Please enter a name for this track.");
+      $.mobile.changePage($("#createTrackInputPage1"));
+    }
   });
 
   // create point
@@ -244,7 +251,6 @@ function onDeviceReady() {
   // save tour button
   $('#createTrackUpload').click(function(event) {
     console.log("saveTour");
-    $('#saveTour').attr("disabled", true);
     for (var i = 0; i < tour.interest_points.length; i++) {
       //for each point
       var myPoint = tour.interest_points[i];

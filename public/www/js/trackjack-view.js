@@ -122,7 +122,7 @@ function onDeviceReady() {
     console.log("showTourInfo");
     console.log(currentViewingTour);
     console.log(currentViewingTour["name"]);
-    $("#viewTrackTitle").text(currentViewingTour.name);
+    $(".viewTrackTitle").text(currentViewingTour.name);
     $("#viewTrackDescription").text("Placeholder");
     $(".viewTrackChapters").text(currentViewingTour.interest_points.length + " chapters");
   }
