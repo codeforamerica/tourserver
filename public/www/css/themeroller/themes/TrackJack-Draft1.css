@@ -92,7 +92,7 @@
 .ui-btn-up-a {
 	border: 1px solid #49593c /*{a-bup-border}*/;
 	background: #0E1237 /*{a-bup-background-color}*/;
-	font-weight: bold;
+	font-weight: normal;
 	color: #A3BE8B /*{a-bup-color}*/;
 	text-shadow: 0 /*{a-bup-shadow-x}*/ 0px /*{a-bup-shadow-y}*/ 0 /*{a-bup-shadow-radius}*/ #ffffff /*{a-bup-shadow-color}*/;
 	background-image: -webkit-gradient(linear, left top, left bottom, from( #0e1237 /*{a-bup-background-start}*/), to( #0e1237 /*{a-bup-background-end}*/)); /* Saf4+, Chrome */
@@ -108,7 +108,7 @@
 }
 .ui-btn-hover-a {
 	border: 1px solid #A3BE8B /*{a-bhover-border}*/;
-	background: #2A335B /*{a-bhover-background-color}*/;
+	background: #2A335B; /*{a-bhover-background-color}*/;
 	font-weight: bold;
 	color: #A3BE8B /*{a-bhover-color}*/;
 	text-shadow: 0 /*{a-bhover-shadow-x}*/ 0px /*{a-bhover-shadow-y}*/ 0 /*{a-bhover-shadow-radius}*/ #ffffff /*{a-bhover-shadow-color}*/;
@@ -184,7 +184,7 @@
 .ui-bar-b select,
 .ui-bar-b textarea,
 .ui-bar-b button {
-	  font-family: Gotham Light, Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	  font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-b,
 .ui-overlay-b {
@@ -208,7 +208,7 @@
 .ui-body-b select,
 .ui-body-b textarea,
 .ui-body-b button {
-	  font-family: Gotham Light, Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	  font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-b .ui-link-inherit {
 	color: #716552 /*{b-body-color}*/;
@@ -229,7 +229,7 @@
 .ui-btn-up-b {
 	border: 1px solid #e5e1d1 /*{b-bup-border}*/;
 	background: #F7F5EB /*{b-bup-background-color}*/;
-	font-weight: bold;
+	font-weight: normal;
 	color: #716552 /*{b-bup-color}*/;
 	text-shadow: 0 /*{b-bup-shadow-x}*/ 0px /*{b-bup-shadow-y}*/ 0 /*{b-bup-shadow-radius}*/ #ffffff /*{b-bup-shadow-color}*/;
 	background-image: -webkit-gradient(linear, left top, left bottom, from( #f7f5eb /*{b-bup-background-start}*/), to( #f7f5eb /*{b-bup-background-end}*/)); /* Saf4+, Chrome */
@@ -282,7 +282,7 @@
 .ui-btn-up-b,
 .ui-btn-hover-b,
 .ui-btn-down-b {
-	  font-family: Gotham Light, Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	  font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 
@@ -347,7 +347,7 @@
 .ui-body-c select,
 .ui-body-c textarea,
 .ui-body-c button {
-	  font-family: Gotham Light, Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	  font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-c .ui-link-inherit {
 	color: #0E1237 /*{c-body-color}*/;
