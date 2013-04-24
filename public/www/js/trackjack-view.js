@@ -87,6 +87,8 @@ function onDeviceReady() {
       var $tourListEntry = $tourTemplate.clone(false);
       var $viewTrackTitle = $tourListEntry.find(".viewTrackTitle");
       $viewTrackTitle.text(response[i].name);
+      var $viewTrackDifficulty = $tourListEntry.find(".viewTrackDifficulty");
+      $viewTrackDifficulty.text(response[i].difficulty);
       $tourListEntry.find(".viewTrackChapters").text(response[i].chapters.length + " chapters");
 
       //TODO: figure out why jqmdata doesn't work

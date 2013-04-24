@@ -32,6 +32,7 @@ function onDeviceReady() {
 
   // create point
   $("#createTrackAddPoint").click(function(event) {
+    console.log("createTrackAddPoint");
     //click on the interest_point create button,
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
       enableHighAccuracy: true,
@@ -74,13 +75,14 @@ function onDeviceReady() {
   // Photo upload ///
 
   // upload photo from album button
-  $(".createTrackUploadImageLibrary").click(function(event) {
+  $("#createTrackUploadImageLibrary").click(function(event) {
     console.log("album");
+    console.log("event");
     uploadImage(navigator.camera.PictureSourceType.PHOTOLIBRARY);
   });
 
   // take photo 
-  $(".createTrackUploadImageCamera").click(function(event) {
+  $("#createTrackUploadImageCamera").click(function(event) {
     console.log("camera");
     uploadImage(navigator.camera.PictureSourceType.CAMERA);
   });
@@ -262,6 +264,9 @@ function onDeviceReady() {
       callData.data = reformatTourForSubmission(tour);
       makeAPICall(callData, function() {
         alert("Tour saved!");
+        $.mobile.changePage($("#createFinishPage"), {
+          data-transition: "slide"
+        });
         window.location.reload(false);
       });
     };
