@@ -218,6 +218,7 @@
       </div>
   </div>
 
+
 <!-- View Track Information / Metadata Page
 ================================================================================ -->
 
@@ -226,7 +227,7 @@
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#page1" class="ui-btn-left">
               Tracks
           </a>
-          <a data-role="button" data-transition="slide" data-theme="c" href="#viewTrackInstructionsPage" class="ui-btn-right" id="viewTrackStart">
+          <a data-role="button" data-transition="slide" data-theme="c" href="#viewTrackLoadingPage" class="ui-btn-right" id="viewTrackStart">
               Go
           </a>
           <h2>
@@ -306,6 +307,41 @@
                   </li>
               </ul>
           </div>
+      </div>
+  </div>
+
+<!-- Track Loading Page 
+================================================================================ -->
+
+<div data-role="page" data-theme="d" id="viewTrackLoadingPage">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <h2>
+              TrackJack
+          </h2>
+      </div>
+      <div class="viewTrackLoadingDiv" data-theme="b" data-divider-theme="b" data-inset="true">
+        Loading data...
+       </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#viewTrackListPage" data-transition="fade">
+                      Home
+                  </a>
+              </li>
+              <li>
+                  <a href="#infopage" data-transition="fade">
+                      Help
+                  </a>
+              </li>
+              <li>
+                  <a href="#settingsPage" data-transition="fade">
+                      Settings
+                  </a>
+              </li>
+          </ul>
+        </div>
       </div>
   </div>
 

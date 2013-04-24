@@ -12,7 +12,6 @@ function onDeviceReady() {
   var currentViewingTour = {};
 
   var mediaFiles = {};
-  // should this be global?
   var currentViewPointIndex = 0;
   var geoWatchID = null;
   var triggerCurrentPointDistance = 10;
@@ -20,6 +19,7 @@ function onDeviceReady() {
 
   $("#viewTrackListPage").on('pageinit', getTourList);
   $("#viewTrackInfoPage").on('pagebeforeshow', showTourInfo);
+  $("#viewTrackLoadingPage").on('pagebeforeshow', loadMediaItems);
   $("#viewTrackInstructionsPage").on('pagebeforeshow', startTour);
   $("#viewTrackPointPage").on('pagebeforeshow', showCurrentInterestPoint);
   $(".viewTrackNextInBetween").click(advancePointIndex);
@@ -60,11 +60,11 @@ function onDeviceReady() {
     console.log(currentViewPointIndex);
   }
 
-  // tour is over (if you want it)
-  $("#done").click(function(event) {
-    alert("Done!");
-    window.location.reload(false);
-  });
+  // // tour is over (if you want it)
+  // $("#done").click(function(event) {
+  //   alert("Done!");
+  //   window.location.reload(false);
+  // });
 
   function getTourList() {
     currentViewPointIndex = 0;
@@ -165,6 +165,7 @@ function onDeviceReady() {
 
   function startPointSequence() {
     currentViewPointIndex = 0;
+    $.mobile.changePage($("#viewTrackInstructionsPage"));
     showInBetweenScreen();
   }
 
