@@ -44,6 +44,12 @@
     font-size: 1em !important;
     font-weight: 300 !important;
 }
+#textbox-text-ct-instructions {
+    font-family: Muli !important;
+    font-size: 1em !important;
+    font-weight: 300 !important;
+}
+
 
 /* track name header (this one is being funny-
   the styling won't work as a class, so I just used the ids
@@ -128,7 +134,11 @@
     font-weight: 700;
     font-size: 1.1em;
 }
-
+#viewTrackShowDescription {
+    background-color: #A3BE8B;
+    vertical-align: right;
+    width: 70px;
+}
 /* music player 
 ====================================================== */
 #musicplayer-container {
