@@ -10,7 +10,9 @@
     padding: 1px 15px 1px 15px;
     margin-top: 15px;
     margin-bottom: 15px;
-    font-family: Muli;
+    font-family: Rokkitt;
+    font-weight: 700;
+    font-size: 1.3em;
     color: #716552;
 }
 .textbox-text {
@@ -26,7 +28,7 @@
 /* track name header (this one is being funny-
   the styling won't work as a class, so I just used the ids
    */
-#viewTrackTitle {
+.viewTrackTitle {
     white-space: normal; 
     width: 93%; 
     height: 100%; 
