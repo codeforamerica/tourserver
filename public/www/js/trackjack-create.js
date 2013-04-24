@@ -15,7 +15,6 @@ function onDeviceReady() {
     interest_points: []
   };
   var currentPoint = {};
-
   var geoWatchID = null;
   var latestPosition;
 
@@ -25,36 +24,15 @@ function onDeviceReady() {
     $(".phone").show();
   }
 
-  //Tour name input box
-  $('#tourName').keyup(function(event) {
-    //enable tour creation button if tourName field has text
-    if ($(this).val().length) {
-      if ($("#startTour").attr("disabled")) {
-        $("#startTour").attr("disabled", false);
-      }
-    } else {
-      $('#startTour').attr("disabled", true);
-    }
-  });
-
   // start Tour button
-  $("#startTour").click(function(event) {
-    //click on the tour start button,
-    //so disable it and the name field, and enable the point creation button
-    $(this).hide();
-    $('#tourName').hide();
-    var tourName = $('#tourName').val();
-    tour.name = tourName;
-    $('#tourTitleTextDiv').html(tourName).show();
-    $('#createPOI').attr('disabled', false);
-    // and start tracking the path
+  $("#createTrackStartRecording").click(function(event) {
+    // start tracking the path
     startGeolocation();
   });
 
   // create point
-  $("#createPOI").click(function(event) {
+  $("#createTrackAddPoint").click(function(event) {
     //click on the interest_point create button,
-    $("#createPOI").attr('disabled', true);
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
       enableHighAccuracy: true,
       timeout: 2000
@@ -62,21 +40,17 @@ function onDeviceReady() {
 
     function geoError(error) {
       console.log("error:");
-      alert("Trouble getting your position. Wait a few seconds and try again.");
-      $("#createPOI").attr('disabled', false);
       console.log(error);
+      alert("Trouble getting your position. Wait a few seconds and try again.");
     }
 
     function geoSuccess(position) {
       latestPosition = position;
       if (position.coords.accuracy <= minCreatePointAccuracy) {
         console.log(position);
-        $("div#pointInputArea :input").attr('disabled', false);
-        $('#location').text(position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + " " + position.coords.accuracy + "m");
+        //$('#location').text(position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + " " + position.coords.accuracy + "m");
         createInterestPoint(position);
       } else {
-        $("#createPOI").attr('disabled', false);
-        $("div#pointInputArea :input").attr('disabled', true);
         // this should be smarter, and try again
         alert(position.coords.accuracy + " Getting a lock on your position. Wait a few seconds and try again.");
       }
@@ -96,50 +70,32 @@ function onDeviceReady() {
     }
   });
 
+
+  // Photo upload ///
+
   // upload photo from album button
-  $("#photoUploadPhoneAlbum").click(function(event) {
-    navigator.camera.getPicture(cameraSuccess, cameraError, {
-      quality: 40,
-      destinationType: navigator.camera.DestinationType.FILE_URI,
-      sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
-    });
-
-    function cameraSuccess(photoURL) {
-      console.log("phone album success")
-      $("<img>").attr("src", photoURL).width("100%").appendTo("#selectedPhoto");
-      var media_item = {};
-
-
-      currentPoint.interp_items[0].media_items_attributes = currentPoint.interp_items[0].media_items_attributes || [];
-      currentPoint.interp_items[0].media_items_attributes.push({
-        type: "image",
-        data: photoURL
-      });
-      console.log("media_items_attributes.length" + currentPoint.interp_items[0].media_items_attributes.length);
-      console.log(photoURL);
-    }
-
-    function cameraError(error) {
-      console.log(error);
-    }
+  $(".createTrackUploadImageLibrary").click(function(event) {
+    console.log("album");
+    uploadImage(navigator.camera.PictureSourceType.PHOTOLIBRARY);
   });
 
   // take photo 
-  // need to consolidate
-  $("#photoUploadPhoneCamera").click(function(event) {
+  $(".createTrackUploadImageCamera").click(function(event) {
     console.log("camera");
+    uploadImage(navigator.camera.PictureSourceType.CAMERA);
+  });
+
+  function uploadImage(sourceType) {
     navigator.camera.getPicture(cameraSuccess, cameraError, {
       quality: 40,
       destinationType: navigator.camera.DestinationType.FILE_URI,
-      sourceType: navigator.camera.PictureSourceType.CAMERA
+      sourceType: sourceType
     });
 
     function cameraSuccess(photoURL) {
-      console.log("phone album success")
-      $("<img>").attr("src", photoURL).width("100%").appendTo("#selectedPhoto");
+      console.log("photo success");
+      $("#createTrackPOIImage").attr("src", photoURL);
       var media_item = {};
-
-
       currentPoint.interp_items[0].media_items_attributes = currentPoint.interp_items[0].media_items_attributes || [];
       currentPoint.interp_items[0].media_items_attributes.push({
         type: "image",
@@ -147,12 +103,13 @@ function onDeviceReady() {
       });
       console.log("media_items_attributes.length" + currentPoint.interp_items[0].media_items_attributes.length);
       console.log(photoURL);
+      $.mobile.changePage($("#createTrackPOIPage1"));
     }
 
     function cameraError(error) {
       console.log(error);
     }
-  });
+  }
 
   function uploadPhoto(imageURI, uploadCallback) {
     uploadMedia(imageURI, uploadCallback, "image/jpeg");
@@ -161,6 +118,8 @@ function onDeviceReady() {
   function uploadAudio(audioURI, uploadCallback) {
     uploadMedia(audioURI, uploadCallback, "audio/wav");
   }
+
+  /// Text upload ///
 
   function writeAndUploadText(text, uploadCallback) {
     text = text.substr(0, 1500);
@@ -227,9 +186,8 @@ function onDeviceReady() {
   }
 
   //Record Audio button
-  $("#recordAudio").click(function(event) {
+  $("#createTrackRecordAudio").click(function(event) {
     navigator.device.capture.captureAudio(captureSuccess, captureError);
-
     function captureSuccess(mediaFiles) {
       for (var i = 0; i < mediaFiles.length; i++) {
         currentPoint.interp_items[0].media_items_attributes = currentPoint.interp_items[0].media_items_attributes || [];
@@ -246,7 +204,6 @@ function onDeviceReady() {
     function captureError(error) {
       alert("An error has occurred (recordAudio): Code = " + error.code);
     }
-
   });
 
   //Cancel the current point input
@@ -256,37 +213,34 @@ function onDeviceReady() {
   });
 
   // save the current point
-  $("#savePoint").click(function(event) {
-    currentPoint.name = $('#pointName').val();
+  $("#createTrackPOISubmit").click(function(event) {
+    currentPoint.name = $('#createTrackPOIName').val();
     // add an interp_item. For now, each interest_point will have only one interpretive item [0].
     // later, we can use interp_item as a container for groups of media_items
     currentPoint.interp_items = currentPoint.interp_items || [];
     currentPoint.interp_items[0].media_items_attributes = currentPoint.interp_items[0].media_items_attributes || [];
-    if ($('#pointText').val()) {
+    if ($('#createTrackPOIDescription').val()) {
       var myTextMediaItem = {
         type: "text",
-        data: $('#pointText').val()
+        data: $('#createTrackPOIDescription').val()
       };
       console.log("textmediaitem");
       console.log(myTextMediaItem);
       currentPoint.interp_items[0].media_items_attributes.push(myTextMediaItem);
     }
     tour.interest_points.push(currentPoint);
-    $('#tourSubmission :input').attr('disabled', false);
     clearCurrentPoint();
   });
 
   function clearCurrentPoint() {
-    $('#pointName').val('');
-    $('#pointText').val('');
-    $("div#pointInputArea :input").attr('disabled', true);
-    $('#createPOI').attr('disabled', false);
-    $('#selectedPhoto').html("");
+    $('#createTrackPOIName').val('');
+    $('#createTrackPOIDescription').val('');
+    $('#createTrackPOIImage').attr("src", "");
     currentPoint = {};
   }
 
   // save tour button
-  $('#saveTour').click(function(event) {
+  $('#createTrackUpload').click(function(event) {
     console.log("saveTour");
     $('#saveTour').attr("disabled", true);
     for (var i = 0; i < tour.interest_points.length; i++) {
@@ -440,10 +394,14 @@ function onDeviceReady() {
   });
 
   // Cancel the tour and reset everything
-  $('#cancelTour').click(function(event) {
+  $('#createTrackMainPage').on('pagebeforechange', function(data) {
+    console.log(data);
     if (confirm("Cancel Tour Recording?")) {
-      window.location.reload(false);
+      // resetTour();
+    } else {
+
     }
+
   });
 
   function startGeolocation() {

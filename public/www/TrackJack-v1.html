@@ -15,6 +15,7 @@
   <script src="js/jquery.mobile-1.3.1.min.js"></script>
   <script src="js/cordova-2.6.0.js"></script>
   <script src="js/trackjack-view.js"></script>
+  <script src="js/trackjack-create.js"></script>
   <script src="js/async.js"></script>
 
 <!-- User-generated css -->
@@ -749,8 +750,7 @@
 
   <div data-role="page" data-theme="a" id="createTrackInputPage2">
       <div data-theme="a" data-role="header" data-position="fixed">
-          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          href="#createTrackInputPage1" class="ui-btn-left">
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#" class="ui-btn-left">
               Back
           </a>
           <h2>
@@ -929,9 +929,7 @@
                           Describe This Place
                       </strong>
                   </label>
-                  <textarea name="" id="createTrackPOIDescription" placeholder="">
-                      Tell your audience what is significant here. You can also use this space to take notes, and edit it later.
-                  </textarea>
+                  <textarea name="" id="createTrackPOIDescription" placeholder="Tell your audience what is significant here. You can also use this space to take notes, and edit it later."></textarea>
               </fieldset>
           </div>
           <a data-role="button" data-theme="b" href="#createTrackUploadPointImagePage" data-transition="slide" id="createTrackPOIImageUpload">
@@ -982,14 +980,16 @@
       </div>
       <div id="musicplayer-container"></div> 
       <div data-role="content">
-          <a data-role="button" data-theme="b" href="#RecordAudioPage" data-transition="slide">
+          <!-- <a data-role="button" data-theme="b" href="#RecordAudioPage" data-transition="slide"> -->
+          <!-- we don't have a #recordAudioPage. do we need one? -da -->
+          <a id="createTrackRecordAudio" data-role="button" data-theme="b" href="#" data-transition="slide">
               Record Audio
           </a>
             <textarea name="" id="createTrackPOISubmitHelp" placeholder="">
               <strong>Brilliant!</strong></br>
               You’ve created a place for learning. Submit this place, keep moving and add more places along your track!
             </textarea>  
-          <a data-role="button" data-theme="c" href="#createTrackMainPage" data-transition="slide">
+          <a id="createTrackPOISubmit" data-role="button" data-theme="c" href="#createTrackMainPage" data-transition="slide">
               Submit This Place
           </a>    
       </div>
