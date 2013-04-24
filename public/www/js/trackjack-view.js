@@ -4,7 +4,8 @@
 
 
 function onDeviceReady() {
-  console.log("onDeviceReady");
+  'use strict';
+  console.log("onDeviceReady-view");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
   // change this to your server's IP
   var host = "http://trackserver-test.herokuapp.com";
@@ -17,7 +18,8 @@ function onDeviceReady() {
   var triggerCurrentPointDistance = 10;
   var distanceToNextPoint = 100000;
 
-  $("#viewTrackListPage").on('pageinit', getTourList);
+
+  $("#viewTrackListPage").on('pagebeforeshow', getTourList);
   $("#viewTrackInfoPage").on('pagebeforeshow', showTourInfo);
   $("#viewTrackLoadingPage").on('pagebeforeshow', loadMediaItems);
   $("#viewTrackInstructionsPage").on('pagebeforeshow', startTour);
@@ -26,7 +28,6 @@ function onDeviceReady() {
   $(".viewTrackBackToPrevious").click(decrementPointIndex);
   $("#viewTrackCompletePage").on('pagebeforeshow', tourDone);
 
-  //getTourList();
 
   // skip the geolocation and display the upcoming point
   $("#skipInBetween").click(function() {
@@ -69,8 +70,10 @@ function onDeviceReady() {
   // });
 
   function getTourList() {
-    currentViewPointIndex = 0;
     console.log("getTourList");
+    $(".viewTrackList").hide();
+    currentViewPointIndex = 0;
+
     var callData = {
       type: "GET",
       path: "/tours.json"
@@ -81,7 +84,6 @@ function onDeviceReady() {
   function showTourList(response) {
     console.log("showTourList");
     var $tourTemplate = $(".viewTrackList li:first");
-
     for (var i = 0; i < response.length; i++) {
       //console.log(response[i]);
       var $tourListEntry = $tourTemplate.clone(false);
@@ -102,7 +104,10 @@ function onDeviceReady() {
       moveToTourInfo(tourid);
     });
     $tourTemplate.remove();
-    $('#viewTrackList').listview('refresh');
+
+    $('.viewTrackList').listview('refresh');
+    $('.viewTrackList').show();
+
   }
 
   function moveToTourInfo(tourid) {

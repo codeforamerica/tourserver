@@ -1,6 +1,7 @@
 "use strict";
 
 // track creation code for TrackJack mobile app
+
 function onDeviceReady() {
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
   // change this to your server's IP
@@ -24,16 +25,18 @@ function onDeviceReady() {
 
   // start Tour button
   $("#createTrackStartRecording").click(function(event) {
+    console.log("createTrackName");
+    console.log($("#createTrackName").val());
     if ($("#createTrackName").val()) {
       tour.name = $("#createTrackName").val();
       tour.difficulty = $("#createTrackRating").val();
       // TODO: tour.subject = $("#createTrackSubject").val();
       // start tracking the path
       startGeolocation();
-    }
-    else {
+    } else {
       alert("Please enter a name for this track.");
       $.mobile.changePage($("#createTrackInputPage1"));
+      return false;
     }
   });
 
@@ -197,6 +200,7 @@ function onDeviceReady() {
   //Record Audio button
   $("#createTrackRecordAudio").click(function(event) {
     navigator.device.capture.captureAudio(captureSuccess, captureError);
+
     function captureSuccess(mediaFiles) {
       for (var i = 0; i < mediaFiles.length; i++) {
         currentPoint.interp_items[0].media_items_attributes = currentPoint.interp_items[0].media_items_attributes || [];
@@ -265,13 +269,13 @@ function onDeviceReady() {
       console.log("submitTour");
       var callData = {
         type: "post",
-        path: "/tours.json",
+        path: "/tours.json"
       };
       callData.data = reformatTourForSubmission(tour);
       makeAPICall(callData, function() {
         alert("Tour saved!");
         $.mobile.changePage($("#createFinishPage"), {
-          data-transition: "slide"
+          transition: "slide"
         });
         window.location.reload(false);
       });
