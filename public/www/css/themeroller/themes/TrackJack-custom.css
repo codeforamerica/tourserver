@@ -10,16 +10,16 @@
     padding: 1px 15px 1px 15px;
     margin-top: 15px;
     margin-bottom: 15px;
-    font-family: Arial;
+    font-family: Muli;
     color: #716552;
 }
 .textbox-text {
-    font-family: Arial;
+    font-family: Muli;
     color: #716552;
 }
 .textbox-header {
-    font-family: Arial;
-    font-weight: bold;
+    font-family: Rokkitt;
+    font-weight: 700;
     color: #716552;
 }
 
@@ -32,8 +32,10 @@
     height: 100%; 
     margin:15px; 
     text-align: left;
-    font-family: Signika Negative;
-    font-weight: bold;
+    font-family: Rokkitt;
+    font-weight: 700;
+    font-size: 1.3em;
+    
 }
 #tracklist-header {
     white-space: normal; 
@@ -41,6 +43,9 @@
     height: 100%; 
     margin:15px; 
     text-align: left;
+    font-family: Rokkitt;
+    font-weight: 700;
+    font-size: 1.3em;
 }
 #viewTrackTitleFinished {
     white-space: normal; 
@@ -48,6 +53,9 @@
     height: 100%; 
     margin:15px; 
     text-align: left;
+    font-family: Rokkitt;
+    font-weight: 700;
+    font-size: 1.3em;
 }
 
 /* map + start image + labels */
@@ -69,7 +77,7 @@
   background-color: #E5E1D1; 
   position: absolute;
   font-size: small;
-  font-family: arial;
+  font-family: Muli;
   color: #A3BE8B;
   padding: 15px;
 }
@@ -96,7 +104,7 @@
   margin-top: -5px;
 }
 #viewTrackPointName {
-  font-family: Arial;
+  font-family: Muli;
   font-style: bold;
   color: #0E1237;
 }
