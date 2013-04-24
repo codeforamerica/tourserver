@@ -41,6 +41,14 @@
     margin:15px; 
     text-align: left;
 }
+#viewTrackTitleFinished {
+    white-space: normal; 
+    width: 93%; 
+    height: 100%; 
+    margin:15px; 
+    text-align: left;
+}
+
 /* map + start image + labels */
 .map {
   width: 288px;
