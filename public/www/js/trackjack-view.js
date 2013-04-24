@@ -3,8 +3,7 @@
 // 22 April 2013 - A copy of trackrunner.js for modification and integration into the real app
 
 
-function onDeviceReady() {
-  'use strict';
+function onDeviceReadyView() {
   console.log("onDeviceReady-view");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
   // change this to your server's IP
@@ -406,6 +405,7 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 function deg2rad(deg) {
   return deg * (Math.PI / 180)
 }
+
 $(document).ready(function() {
   // are we running in native app or in browser?
   window.isphone = false;
@@ -414,7 +414,7 @@ $(document).ready(function() {
   }
 
   if (window.isphone) {
-    document.addEventListener("deviceready", onDeviceReady, false);
+    document.addEventListener("deviceready", onDeviceReadyView, false);
   } else {
     onDeviceReady();
   }

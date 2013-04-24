@@ -2,7 +2,8 @@
 
 // track creation code for TrackJack mobile app
 
-function onDeviceReady() {
+function onDeviceReadyCreate() {
+  console.log("onDeviceReady-create");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
   // change this to your server's IP
   //var host = "http://127.0.0.1:3000";
@@ -493,7 +494,7 @@ $(document).ready(function() {
   }
 
   if (window.isphone) {
-    document.addEventListener("deviceready", onDeviceReady, false);
+    document.addEventListener("deviceready", onDeviceReadyCreate, false);
   } else {
     onDeviceReady();
   }
