@@ -462,7 +462,7 @@
 .ui-bar-d select,
 .ui-bar-d textarea,
 .ui-bar-d button {
-	 font-family: Muli, Arial, sans-serif /*{global-font-family}*/;
+	 font-family: Rokkitt, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-d,
 .ui-overlay-d {
@@ -486,7 +486,7 @@
 .ui-body-d select,
 .ui-body-d textarea,
 .ui-body-d button {
-	 font-family: Muli, Arial, sans-serif /*{global-font-family}*/;
+	 font-family: Rokkitt, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-d .ui-link-inherit {
 	color: #716552 /*{d-body-color}*/;
@@ -560,7 +560,7 @@
 .ui-btn-up-d,
 .ui-btn-hover-d,
 .ui-btn-down-d {
-	 font-family: Muli, Arial, sans-serif /*{global-font-family}*/;
+	 font-family: Rokkitt, Arial, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 

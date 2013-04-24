@@ -51,7 +51,7 @@
       </div>
       <div data-role="content">
           <ul data-role="listview" data-divider-theme="d" data-inset="true">
-              <li data-role="list-divider" role="heading">
+              <li data-role="list-divider" role="heading" id="listview-header">
                   Manage Tracks
               </li>
               <li data-theme="b">
@@ -68,7 +68,7 @@
 
       <!-- What are the group's final thoughts about adding this content? I think that it could be the MVP of giving the parks credit - not necessarily how we will do this down the road, but okay for now -KL-->
           <ul data-role="listview" data-divider-theme="d" data-inset="true">
-              <li data-role="list-divider" role="heading">
+              <li data-role="list-divider" role="heading" id="listview-header2">
                   Parks Partners
               </li>
               <li data-theme="b">
@@ -238,7 +238,7 @@
           </h2>
       </div>
       <div class="header" data-theme="b", data-role="header" >
-          <h3 id="viewTrackTitle">[Track Title]</h3>
+          <h3 class="viewTrackTitle" id="viewTrackTitle2">[Track Title]</h3>
       </div>
       <div data-role="content">
           <div class="image-map-container">
@@ -263,7 +263,7 @@
 
                   
               </div>
-              <img class="map viewTrackMap" id="map-all" src="https://maps.googleapis.com/maps/api/staticmap?center=boston, oh&amp;zoom=9&amp;size=288x200&amp;markers=Towpath Trailhead|Bike and Hike Trail&amp;sensor=false";/>
+              <img class="viewTrackMap" src="https://maps.googleapis.com/maps/api/staticmap?center=boston, oh&amp;zoom=9&amp;size=288x200&amp;markers=Towpath Trailhead|Bike and Hike Trail&amp;sensor=false";/>
           </div>
           <div class="textbox-white">
 
@@ -274,7 +274,7 @@
               <p class="textbox-header">
                   What You'll See
               </p>
-              <p id="viewTrackDescription" class"textbox-text">
+              <p id="viewTrackDescription" >
                  [Track Description Body]
               </p>
           </div>
@@ -372,23 +372,23 @@
                   <p class="textbox-header">
                       Start Tracking!
                   </p>
-                  <p>
-                      Relax and enjoy your walk.<br>
+                  <div class="textbox-text-startmain">
+                    <p>Relax and enjoy your walk.</p>
 
-                      TrackJack will buzz when you reach a place to pause and take a closer look. Or you can always tap "skip" to sneak a peek at what's ahead.<br>
+                    <p>TrackJack will buzz when you reach a place to pause and take a closer look. Or you can always tap "skip" to sneak a peek at what's ahead.</p>
                   
-                      You'll pass the next place on this track in <span class="viewTrackDistanceToPoint">[0.2]</span> miles.
-                  </p>
+                    <p>You'll pass the next place on this track in <span class="viewTrackDistanceToPoint">[0.2]</span> miles "as the crow flies"</p>.
+                  </div>
               </div>
               <div id="viewTrackInBetweenText" style="display: none;">
                   <p class="textbox-header">
                       That's all for now!
                   </p>
-                  <p>
-                      It’s <span class="viewTrackDistanceToPoint">[0.2]</span> miles until the next place to stop and reflect.<br>
-                      Enjoy the scenery, and we’ll give you a buzz when you reach the next stop.<br>
-                      Of course, you can always tap "skip" if you want to get ahead of the curve.  
-                  </p>
+                  <div class="textbox-text-startmain">
+                    <p>It’s <span class="viewTrackDistanceToPoint">[0.2]</span> miles "as the crow flies" until the next place to stop and reflect.</p>
+                    <p>Enjoy the scenery, and we’ll give you a buzz when you reach the next stop.</p>
+                    <p>Of course, you can always tap "skip" if you want to get ahead of the curve.</p>  
+                  </div>
               </div>
           </div>
       </div>
@@ -414,61 +414,6 @@
           </div>
       </div>
   </div>
-
-<!-- VT In Between Page (Use this yet?)
-================================================================================
-
-  <div data-role="page" data-theme="d" id="viewTrackInBetweenPage">
-      <div data-theme="a" data-role="header" data-position="fixed">
-          <span class="ui-title"></span>
-          <a data-role="button" data-transition="slide" data-theme="a" href="#viewTrackPointPage" class="ui-btn-right viewTrackSkipToCurrent">
-          skip
-          </a>
-          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          href="#viewTrackInfopage" class="ui-btn-left viewTrackBackToPrevious">
-              Back
-          </a>
-      </div>
-      <div data-theme="b" data-role="header">
-          <h3 id="tracklist-header">
-                  [Invasive Species on the Bike and Hike Trail]
-          </h3>
-      </div>
-      <div data-role="content">
-          <div class="textbox-white textbox-text">
-              <p class="textbox-header">
-                  That's all for now!
-              </p>
-              <p>
-                  It’s <span class="viewTrackDistanceToPoint">[0.2]</span> miles until the next place to stop and reflect.</br>
-                  Enjoy the scenery, and we’ll give you a buzz when you reach the next stop.</br>
-                  Of course, you can always tap "skip" if you want to get ahead of the curve.
-              </p>
-          </div>
-      </div>
-      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      Home
-                  </a>
-              </li>
-              <li>
-                  <a href="#infopage" data-transition="fade">
-                      Help
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      Settings
-                  </a>
-              </li>
-          </ul>
-        </div>
-      </div>
-  </div> 
--->
 
 <!-- View Track Point Page
 ================================================================================ -->
@@ -507,7 +452,7 @@
           <div id="viewTrackShowDescription"></div>
       </div>
           <div class="textbox-white">
-              <p class="textbox-text" id="viewTrackPointDescription">
+              <p id="viewTrackPointDescription">
                   [Garlic mustardis a biennial herb with stalked, triangular-shaped leaves that smell like garlic when crushed. Plants first appear as rosettes of green leaves close to the ground. The following year they reach two to 3.5 feet tall and produce button-like clusters of small white flowers with four petals in the shape of a cross. Slender seed pods are present by June; each contains thousands of seeds per plant. The seeds can be viable in the soil for up to seven years. This non-native plant aggressively monopolizes light, moisture, nutrients, soil and growing space.]       
               </p>
           </div>

@@ -1,33 +1,53 @@
 
-/* Background image (currently linked through dropbox) */
+/* Background image
+======================================================  */
 .ui-page {
     background: transparent url(img/TempBackground-26.png);
 }
 
-/* white textboxes */
+/* settings page (also would not accept changes with a class)
+====================================================== */
+#listview-header {
+  font-size: .9em !important;
+}
+#listview-header2 {
+  font-size: .9em !important;
+}
+
+/* white textboxes 
+====================================================== */
 .textbox-white {
     background-color: white;
     padding: 1px 15px 1px 15px;
     margin-top: 15px;
     margin-bottom: 15px;
-    font-family: Rokkitt;
-    font-weight: 700;
-    font-size: 1.3em;
-    color: #716552;
-}
-.textbox-text {
-    font-family: Muli;
     color: #716552;
 }
 .textbox-header {
     font-family: Rokkitt;
     font-weight: 700;
-    color: #716552;
+    font-size: 1.1em;
+}
+  /*this wasn't working as a class this is textbox-text for track desc */
+#viewTrackDescription {
+    font-family: Muli !important;
+    font-size: 1em !important;
+    font-weight: 300 !important;
+}
+.textbox-text-startmain {
+    font-family: Muli !important;
+    font-size: 1em !important;
+    font-weight: 300 !important;
+}
+#viewTrackPointDescription {
+    font-family: Muli !important;
+    font-size: 1em !important;
+    font-weight: 300 !important;
 }
 
 /* track name header (this one is being funny-
   the styling won't work as a class, so I just used the ids
-   */
+   ====================================================== */
 .viewTrackTitle {
     white-space: normal; 
     width: 93%; 
@@ -36,8 +56,17 @@
     text-align: left;
     font-family: Rokkitt;
     font-weight: 700;
-    font-size: 1.3em;
-    
+    font-size: 1.3em;  
+}
+#viewTrackTitle2 {
+      white-space: normal; 
+    width: 93%; 
+    height: 100%; 
+    margin:15px; 
+    text-align: left;
+    font-family: Rokkitt;
+    font-weight: 700;
+    font-size: 1.3em;  
 }
 #tracklist-header {
     white-space: normal; 
@@ -60,64 +89,58 @@
     font-size: 1.3em;
 }
 
-/* map + start image + labels */
-.map {
-  width: 288px;
-  height: 200px;
+/* map + start image + labels 
+====================================================== */
+.viewTrackMap {
+    width: 288px;
+    height: 200px;
 }
 #viewTrackImage {
-  width: 288px;
-  height: 200px;
+    width: 288px;
+    height: 200px;
 }
-
 .image-map-container {
-  position: relative;
+    position: relative;  
 }
-
 .image-map-label-container {
-  width: 200px; 
-  background-color: #E5E1D1; 
-  position: absolute;
-  font-size: small;
-  font-family: Muli;
-  color: #A3BE8B;
-  padding: 15px;
+    background-color: #e0dcca; 
+    position: absolute;
+    font-family: Muli;
+    font-weight: 400;
+    font-size: .8em;
+    color: #716552;
+    padding: 10px;
 }
 
-#label-distance {
-  color: #716552;
-
-}
-#label-difficulty {
-  color: #716552;
-}
-#label-chapters {
-  color: #716552;
-}
-
-/* interp image + label*/
+/* interp image + label
+====================================================== */
 #viewTrackPointImage {
-  width: 288px;
-  height: 250px;
+    width: 288px;
+    height: 250px;
 }
 #interp-label-container {
-  background-color: #A3BE8B;
-  padding: 15px;
-  margin-top: -5px;
+    background-color: #e0dcca;
+    padding: 10px;
+    margin-top: -5px;
 }
 #viewTrackPointName {
-  font-family: Muli;
-  font-style: bold;
-  color: #0E1237;
+    font-family: Rokkitt;
+    font-weight: 700;
+    font-size: 1.1em;
 }
 
-/* music player */
+/* music player 
+====================================================== */
 #musicplayer-container {
-  background-color: #A3BE8B;
-  height: 70px;
+    background-color: #A3BE8B;
+    height: 70px;
 }
 
-/* Create a Track */
+
+
+
+/* Create a Track 
+====================================================== */
 .subtitles {
   font-size: small;
 }
