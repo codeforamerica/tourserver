@@ -330,16 +330,28 @@
       </div>
       <div data-role="content">
           <div class="textbox-white textbox-text">
-              <p class="textbox-header">
-                  Start Tracking!
-              </p>
-              <p>
-                  Relax and enjoy your walk.</br>
+              <div id="viewTrackFirstInBetweenText">
+                  <p class="textbox-header">
+                      Start Tracking!
+                  </p>
+                  <p>
+                      Relax and enjoy your walk.<br>
 
-                  TrackJack will buzz when you reach a place to pause and take a closer look. Or you can always tap "skip" to sneak a peek at what's ahead.</br>
+                      TrackJack will buzz when you reach a place to pause and take a closer look. Or you can always tap "skip" to sneak a peek at what's ahead.<br>
                   
-                  You'll pass the next place on this track in <span class="viewTrackDistanceToPoint">[0.2]</span> miles.
-              </p>
+                      You'll pass the next place on this track in <span class="viewTrackDistanceToPoint">[0.2]</span> miles.
+                  </p>
+              </div>
+              <div id="viewTrackInBetweenText" style="display: none;">
+                  <p class="textbox-header">
+                      That's all for now!
+                  </p>
+                  <p>
+                      It’s <span class="viewTrackDistanceToPoint">[0.2]</span> miles until the next place to stop and reflect.<br>
+                      Enjoy the scenery, and we’ll give you a buzz when you reach the next stop.<br>
+                      Of course, you can always tap "skip" if you want to get ahead of the curve.  
+                  </p>
+              </div>
           </div>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
@@ -435,12 +447,11 @@
                   [12]
               </span>
           </h2>
-          <!-- note that the href and text of this button are now being set in trackjack-view.js based on whether this is the final point (da) -->
+          <!-- note that the href and text of these two buttons are now being set in trackjack-view.js based on whether this is the final point (da) -->
             <a data-role="button" data-transition="slide" data-theme="c" href="#viewTrackCompletePage" class="ui-btn-right viewTrackNextInBetween">
               next
           </a>
-          <a data-role="button" data-direction="reverse" data-transition="slide"
-          href="#viewTrackInfoPage" class="ui-btn-left viewTrackBackToPrevious">
+          <a data-role="button" data-direction="reverse" data-transition="slide" href="#" data-rel="back" class="ui-btn-left viewTrackBackToPrevious">
               Back
           </a>
       </div>

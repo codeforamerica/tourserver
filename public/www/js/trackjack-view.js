@@ -23,7 +23,9 @@ function onDeviceReady() {
   $("#viewTrackInstructionsPage").on('pagebeforeshow', startTour);
   $("#viewTrackPointPage").on('pagebeforeshow', showCurrentInterestPoint);
   $(".viewTrackNextInBetween").click(advancePointIndex);
+  $(".viewTrackBackToPrevious").click(decrementPointIndex);
   $("#viewTrackCompletePage").on('pagebeforeshow', tourDone);
+
   //getTourList();
 
   // skip the geolocation and display the upcoming point
@@ -36,12 +38,26 @@ function onDeviceReady() {
     currentViewPointIndex = 0;
     currentViewingTour = {};
     distanceToNextPoint = 100000;
+    $("#viewTrackTitleFinished").text(currentViewingTour.name);
   }
 
   // leave the current point and start going to the next point
+
   function advancePointIndex() {
     console.log("advancePointIndex");
     currentViewPointIndex++;
+        console.log(currentViewPointIndex);
+
+  }
+
+  // back button hit, back to previous point
+
+  function decrementPointIndex() {
+    console.log("decrementPointIndex");
+    if (currentViewPointIndex > 0) {
+      currentViewPointIndex--;
+    }
+    console.log(currentViewPointIndex);
   }
 
   // tour is over (if you want it)
@@ -108,11 +124,11 @@ function onDeviceReady() {
   }
 
   function startTour(event) {
+    console.log("currentViewPointIndex" + currentViewPointIndex);
     if (currentViewPointIndex) {
       showInBetweenScreen();
-    }
-    else {
-     loadMediaItems();
+    } else {
+      loadMediaItems();
     }
   }
 
@@ -154,6 +170,14 @@ function onDeviceReady() {
 
   function showInBetweenScreen() {
     console.log("showInBetweenScreen");
+    if (currentViewPointIndex == 0) {
+      $("#viewTrackFirstInBetweenText").show();
+      $("#viewTrackInBetweenText").hide();
+    }
+    else {
+      $("#viewTrackFirstInBetweenText").hide();
+      $("#viewTrackInBetweenText").show();
+    }
     $("#tracklist-header").text(currentViewingTour.name);
     $("#currentViewPointIndex").html(currentViewPointIndex);
     $("#endPointIndex").text(currentViewingTour.interest_points.length - 1);
@@ -166,15 +190,24 @@ function onDeviceReady() {
     console.log("showCurrentInterestPoint: " + currentViewPointIndex + " " + currentViewingTour.interest_points.length);
     stopGeolocation();
     var currentPoint = currentViewingTour.interest_points[currentViewPointIndex];
-    if (currentViewPointIndex < currentViewingTour.interest_points.length - 1) {
-      console.log("not last point");
-      //TODO: fix this
+    if (currentViewPointIndex == 0) {
+      console.log("first point");
+      $(".viewTrackBackToPrevious .ui-btn-text").text("Back");
+      $(".viewTrackBackToPrevious").attr("href", "#viewTrackInfoPage");
       $(".viewTrackNextInBetween .ui-btn-text").text("Next");
       $(".viewTrackNextInBetween").attr("href", "#viewTrackInstructionsPage");
-    } else {
+    } else if (currentViewPointIndex == currentViewingTour.interest_points.length - 1) {
       console.log("last point");
-       $(".viewTrackNextInBetween .ui-btn-text").text("Done")
-       $(".viewTrackNextInBetween").attr("href", "#viewTrackCompletePage");
+      $(".viewTrackBackToPrevious .ui-btn-text").text("Back");
+      $(".viewTrackBackToPrevious").attr("href", "#viewTrackPointPage");
+      $(".viewTrackNextInBetween .ui-btn-text").text("Done");
+      $(".viewTrackNextInBetween").attr("href", "#viewTrackCompletePage");
+    } else {
+      console.log("not last point");
+      $(".viewTrackBackToPrevious .ui-btn-text").text("Back");
+      $(".viewTrackBackToPrevious").attr("href", "#viewTrackPointPage");
+      $(".viewTrackNextInBetween .ui-btn-text").text("Next");
+      $(".viewTrackNextInBetween").attr("href", "#viewTrackInstructionsPage");
     }
     var myAudio = null;
     console.log(myAudio);
@@ -197,7 +230,9 @@ function onDeviceReady() {
             if (myAudio == null) {
               myAudio = new Media(mediaFiles[filename].fullPath, audioSuccess, audioError, audioStatus);
             }
-            myAudio.play({numberOfLoops: 1});
+            myAudio.play({
+              numberOfLoops: 1
+            });
           });
         } else if (mimeType.indexOf("image") == 0) {
           $("#viewTrackPointImage").attr('src', mediaFiles[filename].fullPath);
