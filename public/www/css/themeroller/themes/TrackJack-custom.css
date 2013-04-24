@@ -2,7 +2,6 @@
 /* Background image (currently linked through dropbox) */
 .ui-page {
     background: transparent url(img/TempBackground-26.png);
-    background-color: 
 }
 
 /* white textboxes */
@@ -33,6 +32,8 @@
     height: 100%; 
     margin:15px; 
     text-align: left;
+    font-family: Signika Negative;
+    font-weight: bold;
 }
 #tracklist-header {
     white-space: normal; 

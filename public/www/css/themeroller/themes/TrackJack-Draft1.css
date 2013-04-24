@@ -168,7 +168,7 @@
 }
 .ui-bar-b a.ui-link {
 	color: #7cc4e7 /*{b-bar-link-color}*/;
-	font-weight: bold;
+	font-weight: normal;
 }
 .ui-bar-b a.ui-link:visited {
     color: #2489ce /*{b-bar-link-visited}*/;
