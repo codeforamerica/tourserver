@@ -34,19 +34,21 @@ function onDeviceReady() {
   });
 
   function tourDone() {
+    $("#viewTrackTitleFinished").text(currentViewingTour.name);
     stopGeolocation();
     currentViewPointIndex = 0;
     currentViewingTour = {};
     distanceToNextPoint = 100000;
-    $("#viewTrackTitleFinished").text(currentViewingTour.name);
+
   }
 
   // leave the current point and start going to the next point
 
-  function advancePointIndex() {
+  function advancePointIndex(event) {
+    event.preventDefault();
     console.log("advancePointIndex");
     currentViewPointIndex++;
-        console.log(currentViewPointIndex);
+    console.log(currentViewPointIndex);
 
   }
 
@@ -125,11 +127,7 @@ function onDeviceReady() {
 
   function startTour(event) {
     console.log("currentViewPointIndex" + currentViewPointIndex);
-    if (currentViewPointIndex) {
-      showInBetweenScreen();
-    } else {
-      loadMediaItems();
-    }
+    showInBetweenScreen();
   }
 
   function loadMediaItems() {
@@ -174,8 +172,7 @@ function onDeviceReady() {
     if (currentViewPointIndex == 0) {
       $("#viewTrackFirstInBetweenText").show();
       $("#viewTrackInBetweenText").hide();
-    }
-    else {
+    } else {
       $("#viewTrackFirstInBetweenText").hide();
       $("#viewTrackInBetweenText").show();
     }
@@ -193,20 +190,20 @@ function onDeviceReady() {
     var currentPoint = currentViewingTour.interest_points[currentViewPointIndex];
     if (currentViewPointIndex == 0) {
       console.log("first point");
-      $(".viewTrackBackToPrevious .ui-btn-text").text("Back");
-      $(".viewTrackBackToPrevious").attr("href", "#viewTrackInfoPage");
+      // $(".viewTrackBackToPrevious .ui-btn-text").text("Back");
+      // $(".viewTrackBackToPrevious").attr("href", "#viewTrackInfoPage");
       $(".viewTrackNextInBetween .ui-btn-text").text("Next");
       $(".viewTrackNextInBetween").attr("href", "#viewTrackInstructionsPage");
     } else if (currentViewPointIndex == currentViewingTour.interest_points.length - 1) {
       console.log("last point");
-      $(".viewTrackBackToPrevious .ui-btn-text").text("Back");
-      $(".viewTrackBackToPrevious").attr("href", "#viewTrackPointPage");
+      // $(".viewTrackBackToPrevious .ui-btn-text").text("Back");
+      // $(".viewTrackBackToPrevious").attr("href", "#viewTrackPointPage");
       $(".viewTrackNextInBetween .ui-btn-text").text("Done");
       $(".viewTrackNextInBetween").attr("href", "#viewTrackCompletePage");
     } else {
       console.log("not last point");
-      $(".viewTrackBackToPrevious .ui-btn-text").text("Back");
-      $(".viewTrackBackToPrevious").attr("href", "#viewTrackPointPage");
+      // $(".viewTrackBackToPrevious .ui-btn-text").text("Back");
+      // $(".viewTrackBackToPrevious").attr("href", "#viewTrackPointPage");
       $(".viewTrackNextInBetween .ui-btn-text").text("Next");
       $(".viewTrackNextInBetween").attr("href", "#viewTrackInstructionsPage");
     }
@@ -301,7 +298,7 @@ function onDeviceReady() {
 
     function downloadSuccess(fileEntry) {
       console.log("downloadSuccess");
-      console.log(fileEntry);
+      // console.log(fileEntry);
       mediaFiles[fileEntry.name] = fileEntry;
 
       doneCallback(null, fileEntry.name);
