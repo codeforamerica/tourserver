@@ -18,9 +18,9 @@ Current REST API endpoints (GET, POST, and DELETE supported for all so far). Int
 
 ## Tour client
 
-The current rough testing version of the tour creation client code is in public/newPOI.[html|js]. At the moment it's only likely to work in a PhoneGap mobile application. To create a mobile tour client, [create a PhoneGap project](http://docs.phonegap.com/en/2.6.0/guide_getting-started_index.md.html#Getting%20Started%20Guides) and link/copy newPOI.html into that project's www/index.html, and newPOI.js into www.
+The current mobile track viewing/creation client code is in public/www. It will only work in a PhoneGap mobile application. To create a mobile tour client, [create a PhoneGap project](http://docs.phonegap.com/en/2.6.0/guide_getting-started_index.md.html#Getting%20Started%20Guides) and copy the public/www directory in place of the PhoneGap project www directory.
 
-The current version of the tour experience client is in public/trackrunner.[html|js]. Also a PhoneGap only app.
+Future plans include a desktop-accessible track editing client.
 
 ## Heroku/PostGIS setup
 
