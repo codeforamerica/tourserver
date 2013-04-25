@@ -908,15 +908,15 @@ a.ui-link-inherit {
 }
 .ui-focus,
 .ui-btn:focus {
-	-moz-box-shadow: inset 0 0 3px #A3BE8B /*{global-active-background-color}*/, 0 0 9px #A3BE8B /*{global-active-background-color}*/;
-	-webkit-box-shadow: inset 0 0 3px #A3BE8B /*{global-active-background-color}*/, 0 0 9px #A3BE8B /*{global-active-background-color}*/;
-	box-shadow: inset 0 0 3px #A3BE8B /*{global-active-background-color}*/, 0 0 9px #A3BE8B /*{global-active-background-color}*/;
+	-moz-box-shadow: inset 0 0 3px #D3D0C2 /*{global-active-background-color}*/, 0 0 9px #D3D0C2 /*{global-active-background-color}*/;
+	-webkit-box-shadow: inset 0 0 3px #D3D0C2 /*{global-active-background-color}*/, 0 0 9px #D3D0C2/*{global-active-background-color}*/;
+	box-shadow: inset 0 0 3px #D3D0C2 /*{global-active-background-color}*/, 0 0 9px #D3D0C2 /*{global-active-background-color}*/;
 }
 .ui-input-text.ui-focus,
 .ui-input-search.ui-focus {
-	-moz-box-shadow: 0 0 12px #A3BE8B /*{global-active-background-color}*/;
-	-webkit-box-shadow: 0 0 12px #A3BE8B /*{global-active-background-color}*/;
-	box-shadow: 0 0 12px #A3BE8B /*{global-active-background-color}*/;	
+	-moz-box-shadow: 0 0 12px #D3D0C2 /*{global-active-background-color}*/;
+	-webkit-box-shadow: 0 0 12px #D3D0C2 /*{global-active-background-color}*/;
+	box-shadow: 0 0 12px #D3D0C2 /*{global-active-background-color}*/;	
 }
 /* unset box shadow in browsers that don't do it right
 -----------------------------------------------------------------------------------------------------------*/
