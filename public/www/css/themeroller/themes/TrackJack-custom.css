@@ -167,8 +167,15 @@
 
 /* Create a Track 
 ====================================================== */
+.inputpage-header {
+    font-family: Rokkitt !important;
+    font-weight: 700 !important; 
+    font-size: 1.1em !important;
+}
 .subtitles {
-  font-size: small;
+  font-size: .8em;
+  font-family: Muli;
+  font-weight: 300;
 }
 #createTrackImageDiv {
   width: 100%;
