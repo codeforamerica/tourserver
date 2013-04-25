@@ -49,7 +49,9 @@ function onDeviceReadyView() {
     console.log("advancePointIndex");
     currentViewPointIndex++;
     console.log(currentViewPointIndex);
-
+    console.log(event);
+    $.mobile.changePage($(this).attr("href"), { transition: "slide" });
+    return true;
   }
 
   // back button hit, back to previous point
