@@ -128,17 +128,18 @@
     background-color: #e0dcca;
     padding: 10px;
     margin-top: -5px;
+    width: 70%;
+}
+#viewTrackShowDescription {
+    background-color: #A3BE8B;
+    width: 30%;
 }
 #viewTrackPointName {
     font-family: Rokkitt;
     font-weight: 700;
     font-size: 1.1em;
 }
-#viewTrackShowDescription {
-    background-color: #A3BE8B;
-    vertical-align: right;
-    width: 70px;
-}
+
 /* music player 
 ====================================================== */
 #musicplayer-container {
