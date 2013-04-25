@@ -77,11 +77,11 @@
 	color: #716552 /*{a-body-color}*/;
 }
 .ui-body-a .ui-link {
-	color: #A3BE8B /*{a-body-link-color}*/;
+	color: ##A3BE8B /*{a-body-link-color}*/;
 	font-weight: bold;
 }
 .ui-body-a .ui-link:visited {
-    color: #A3BE8B /*{a-body-link-visited}*/;
+    color: #a3be8b /*{a-body-link-visited}*/;
 }
 .ui-body-a .ui-link:hover {
 	color: #A3BE8B /*{a-body-link-hover}*/;
@@ -492,17 +492,17 @@
 	color: #716552 /*{d-body-color}*/;
 }
 .ui-body-d .ui-link {
-	color: #716552 /*{d-body-link-color}*/;
-	font-weight: bold;
+	color: #87a06e /*{d-body-link-color}*/;
+	
 }
 .ui-body-d .ui-link:visited {
-    color: #2489ce /*{d-body-link-visited}*/;
+    color: #87a06e /*{d-body-link-visited}*/;
 }
 .ui-body-d .ui-link:hover {
-	color: #2489ce /*{d-body-link-hover}*/;
+	color: #a3be8b /*{d-body-link-hover}*/;
 }
 .ui-body-d .ui-link:active {
-	color: #2489ce /*{d-body-link-active}*/;
+	color: #87a06e /*{d-body-link-active}*/;
 }
 .ui-btn-up-d {
 	border: 1px solid #e5e1d1 /*{d-bup-border}*/;

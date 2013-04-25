@@ -49,6 +49,11 @@
     font-size: 1em !important;
     font-weight: 300 !important;
 }
+#textbox-text-finshed {
+    font-family: Muli !important;
+    font-size: 1em !important;
+    font-weight: 300 !important;
+}
 
 
 /* track name header (this one is being funny-
@@ -127,18 +132,28 @@
 #interp-label-container {
     background-color: #e0dcca;
     padding: 10px;
-    margin-top: -5px;
+    
     width: 70%;
+    display: inline-block;
 }
 #viewTrackShowDescription {
     background-color: #A3BE8B;
-    width: 30%;
+    width: 16%;
+    display: inline-block;
+    margin-left: -2%;
+    padding: 10px;
+    font-family: Rokkitt;
+    font-weight: 700;
+    font-size: 1.1em;
+    text-align: center;
+    color: #0E1237;
 }
 #viewTrackPointName {
     font-family: Rokkitt;
     font-weight: 700;
     font-size: 1.1em;
 }
+
 
 /* music player 
 ====================================================== */
