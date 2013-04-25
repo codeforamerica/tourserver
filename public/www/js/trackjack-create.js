@@ -31,6 +31,7 @@ function onDeviceReadyCreate() {
     if ($("#createTrackName").val()) {
       tour.name = $("#createTrackName").val();
       tour.difficulty = $("#createTrackRating").val();
+      tour.description = $("#createTrackDescription").val();
       // TODO: tour.subject = $("#createTrackSubject").val();
       // start tracking the path
       startGeolocation();

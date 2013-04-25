@@ -8,6 +8,7 @@ function onDeviceReadyView() {
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
   // change this to your server's IP
   var host = "http://trackserver-test.herokuapp.com";
+  var host = "http://127.0.0.1:3000";
   var minCheckLocationAccuracy = 20; // meters to trigger a point
   var currentViewingTour = {};
 
@@ -136,7 +137,13 @@ function onDeviceReadyView() {
     console.log(currentViewingTour);
     console.log(currentViewingTour["name"]);
     $(".viewTrackTitle").text(currentViewingTour.name);
-    $("#viewTrackDescription").text("Placeholder");
+    if (currentViewingTour.description) {
+      $("#viewTrackDescription").text(currentViewingTour.description);
+    }
+    else {
+      $("#viewTrackDescription").text("No description");
+    }
+
     $(".viewTrackChapters").text(currentViewingTour.interest_points.length + " chapters");
   }
 
