@@ -611,7 +611,7 @@ a.ui-link-inherit {
 .ui-br {
 	border-color: rgb(130,130,130);
 	border-color: rgba(130,130,130,.3);
-	border-style: solid;
+	border-style: none;
 }
 /* Interaction cues
 -----------------------------------------------------------------------------------------------------------*/
