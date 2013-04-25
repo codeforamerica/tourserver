@@ -50,7 +50,9 @@ function onDeviceReadyView() {
     currentViewPointIndex++;
     console.log(currentViewPointIndex);
     console.log(event);
-    $.mobile.changePage($(this).attr("href"), { transition: "slide" });
+    $.mobile.changePage($(this).attr("href"), {
+      transition: "slide"
+    });
     return true;
   }
 
@@ -88,12 +90,15 @@ function onDeviceReadyView() {
     $(".viewTrackList").children().remove('li:not(.viewTrackListItemTemplate)');
     console.log($tourTemplate);
     for (var i = 0; i < response.length; i++) {
-      //console.log(response[i]);
+      console.log(response[i]);
       var $tourListEntry = $tourTemplate.clone(false);
       var $viewTrackTitle = $tourListEntry.find(".viewTrackTitle");
       $viewTrackTitle.text(response[i].name);
       var $viewTrackDifficulty = $tourListEntry.find(".viewTrackDifficulty");
       $viewTrackDifficulty.text(response[i].difficulty);
+      console.log(response[i].tour_length);
+      var $viewTrackDistance = $tourListEntry.find(".viewTrackDistance");
+      $viewTrackDistance.text(((response[i].tour_length) * 0.000621371192).toFixed(2));
       $tourListEntry.find(".viewTrackChapters").text(response[i].chapters.length + " chapters");
 
       //TODO: figure out why jqmdata doesn't work
@@ -381,6 +386,9 @@ function onDeviceReadyView() {
       if (distanceToNextPoint < triggerCurrentPointDistance) {
         console.log("distance trigger");
         navigator.notification.vibrate(1500);
+        $.mobile.changePage($("#viewTrackPointPage"), {
+          transition: "slide"
+        });
         showCurrentInterestPoint();
       }
     } else {
