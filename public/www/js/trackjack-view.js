@@ -84,7 +84,9 @@ function onDeviceReadyView() {
 
   function showTourList(response) {
     console.log("showTourList");
-    var $tourTemplate = $(".viewTrackList li:first");
+    var $tourTemplate = $("#viewTrackListItemTemplate");
+    $(".viewTrackList").children().remove('li:not(.viewTrackListItemTemplate)');
+    console.log($tourTemplate);
     for (var i = 0; i < response.length; i++) {
       //console.log(response[i]);
       var $tourListEntry = $tourTemplate.clone(false);
