@@ -88,16 +88,16 @@ function onDeviceReadyCreate() {
   $("#createTrackUploadImageLibrary").click(function(event) {
     console.log("album");
     console.log("event");
-    uploadImage(navigator.camera.PictureSourceType.PHOTOLIBRARY);
+    saveImage(navigator.camera.PictureSourceType.PHOTOLIBRARY);
   });
 
   // take photo 
   $("#createTrackUploadImageCamera").click(function(event) {
     console.log("camera");
-    uploadImage(navigator.camera.PictureSourceType.CAMERA);
+    saveImage(navigator.camera.PictureSourceType.CAMERA);
   });
 
-  function uploadImage(sourceType) {
+  function saveImage(sourceType) {
     navigator.camera.getPicture(cameraSuccess, cameraError, {
       quality: 40,
       destinationType: navigator.camera.DestinationType.FILE_URI,
