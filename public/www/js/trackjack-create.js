@@ -22,6 +22,8 @@ function onDeviceReadyCreate() {
     $(".phone").show();
   }
 
+  $('#createTrackUpload').click(uploadTour);
+
   // start Tour button
   $("#createTrackStartRecording").click(function(event) {
     console.log("createTrackName");
@@ -254,8 +256,9 @@ function onDeviceReadyCreate() {
   }
 
   // save tour button
-  $('#createTrackUpload').click(function(event) {
-    console.log("saveTour");
+  function uploadTour(event) {
+
+    console.log("uploadTour");
     for (var i = 0; i < tour.interest_points.length; i++) {
       //for each point
       var myPoint = tour.interest_points[i];
@@ -396,7 +399,7 @@ function onDeviceReadyCreate() {
       return tour;
     }
 
-  });
+  }
 
   // Stop recording tour, but keep it in memory for later upload
   // Not sure this works as expected.

@@ -18,12 +18,14 @@ function onDeviceReadyEdit() {
   $("#editTrackInfoPage2").on('pagebeforeshow', populateTrackInfoPage2);
   $("#editTrackPOIListPage").on('pagebeforeshow', populatePointList);
   $("#editTrackPOIInfoPage1").on('pagebeforeshow', populatePointInfoPage1);
-  $("#editTrackInfoDelete").click(deleteTrack);
+  $("#editTrackInfoDelete").click(deleteTrack);  
+  $("#editTrackPOISubmit").click(uploadTour);
   $("#editTrackInfoUploadImageLibrary").click(saveTrackImageFromLibrary);
   $("#editTrackInfoUploadImageCamera").click(saveTrackImageFromCamera);
   $("#editTrackPOIUploadImageLibrary").click(savePointImageFromLibrary);
   $("#editTrackPOIUploadImageCamera").click(savePointImageFromCamera);
   $("#editTrackRecordAudio").click(recordPointAudio);
+
 
   function deleteTrack(event) {
     event.preventDefault();
@@ -90,6 +92,7 @@ function onDeviceReadyEdit() {
     };
     makeAPICall(callData, function(response) {
       currentViewingTour = response;
+      console.log(response);
       $.mobile.changePage($("#editTrackLoadingPage"), {
         transition: "slide"
       });
@@ -257,7 +260,7 @@ function onDeviceReadyEdit() {
     function captureError(error) {
       alert("An error has occurred (recordAudio): Code = " + error.code);
     }
-  };
+  }
 
   function audioSuccess() {
     $("#viewTrackAudioPointPause").click(function(event) {
@@ -355,6 +358,166 @@ function onDeviceReadyEdit() {
       $("#results").text(JSON.stringify(response));
     });
   }
+
+
+  //lots of copy and paste from the create code here.
+  //needs to be refactored somewhere sensible
+  // save tour button
+
+  function uploadTour(event) {
+
+    // only new lines
+    tour = currentViewingTour;
+    tour.name = $("#editTrackName").val();
+    tour.difficulty = $("#editTrackRating").val();
+    tour.description = $("#editTrackDescription").val();
+    
+
+    console.log("uploadTour");
+    for (var i = 0; i < tour.interest_points.length; i++) {
+      //for each point
+      var myPoint = tour.interest_points[i];
+    }
+    //stopGeolocation();
+    // submitMediaItems calls submitTour on completion
+    submitMediaItems(tour);
+    console.log(tour);
+    return;
+
+    function submitTour(tour) {
+      console.log("submitTour");
+      var callData = {
+        type: "put",
+        path: "/tours/" + tour.id + ".json"
+      };
+      callData.data = reformatTourForSubmission(tour);
+      makeAPICall(callData, function() {
+        alert("Tour saved!");
+        $.mobile.changePage($("#createFinishPage"), {
+          transition: "slide"
+        });
+        //window.location.reload(false);
+      });
+    };
+
+    function submitMediaItems(tour) {
+      console.log("submitMediaItems");
+      // is there a better way to avoid undefined issues? 
+      var mediaItemsSubmissions = new Array();
+      var mediaSubmitParams = [];
+      console.log(mediaItemsSubmissions.length);
+      if (tour.interest_points) {
+        for (var i = 0; i < tour.interest_points.length; i++) {
+          var myPoint = tour.interest_points[i];
+          if (myPoint.interp_items) {
+            for (var j = 0; j < myPoint.interp_items.length; j++) {
+              var myInterpItem = myPoint.interp_items[j];
+
+              if (myInterpItem.media_items_attributes) {
+                for (var k = 0; k < myInterpItem.media_items_attributes.length; k++) {
+                  var myMediaItem = myInterpItem.media_items_attributes[k];
+                  console.log("myMediaItem: ");
+                  console.log(myMediaItem);
+                  var uploadFunc = function(type) {
+                    if (type.indexOf("image") == 0) {
+                      return uploadPhoto;
+                    } else if (type.indexOf("text") == 0) {
+                      return writeAndUploadText;
+                    } else if (type.indexOf("audio") == 0) {
+                      return uploadAudio;
+                    }
+                  }(myMediaItem.type);
+                  var myCallback = function(myMediaItem) {
+                    return function(response) {
+                      myMediaItem = addMediaItemIDToTour(response, myMediaItem);
+                      console.log("in upload.callback");
+                    };
+                  }(myMediaItem);
+                  mediaSubmitParams.push({
+                    data: myMediaItem.data,
+                    mediaUploadFunc: uploadFunc,
+                    callback: myCallback
+                  });
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // now we have an array of {mediaUploadFunc, data} items.
+      // execute each mediaUploadFunc with data -- in series --
+      // to get the saved id for each media item
+      // then use the series completion callback to trigger saving the tour object
+      if (mediaSubmitParams) {
+        var funcArray = [];
+        console.log("mediaSubmitParams.length" + mediaSubmitParams.length);
+        for (var i = 0; i < mediaSubmitParams.length; i++) {
+          var curMediaItem = mediaSubmitParams[i];
+          var myMediaUploadArrayItem = function(curMediaItem) {
+            return function(callback) {
+              curMediaItem.mediaUploadFunc(curMediaItem.data, function(response) {
+                console.log("seriesItemCallback");
+                console.log(curMediaItem.mediaUploadFunc);
+                curMediaItem.callback(response);
+                callback(null, "two");
+              });
+            }
+          }(curMediaItem);
+          funcArray.push(myMediaUploadArrayItem);
+        }
+        async.series(funcArray, asyncCallback);
+      }
+    }
+
+    function asyncCallback() {
+      console.log("asyncCallback");
+      submitTour(tour);
+    }
+
+    function addMediaItemIDToTour(response, mediaItem) {
+      var myResponse = JSON.parse(response);
+      mediaItem.id = myResponse.id;
+      console.log("mediaItem: ");
+      console.log(mediaItem);
+      return mediaItem;
+    }
+
+    function reformatTourForSubmission(tour) {
+      console.log("reformatTourForSubmission");
+      // reformatting for Rails. It likes nested resource names to end with _attributes.
+      for (var i = 0; i < tour.interest_points.length; i++) {
+        var myPoint = tour.interest_points[i];
+        if (myPoint.interp_items) {
+          for (var j = 0; j < myPoint.interp_items.length; j++) {
+            var myInterpItem = myPoint.interp_items[j];
+            if (myInterpItem.media_items_attributes) {
+              for (var k = 0; k < myInterpItem.media_items_attributes.length; k++) {
+                var myMediaItem = myInterpItem.media_items_attributes[k];
+                delete myMediaItem.data;
+                delete myMediaItem.type;
+              }
+            }
+          }
+        }
+        myPoint.interp_items_attributes = myPoint.interp_items;
+        delete myPoint.interp_items;
+      }
+      if (tour.interest_points) {
+        tour.interest_points_attributes = tour.interest_points;
+        delete tour.interest_points;
+      }
+      if (tour.tour_length) {
+        delete tour.tour_length;
+      }
+      // make the heartbeat WKT path
+      //tour.path = "LINESTRING" + "(" + tour.pathpoints.join(", ") + ")";
+      console.log("end reformatTourForSubmission");
+      return tour;
+    }
+
+  }
+
 }
 
 $(document).ready(function() {
