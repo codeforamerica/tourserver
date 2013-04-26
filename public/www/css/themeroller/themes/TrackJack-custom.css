@@ -54,7 +54,21 @@
     font-size: 1em !important;
     font-weight: 300 !important;
 }
-
+#textbox-text-ctmain {
+    font-family: Muli !important;
+    font-size: 1em !important;
+    font-weight: 300 !important;
+}
+#textbox-text-trackupload {
+    font-family: Muli !important;
+    font-size: 1em !important;
+    font-weight: 300 !important;    
+}
+#textbox-text-poi2 {
+    font-family: Muli !important;
+    font-size: 1em !important;
+    font-weight: 300 !important;     
+}
 
 /* track name header (this one is being funny-
   the styling won't work as a class, so I just used the ids
@@ -177,6 +191,13 @@
   font-family: Muli;
   font-weight: 300;
 }
+/* this is being wonky - trying to center buttons on the page
+.uploadPhotoDiv {
+    position: absolute; 
+    top: 35%; 
+    width: 100%;
+}
+*/
 #createTrackImageDiv {
   width: 100%;
   height: 200px;
@@ -189,4 +210,8 @@
   height: 250px;
   background-color: #fbfbfb;
   border: 1px solid #b8b8b8;
+}
+
+#addPointFinishBar {
+    width: 100%;
 }

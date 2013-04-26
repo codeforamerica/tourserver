@@ -735,20 +735,22 @@
 
   <div data-role="page" data-theme="a" id="createTrackUploadStartImagePage">
       <div data-theme="a" data-role="header" data-position="fixed">
-      <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#createTrackInputPage2" class="ui-btn-left">
+        <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#createTrackInputPage2" class="ui-btn-left">
           Back
-      </a>
+        </a>
           <h3>
               Add Photo
           </h3>
       </div>
       <div data-role="content">
+        <div class="uploadPhotoDiv">
           <a data-role="button" data-theme="b" data-transition="slide" class="createTrackUploadImageLibrary" >
               Add from Library
           </a>
           <a data-role="button" data-transition="slide" data-theme="b" class="createTrackUploadImageCamera">
               Take New Photo
           </a>
+        </div>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
           <div data-role="navbar">
@@ -789,15 +791,22 @@
       </div>
       <div data-role="content">
           <div class="textbox-white">
-              <p>
-                  Begin walking your track!<br>
-
-                  Stop and tap “Add Point” where you’d like to share media or focus the attention of your audience.<br>
-
-                  When you’ve added all your points, tap "Finish Track" to wrap up.<br>
-              </p>
+              <p class="textbox-header">Begin walking your track!</p>
+              <div id="textbox-text-ctmain">
+                <p>Stop and tap “Add Point” where you’d like to share media or focus the attention of your audience.</p>
+                <p>When you’ve added all your points, tap "Finish Track" to wrap up.</p>
+              </div>
           </div>
-          <div data-role="controlgroup" data-type="horizontal">
+          <!--
+          <table data-role="table" data-theme="c">
+            <tr>
+              <td> Add Place </td>
+              <td></td>
+              <td> Finish Track </td>
+            </tr>
+          </table>
+        -->
+          <div data-role="controlgroup" data-type="horizontal" id="addPointFinishBar">
               <a class="btn-short" data-role="button" data-transition="slide" href="#createTrackPOIPage1" data-theme="c" id="createTrackAddPoint">
                   Add Point
               </a>
@@ -846,20 +855,16 @@
       <div data-role="content">
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
-                  <label for="createTrackPOIName"> 
-                      <strong>
-                          Name This Place
-                      </strong>
+                  <label for="createTrackPOIName" class="inputpage-header"> 
+                      Name This Place
                   </label>
                   <input name="" id="createTrackPOIName" placeholder="" value=""type="text">
               </fieldset>
           </div>
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
-                  <label for="createTrackPOIDescription">
-                      <strong>
-                          Describe This Place
-                      </strong>
+                  <label for="createTrackPOIDescription" class="inputpage-header">
+                      Describe This Place
                   </label>
                   <textarea name="" id="createTrackPOIDescription" placeholder="Tell your audience what is significant here. You can also use this space to take notes, and edit it later."></textarea>
               </fieldset>
@@ -913,17 +918,20 @@
       <div id="musicplayer-container"></div> 
       <div data-role="content">
           <!-- <a data-role="button" data-theme="b" href="#RecordAudioPage" data-transition="slide"> -->
-          <!-- we don't have a #recordAudioPage. do we need one? -da -->
+          <!-- we don't have a #recordAudioPage. do we need one? -da 
+          oops, probably not. I was refering to the phonegap audio page -->
           <a id="createTrackRecordAudio" data-role="button" data-theme="b" href="#" data-transition="slide">
               Record Audio
           </a>
-            <textarea name="" id="createTrackPOISubmitHelp" placeholder="">
-              <strong>Brilliant!</strong><br>
-              You’ve created a place for learning. Submit this place, keep moving and add more places along your track!
-            </textarea>  
-          <a id="createTrackPOISubmit" data-role="button" data-theme="c" href="#createTrackMainPage" data-transition="slide">
+          <div class="textbox-white" id="createTrackPOISubmitHelp">
+            <p class="textbox-header">
+              Brilliant!
+            </p>
+            <p id="textbox-text-poi2">You’ve created a place for learning. Submit this place, keep moving and add more places along your track!</p>
+          </div>
+            <a id="createTrackPOISubmit" data-role="button" data-theme="c" href="#createTrackMainPage" data-transition="slide">
               Submit This Place
-          </a>    
+            </a>    
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
           <div data-role="navbar">
@@ -951,7 +959,7 @@
 <!-- CT Photo Upload POI
 ================================================================================ -->
 
-  <div data-role="page" data-theme="d" id="createTrackUploadPointImagePage">
+  <div data-role="page" data-theme="a" id="createTrackUploadPointImagePage">
       <div data-theme="a" data-role="header" data-position="fixed">
       <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#createTrackPOIPage2" class="ui-btn-left">
@@ -1003,13 +1011,12 @@
       </div>
       <div data-role="content">
           <div class="textbox-white">
-              <p>
-                  Congratulations!
+              <p class="textbox-header">Congratulations!</p>
+              <div id="textbox-text-trackupload">
+                  <p>You've created an entire track for your audience to walk. They will pass by the Places you've created, experience the lessons you've left for them, and have the opportunity to learn a little bit more about the amazing world around them. And remember, you can always come back and improve your work later.</p>
 
-                  You've created an entire track for your audience to walk. They will pass by the Places you've created, experience the lessons you've left for them, and have the opportunity to learn a little bit more about the amazing world around them. And remember, you can always come back and improve your work later.
-
-                  Tap "Submit Your Track", and we'll upload your work for other people to enjoy. It may take a minute, but don't worry. If you're afraid yout track wasn't save, you can tap "Submit" again. 
-              </p>
+                  <p>Tap "Submit Your Track", and we'll upload your work for other people to enjoy. It may take a minute, but don't worry. If you're afraid yout track wasn't save, you can tap "Submit" again.</p>
+              </div>
           </div>
           <a data-role="button" data-transition="slide" data-theme="c" href="#" id="createTrackUpload">
               Submit Your Track
@@ -1054,7 +1061,7 @@
                   Success!
               </p>
               <p>
-                  Your Track has been recorded. People can now discover your work and the knowledge you've shared. Great job!<br>
+                  Your Track has been recorded. People can now discover your work and the knowledge you've shared. Great job!
               </p>
           </div>
       </div>
@@ -1155,6 +1162,7 @@
               Edit a Track
           </h2>
       </div>
+<<<<<<< HEAD
  -->
 <!-- What are we going to do with all these dummy list items in the edit section? +AJW 
     
@@ -1163,6 +1171,11 @@
  <!--      <div id="editTrackListDiv" data-theme="b" data-divider-theme="b" data-inset="true">
          <ul id="editTrackList" data-role="listview" data-divider-theme="b">
           <li id="editTrackListItemTemplate" data-theme="b">
+=======
+      <div data-theme="b" data-divider-theme="b" data-inset="true">
+         <ul data-role="listview" data-divider-theme="b">
+          <li data-theme="b">
+>>>>>>> styles to create tour section
             <a href="#page17" data-transition="slide">
             <h1 ="editTrackTitle" style="white-space: normal">[Invasive Species on Bike and Hike Trail]</h1>
             <img src="img/Logo-MetroParks-Other.png" alt="test image">
