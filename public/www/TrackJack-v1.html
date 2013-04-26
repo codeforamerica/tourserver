@@ -1215,7 +1215,7 @@
                   <label for="editTrackDescription" class="inputpage-header">
                     What You'll Learn
                   </label>
-                  <textarea name="" id="editTrackDescription" placeholder="Tell people what they will learn on your track. Bullet points or a brief overview will work just fine.">[Discover the most prevalent invasive species on the Bike and Hike Trails. Invasive plants are aggressive species that grow in areas where they do not historically occur. Some were introduced accidentally, while others may have been planted for herbal or medicinal purposes, for soil stabilization and wildlife habitat, or because of their showy flowers, fruit, leaves or bark.]</textarea>
+                  <textarea name="" id="editTrackDescription" placeholder="Tell people what they will learn on your track. Bullet points or a brief overview will work just fine." value="[Discover the most prevalent invasive species on the Bike and Hike Trails. Invasive plants are aggressive species that grow in areas where they do not historically occur. Some were introduced accidentally, while others may have been planted for herbal or medicinal purposes, for soil stabilization and wildlife habitat, or because of their showy flowers, fruit, leaves or bark.]"></textarea>
               </fieldset>
           </div>
           <div data-role="fieldcontain">
@@ -1292,7 +1292,7 @@
   <div data-role="page" data-theme="a" id="editTrackInputPage2">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#editTrackListPage" class="ui-btn-left">
-              Cancel
+              Back
           </a>
           <h2>
               Edit Photo
@@ -1442,8 +1442,8 @@
       </div>
       <div data-role="content">
           <div data-role="fieldcontain">
-              <fieldset data-role="controlgroup" class="inputpage-header">
-                  <label for="editTrackPOIName"> 
+              <fieldset data-role="controlgroup">
+                  <label for="editTrackPOIName" class="inputpage-header"> 
                     Name This Place
                   </label>
                   <input name="" id="editTrackPOIName" placeholder="" value="[Name of Point]"
@@ -1455,7 +1455,7 @@
                   <label for="editTrackPOIDescription" class="inputpage-header">
                     Describe This Place
                   </label>
-                  <textarea name="" id="editTrackPOIDescription" placeholder="Tell your audience what is significant here. You can also use this space to take notes, and edit it later" > [Garlic mustardis a biennial herb with stalked, triangular-shaped leaves that smell like garlic when crushed. Plants first appear as rosettes of green leaves close to the ground. The following year they reach two to 3.5 feet tall and produce button-like clusters of small white flowers with four petals in the shape of a cross. Slender seed pods are present by June; each contains thousands of seeds per plant. The seeds can be viable in the soil for up to seven years. This non-native plant aggressively monopolizes light, moisture, nutrients, soil and growing space.]</textarea>
+                  <textarea name="" id="editTrackPOIDescription" placeholder="Tell your audience what is significant here. You can also use this space to take notes, and edit it later" value="[Garlic mustardis a biennial herb with stalked, triangular-shaped leaves that smell like garlic when crushed. Plants first appear as rosettes of green leaves close to the ground. The following year they reach two to 3.5 feet tall and produce button-like clusters of small white flowers with four petals in the shape of a cross. Slender seed pods are present by June; each contains thousands of seeds per plant. The seeds can be viable in the soil for up to seven years. This non-native plant aggressively monopolizes light, moisture, nutrients, soil and growing space.]"></textarea>
               </fieldset>
           </div>
           <a data-role="button" data-transition="slide" data-theme="b" id="editTrackPOIUploadPhoto" href="#editTrackPOIUploadPhotoPage">
@@ -1465,7 +1465,7 @@
               <img  id="editTrackPOIImage">
           </div>
   <!-- unsure of how we need to change these button ids too leaving them the same -->
-          <a id="editTrackPOISave" data-role="button" data-transition="slide" data-theme="a" href="#editTrackPOIInfoPage2">
+          <a id="editTrackPOISave" data-role="button" data-transition="slide" data-theme="c" href="#editTrackPOIInfoPage2">
               Continue Edits
           </a>
       </div>
@@ -1520,9 +1520,9 @@
           </a>
           <div class="textbox-white" id="createTrackPOISubmitHelp">
             <p class="textbox-header">
-              Brilliant!
+              -----
             </p>
-            <p id="textbox-text-poi2">You’ve created a place for learning. Submit this place, keep moving and add more places along your track!</p>
+            <p id="textbox-text-poi2">Do we want to have additional text here? Not sure if it is necessary for more instructions, but leaving this here just in case.</p>
           </div>
             <a id="createTrackPOISubmit" data-role="button" data-theme="c" href="#editTrackListPage" data-transition="slide">
               Submit Changes
