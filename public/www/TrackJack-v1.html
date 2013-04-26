@@ -1378,11 +1378,57 @@
   </div>
 
 
-<!-- Edit POI
+<!-- View Track Photo Upload Start Image
+================================================================================ -->
+
+  <div data-role="page" data-theme="a" id="editTrackInfoUploadPhotoPage">
+      <div data-theme="a" data-role="header" data-position="fixed">
+        <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#editTrackInputPage2" class="ui-btn-left">
+          Back
+        </a>
+          <h3>
+              Add Photo
+          </h3>
+      </div>
+      <div data-role="content">
+        <div class="uploadPhotoDiv">
+          <a data-role="button" data-theme="b" data-transition="slide" class="createTrackUploadImageLibrary" >
+              Add from Library
+          </a>
+          <a data-role="button" data-transition="slide" data-theme="b" class="createTrackUploadImageCamera">
+              Take New Photo
+          </a>
+        </div>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+          <div data-role="navbar">
+              <ul>
+                  <li>
+                      <a href="#viewTrackListPage" data-transition="fade">
+                          Home
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#infopage" data-transition="fade">
+                          Help
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#settingsPage" data-transition="fade">
+                          Settings
+
+                      </a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </div>
+
+<!-- Edit POI Page 1
 ================================================================================ -->
 
 
-  <div data-role="page" data-theme="a" id="editTrackPOIInfoPage">
+  <div data-role="page" data-theme="a" id="editTrackPOIInfoPage1">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#page17" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
@@ -1418,25 +1464,9 @@
                   </a>
               </li>
           </ul>
-          <div style="height: 5px">
-          </div>
-          <a data-role="button" data-theme="a" href="#page18">
-              Play Recorded Audio
-          </a>
-          <ul data-role="listview" data-divider-theme="d" data-inset="true">
-              <li data-theme="d">
-                  <a href="#editTrackPOIRecordAudio" data-transition="slide">
-                      Record New Audio
-                  </a>
-              </li>
-          </ul>
-          <div style="height: 20px">
-          </div>
+  <!-- unsure of how we need to change these button ids too leaving them the same -->
           <a id="editTrackPOISave" data-role="button" data-transition="slide" data-theme="a" href="#page17">
-              Save
-          </a>
-          <a id="editTrackPOIDelete" data-role="button" href="#page18">
-              Delete
+              Continue Edits
           </a>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
@@ -1462,6 +1492,108 @@
       </div>
   </div>
 
+
+<!-- Edit POI Photo 2
+================================================================================ -->
+
+<div data-role="page" data-theme="a" id="editTrackPOIInfoPage2">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
+          href="#editTrackPOIInfoPage2" class="ui-btn-left">
+              Back
+          </a>
+          <h2>
+              Edit Point of Interest
+          </h2>
+      </div>
+      <div id="musicplayer-container"></div> 
+      <div data-role="content">
+          <!-- <a data-role="button" data-theme="b" href="#RecordAudioPage" data-transition="slide"> -->
+          <!-- we don't have a #recordAudioPage. do we need one? -da 
+          oops, probably not. I was refering to the phonegap audio page -->
+          <a id="editTrackRecordAudio" data-role="button" data-theme="b" href="#" data-transition="slide">
+              Record Audio
+          </a>
+          <div class="textbox-white" id="createTrackPOISubmitHelp">
+            <p class="textbox-header">
+              Brilliant!
+            </p>
+            <p id="textbox-text-poi2">You’ve created a place for learning. Submit this place, keep moving and add more places along your track!</p>
+          </div>
+            <a id="createTrackPOISubmit" data-role="button" data-theme="c" href="#createTrackMainPage" data-transition="slide">
+              Submit Changes
+            </a>    
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+          <div data-role="navbar">
+              <ul>
+                  <li>
+                      <a href="#viewTrackListPage" data-transition="fade">
+                          Home
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#infopage" data-transition="fade">
+                          Help
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#settingsPage" data-transition="fade">
+                          Settings
+                      </a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </div>
+
+
+
+<!-- Edit POI Photo Upload Image
+================================================================================ -->
+
+  <div data-role="page" data-theme="a" id="editTrackUploadPointPhotoPage">
+      <div data-theme="a" data-role="header" data-position="fixed">
+        <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#editTrackPOIPage2" class="ui-btn-left">
+          Back
+        </a>
+          <h3>
+              Add Photo
+          </h3>
+      </div>
+      <div data-role="content">
+        <div class="uploadPhotoDiv">
+          <a data-role="button" data-theme="b" data-transition="slide" class="createTrackUploadImageLibrary" >
+              Add from Library
+          </a>
+          <a data-role="button" data-transition="slide" data-theme="b" class="createTrackUploadImageCamera">
+              Take New Photo
+          </a>
+        </div>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+          <div data-role="navbar">
+              <ul>
+                  <li>
+                      <a href="#viewTrackListPage" data-transition="fade">
+                          Home
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#infopage" data-transition="fade">
+                          Help
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#settingsPage" data-transition="fade">
+                          Settings
+
+                      </a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </div>
   
 </body>
 </html>
