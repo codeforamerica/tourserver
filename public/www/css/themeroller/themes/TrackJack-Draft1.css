@@ -574,19 +574,19 @@ a.ui-link-inherit {
 /* Active class used as the "on" state across all themes
 -----------------------------------------------------------------------------------------------------------*/
 .ui-btn-active {
-	border: 1px solid #A3BE8B /*{global-active-border}*/;
-	background: #A3BE8B /*{global-active-background-color}*/;
-	font-weight: bold;
+	border: 1px solid #e5e1d1 /*{global-active-border}*/;
+	background: #e5e1d1 /*{global-active-background-color}*/;
+	font-weight: normal;
 	color: #0a0d29 /*{global-active-color}*/;
 	cursor: pointer;
 	text-shadow: 0 /*{global-active-shadow-x}*/ 0px /*{global-active-shadow-y}*/ 0 /*{global-active-shadow-radius}*/  /*{global-active-shadow-color}*/;
 	text-decoration: none;
-	background-image: -webkit-gradient(linear, left top, left bottom, from( #c0e0a4 /*{global-active-background-start}*/), to( #859b71 /*{global-active-background-end}*/)); /* Saf4+, Chrome */
-	background-image: -webkit-linear-gradient( #c0e0a4 /*{global-active-background-start}*/, #859b71 /*{global-active-background-end}*/); /* Chrome 10+, Saf5.1+ */
-	background-image:    -moz-linear-gradient( #c0e0a4 /*{global-active-background-start}*/, #859b71 /*{global-active-background-end}*/); /* FF3.6 */
-	background-image:     -ms-linear-gradient( #c0e0a4 /*{global-active-background-start}*/, #859b71 /*{global-active-background-end}*/); /* IE10 */
-	background-image:      -o-linear-gradient( #c0e0a4 /*{global-active-background-start}*/, #859b71 /*{global-active-background-end}*/); /* Opera 11.10+ */
-	background-image:         linear-gradient( #c0e0a4 /*{global-active-background-start}*/, #859b71 /*{global-active-background-end}*/);
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #e5e1d1 /*{global-active-background-start}*/), to( #e5e1d1 /*{global-active-background-end}*/)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient( #e5e1d1 /*{global-active-background-start}*/, #e5e1d1 /*{global-active-background-end}*/); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient( #e5e1d1 /*{global-active-background-start}*/, #e5e1d1 /*{global-active-background-end}*/); /* FF3.6 */
+	background-image:     -ms-linear-gradient( #e5e1d1 /*{global-active-background-start}*/, #e5e1d1 /*{global-active-background-end}*/); /* IE10 */
+	background-image:      -o-linear-gradient( #e5e1d1 /*{global-active-background-start}*/, #e5e1d1 /*{global-active-background-end}*/); /* Opera 11.10+ */
+	background-image:         linear-gradient( #e5e1d1 /*{global-active-background-start}*/, #e5e1d1 /*{global-active-background-end}*/);
 	  font-family: Muli, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-btn-active:visited,
