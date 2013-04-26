@@ -14,7 +14,10 @@ function onDeviceReadyEdit() {
 
   $("#editTrackListPage").on('pagebeforeshow', getTourList);
   $("#editTrackLoadingPage").on('pagebeforeshow', loadMediaItems);
+  $("#editTrackInfoPage").on('pagebeforeshow', populateTrackInfoPage);
   $("#editTrackPOIListPage").on('pagebeforeshow', populatePointList);
+  $("#editTrackPOIInfoPage").on('pagebeforeshow', populatePointInfoPage);
+
 
   //dupe of trackjack-view.js. should package these.
 
@@ -110,7 +113,11 @@ function onDeviceReadyEdit() {
 
   function downloadDone() {
     console.log("downloadDone");
-    $.mobile.changePage($("#editTrackPOIListPage"));
+    $.mobile.changePage($("#editTrackInfoPage"));
+  }
+
+ function populateTrackInfoPage() {
+    $("#editTrackName")
   }
 
   function populatePointList() {
@@ -120,9 +127,9 @@ function onDeviceReadyEdit() {
 
     for (var i = 0; i < currentViewingTour.interest_points.length; i++) {
       var myPoint = currentViewingTour.interest_points[i];
-      console.log(myPoint);
+
       var $pointListEntry = $("#editTrackPOIListItemTemplate").clone(false);
-      console.log(myPoint.name);
+      $pointListEntry.data("pointIndex", i);
       $pointListEntry.find(".editTrackPOIListItemTitle").text(myPoint.name);
       $.each(myPoint.interp_items, function(index, interp_item) {
         $.each(interp_item.media_items, function(index, media_item) {
@@ -137,10 +144,21 @@ function onDeviceReadyEdit() {
       });
       $("#editTrackPOIList").append($pointListEntry);
     }
+    $(".editTrackPOIListItem").click(function() {
+      var pointIndex = $(this).data("pointIndex");
+      currentViewPointIndex = pointIndex;
+      $.mobile.changePage("#editTrackPOIInfoPage")
+    });
     $("#editTrackPOIListItemTemplate").remove();
     $("#editTrackPOIList").listview('refresh');
   }
-
+ 
+  function populatePointInfoPage() {
+    console.log("populatePointInfoPage");
+    $("#editTrackPOIName").val(currentViewingTour.interest_points[currentViewPointIndex].name);
+    $("#editTrackPOIDescription").val(currentViewingTour.interest_points[currentViewPointIndex].description);
+    $("#editTrackPOIDifficulty").val(currentV)  
+  }
 
 
   function downloadMediaItem(itemInfo, doneCallback) {

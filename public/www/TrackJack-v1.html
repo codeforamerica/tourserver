@@ -1250,7 +1250,7 @@
 
   <div data-role="page" data-theme="d" id="editTrackPOIListPage">
       <div data-theme="a" data-role="header" data-position="fixed">
-          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
+          <a data-role="button" data-direction="reverse" data-transition="slide"
           href="#editTrackListPage" class="ui-btn-left">
               Back
           </a>
@@ -1260,7 +1260,7 @@
       </div>
       <div data-theme="d" data-divider-theme="b" data-inset="true">
         <ul id="editTrackPOIList" data-role="listview" data-divider-theme="b">
-          <li id="editTrackPOIListItemTemplate" data-theme="c">
+          <li id="editTrackPOIListItemTemplate" class="editTrackPOIListItem" data-theme="c">
             <a href="#page19" data-transition="slide">
             <h1 class="editTrackPOIListItemTitle" style="white-space: normal">[Introduction]</h1>
             <img class="editTrackPOIListItemImage" src="img/BikeHike-square.jpg" alt="test image">
@@ -1294,10 +1294,10 @@
   <!-- Edit Intro
   ================================================================================ -->
   
-  <div data-role="page" data-theme="d" id="page19">
+  <div data-role="page" data-theme="d" id="editTrackInfoPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          href="#page17" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
+          href="#editTrackListPage" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
               Cancel
           </a>
           <h2>
@@ -1307,23 +1307,23 @@
       <div data-role="content">
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
-                  <label for="textinput7">
+                  <label for="editTrackName">
                   </label>
-                  <input name="" id="textinput7" placeholder="" value="Invasive Species on the Bike and Hike Trail" type="text">
+                  <input id="editTrackName" value="Invasive Species on the Bike and Hike Trail" type="text">
               </fieldset>
           </div>
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
-                  <label for="textarea6">
+                  <label for="editTrackDescription">
                   </label>
-                  <textarea name="" id="textarea6" placeholder="">[Discover the most prevalent invasive species on the Bike and Hike Trails. Invasive plants are aggressive species that grow in areas where they do not historically occur. Some were introduced accidentally, while others may have been planted for herbal or medicinal purposes, for soil stabilization and wildlife habitat, or because of their showy flowers, fruit, leaves or bark.]</textarea>
+                  <textarea name="" id="editTrackDescription" placeholder="">[Discover the most prevalent invasive species on the Bike and Hike Trails. Invasive plants are aggressive species that grow in areas where they do not historically occur. Some were introduced accidentally, while others may have been planted for herbal or medicinal purposes, for soil stabilization and wildlife habitat, or because of their showy flowers, fruit, leaves or bark.]</textarea>
               </fieldset>
           </div>
           <div data-role="fieldcontain">
-              <label for="selectmenu7">
+              <label for="editTrackDifficulty">
                   Trail Rating
               </label>
-              <select name="Trail Rating" data-theme="c">
+              <select id="editTrackDifficulty" name="Trail Rating" data-theme="c">
                   <option value="Easy">
                       Easy
                   </option>
@@ -1336,10 +1336,10 @@
               </select>
           </div>
           <div data-role="fieldcontain">
-              <label for="selectmenu8">
+              <label for="editTrackSubject">
                   Subject
               </label>
-              <select name="Category" data-theme="c">
+              <select id="editTrackSubject" name="Category" data-theme="c">
                   <option value="Wildlife">
                       Wildlife
                   </option>
@@ -1356,17 +1356,17 @@
           </div>
           <ul data-role="listview" data-divider-theme="b" data-inset="true">
               <li data-theme="c">
-                  <a href="#UploadPhotoPage" data-transition="slide">
+                  <a href="#editTrackInfoUploadPhotoPage" data-transition="slide">
                       Upload New Photo
                   </a>
               </li>
           </ul>
           <div style="height:20px">
           </div>
-          <a data-role="button" data-transition="slide" data-theme="a" href="#page17">
+          <a data-role="button" id="editTrackInfoSave" data-transition="slide" data-theme="a" href="#editTrackPOIListPage">
               Save
           </a>
-          <a data-role="button" data-transition="slide" href="#page17">
+          <a data-role="button" id="editTrackInfoDelete" data-transition="slide" href="#page17">
               Delete Entire Tour
           </a>
       </div>
@@ -1396,7 +1396,7 @@
 <!-- Edit POI
 ================================================================================ -->
 
-  <div data-role="page" data-theme="d" id="page18">
+  <div data-role="page" data-theme="d" id="editTrackPOIInfoPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#page17" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
@@ -1409,17 +1409,17 @@
       <div data-role="content">
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
-                  <label for="textinput6">
+                  <label for="editTrackPOIName">
                   </label>
-                  <input name="" id="textinput6" placeholder="" value="Garlic Mustard"
+                  <input name="" id="editTrackPOIName" placeholder="" value="Garlic Mustard"
                   type="text">
               </fieldset>
           </div>
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
-                  <label for="textarea5">
+                  <label for="editTrackPOIDescription">
                   </label>
-                  <textarea name="" id="textarea5" placeholder="">Garlic mustardis a biennial herb with stalked, triangular-shaped leaves that smell like garlic when crushed. Plants first appear as rosettes of green leaves close to the ground. The following year they reach two to 3.5 feet tall and produce button-like clusters of small white flowers with four petals in the shape of a cross. Slender seed pods are present by June; each contains thousands of seeds per plant. The seeds can be viable in the soil for up to seven years. This non-native plant aggressively monopolizes light, moisture, nutrients, soil and growing space.</textarea>
+                  <textarea name="" id="editTrackPOIDescription" placeholder="">Garlic mustardis a biennial herb with stalked, triangular-shaped leaves that smell like garlic when crushed. Plants first appear as rosettes of green leaves close to the ground. The following year they reach two to 3.5 feet tall and produce button-like clusters of small white flowers with four petals in the shape of a cross. Slender seed pods are present by June; each contains thousands of seeds per plant. The seeds can be viable in the soil for up to seven years. This non-native plant aggressively monopolizes light, moisture, nutrients, soil and growing space.</textarea>
               </fieldset>
           </div>
           <div style="">
@@ -1427,7 +1427,7 @@
           </div>
           <ul data-role="listview" data-divider-theme="d" data-inset="true">
               <li data-theme="d">
-                  <a href="#UploadPhotoPage" data-transition="slide">
+                  <a href="#editTrackPOIUploadPhotoPage" data-transition="slide">
                       Upload New Photo
                   </a>
               </li>
@@ -1439,17 +1439,17 @@
           </a>
           <ul data-role="listview" data-divider-theme="d" data-inset="true">
               <li data-theme="d">
-                  <a href="#settingsPage" data-transition="slide">
+                  <a href="#editTrackPOIRecordAudio" data-transition="slide">
                       Record New Audio
                   </a>
               </li>
           </ul>
           <div style="height: 20px">
           </div>
-          <a data-role="button" data-transition="slide" data-theme="a" href="#page17">
+          <a id="editTrackPOISave" data-role="button" data-transition="slide" data-theme="a" href="#page17">
               Save
           </a>
-          <a data-role="button" href="#page18">
+          <a id="editTrackPOIDelete" data-role="button" href="#page18">
               Delete
           </a>
       </div>
