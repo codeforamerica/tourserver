@@ -211,6 +211,7 @@ function onDeviceReadyEdit() {
     console.log("populatePointInfoPage1");
     var currentPoint = currentViewingTour.interest_points[currentViewPointIndex];
     $("#editTrackPOIName").val(currentPoint.name);
+    var myAudio = null;
     $.each(currentPoint.interp_items, function(index, interp_item) {
       $.each(interp_item.media_items, function(index, media_item) {
         var mimeType = media_item.item_content_type;
@@ -220,15 +221,16 @@ function onDeviceReadyEdit() {
             $("#editTrackPOIDescription").html(textContents);
           });
         } else if (mimeType.indexOf("audio") == 0) {
-          // $("#viewTrackAudioPointPlay").click(function(event) {
-          //   event.preventDefault();
-          //   if (myAudio == null) {
-          //     myAudio = new Media(mediaFiles[filename].fullPath, audioSuccess, audioError, audioStatus);
-          //   }
-          //   myAudio.play({
-          //     numberOfLoops: 1
-          //   });
-          // });
+          $("#editTrackAudioPointPlay").click(function(event) {
+            event.preventDefault();
+            console.log("editTrackAudioPointPlay");
+            if (myAudio == null) {
+              myAudio = new Media(mediaFiles[filename].fullPath, audioSuccess, audioError, audioStatus);
+            }
+            myAudio.play({
+              numberOfLoops: 1
+            });
+          });
         } else if (mimeType.indexOf("image") == 0) {
           $("#editTrackPOIImage").attr('src', mediaFiles[filename].fullPath);
         }
@@ -236,7 +238,7 @@ function onDeviceReadyEdit() {
     })
   }
 
-  function recordPointAudio (event) {
+  function recordPointAudio(event) {
     navigator.device.capture.captureAudio(captureSuccess, captureError);
 
     function captureSuccess(mediaFiles) {
@@ -256,6 +258,27 @@ function onDeviceReadyEdit() {
       alert("An error has occurred (recordAudio): Code = " + error.code);
     }
   };
+
+  function audioSuccess() {
+    $("#viewTrackAudioPointPause").click(function(event) {
+      event.preventDefault();
+      myAudio.pause();
+    });
+    $("#viewTrackAudioPointRestart").click(function(event) {
+      event.preventDefault();
+      myAudio.seekTo(0);
+    });
+  }
+
+  function audioStatus(code) {
+    // may need this for control updates
+    console.log("Audio Status: " + code);
+  }
+
+  function audioError() {
+    console.log("Error: " + response);
+  }
+
 
   function getTextItem(filename, CB) {
     var reader = new FileReader();
