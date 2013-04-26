@@ -131,7 +131,7 @@ var filesToUpload = input.files;
 
 // Not sure it's necessary to confirm files are photos since we are accessing the caera directly //
 
-// if (!file.type.match(/image.*/)) {
+// if (!file.type.match(/image.)) {
 // // this file is not an image.
 // };
 
