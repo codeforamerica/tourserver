@@ -123,9 +123,8 @@ function onDeviceReadyCreate() {
     }
   }
 
-/* Image Resizing Code Mod in Progress +AJW
-//=========================================================//
 
+<<<<<<< HEAD
 
 var filesToUpload = input.files;
 
@@ -211,6 +210,8 @@ xhr.send(fd);
 */
 
 //=========================================================//
+=======
+>>>>>>> Removed img resize js,  add CSS resize attribute
   function uploadPhoto(imageURI, uploadCallback) {
     uploadMedia(imageURI, uploadCallback, "image/jpeg");
   }

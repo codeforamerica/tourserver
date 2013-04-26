@@ -221,6 +221,10 @@
     width: 100%;
 }
 
+#CreateTrackPOIImage {
+    width: 100%;
+    height: auto;
+}
 
 /*  Edit Track Info Section 
 ====================================================== */
