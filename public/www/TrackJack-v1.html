@@ -744,11 +744,12 @@
       </div>
       <div data-role="content">
         <div class="uploadPhotoDiv">
-          <a data-role="button" data-theme="b" data-transition="slide" class="createTrackUploadImageLibrary" >
+          <input type="file" data-role="button" data-theme="b" data-transition="slide" class="createTrackUploadImageLibrary" >
+          </input>
           <a data-role="button" data-theme="b" data-transition="slide" class="createTrackUploadImageLibrary" >
               Add from Library
-          </a>
-          <a data-role="button" data-transition="slide" data-theme="b" class="createTrackUploadImageCamera">
+          </input>
+          <input type="file" data-role="button" data-transition="slide" data-theme="b" class="createTrackUploadImageCamera">
               Take New Photo
           </a>
         </div>
@@ -798,15 +799,6 @@
                 <p>When you’ve added all your points, tap "Finish Track" to wrap up.</p>
               </div>
           </div>
-          <!--
-          <table data-role="table" data-theme="c">
-            <tr>
-              <td> Add Place </td>
-              <td></td>
-              <td> Finish Track </td>
-            </tr>
-          </table>
-        -->
           <div data-role="controlgroup" data-type="horizontal" id="addPointFinishBar">
               <a class="btn-short" data-role="button" data-transition="slide" href="#createTrackPOIPage1" data-theme="c" id="createTrackAddPoint">
                   Add Point
@@ -916,7 +908,11 @@
               Add Audio
           </h3>
       </div>
-      <div id="musicplayer-container"></div> 
+      <div id="musicplayer-container">
+          <div style="display: inline;" id="createTrackAudioPointPlay">play</div>
+          <div style="display: inline;" id="createTrackAudioPointPause">pause</div>
+          <div style="display: inline" id="createTrackAudioPointRestart">restart</div>
+      </div> 
       <div data-role="content">
           <!-- <a data-role="button" data-theme="b" href="#RecordAudioPage" data-transition="slide"> -->
           <!-- we don't have a #recordAudioPage. do we need one? -da 
@@ -1312,6 +1308,7 @@
           <a data-role="button" id="editTrackInfoSave" data-transition="slide" data-theme="c" href="#editTrackPOIListPage">
               Save
           </a>
+      </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
         <div data-role="navbar">
           <ul>
@@ -1436,39 +1433,37 @@
 
   <div data-role="page" data-theme="a" id="editTrackPOIInfoPage1">
       <div data-theme="a" data-role="header" data-position="fixed">
-          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" class="ui-btn-left">
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
               Cancel
           </a>
           <h2>
-              Edit Point of Interest
+              Edit Place
           </h2>
       </div>
       <div data-role="content">
           <div data-role="fieldcontain">
-              <fieldset data-role="controlgroup">
-                  <label for="editTrackPOIName">
+              <fieldset data-role="controlgroup" class="inputpage-header">
+                  <label for="editTrackPOIName"> 
+                    Name This Place
                   </label>
-                  <input name="" id="editTrackPOIName" placeholder="" value="Garlic Mustard"
+                  <input name="" id="editTrackPOIName" placeholder="" value="[Name of Point]"
                   type="text">
               </fieldset>
           </div>
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
-                  <label for="editTrackPOIDescription">
+                  <label for="editTrackPOIDescription" class="inputpage-header">
+                    Describe This Place
                   </label>
-                  <textarea name="" id="editTrackPOIDescription" placeholder="">Garlic mustardis a biennial herb with stalked, triangular-shaped leaves that smell like garlic when crushed. Plants first appear as rosettes of green leaves close to the ground. The following year they reach two to 3.5 feet tall and produce button-like clusters of small white flowers with four petals in the shape of a cross. Slender seed pods are present by June; each contains thousands of seeds per plant. The seeds can be viable in the soil for up to seven years. This non-native plant aggressively monopolizes light, moisture, nutrients, soil and growing space.</textarea>
+                  <textarea name="" id="editTrackPOIDescription" placeholder="Tell your audience what is significant here. You can also use this space to take notes, and edit it later" > [Garlic mustardis a biennial herb with stalked, triangular-shaped leaves that smell like garlic when crushed. Plants first appear as rosettes of green leaves close to the ground. The following year they reach two to 3.5 feet tall and produce button-like clusters of small white flowers with four petals in the shape of a cross. Slender seed pods are present by June; each contains thousands of seeds per plant. The seeds can be viable in the soil for up to seven years. This non-native plant aggressively monopolizes light, moisture, nutrients, soil and growing space.]</textarea>
               </fieldset>
           </div>
-          <div style="">
-              <img id="editTrackPOIImage" style="width: 290px; height: 360px" src="img/GarlicMustard-290x360.jpg">
+          <a data-role="button" data-transition="slide" data-theme="b" id="editTrackPOIUploadPhoto" href="#editTrackPOIUploadPhotoPage">
+              Upload New Photo
+          </a>
+          <div id="editTrackPOIDiv">
+              <img  id="editTrackPOIImage">
           </div>
-          <ul data-role="listview" data-divider-theme="d" data-inset="true">
-              <li data-theme="d">
-                  <a id="editTrackPOIUploadPhoto" href="#editTrackPOIUploadPhotoPage" data-transition="slide">
-                      Upload New Photo
-                  </a>
-              </li>
-          </ul>
   <!-- unsure of how we need to change these button ids too leaving them the same -->
           <a id="editTrackPOISave" data-role="button" data-transition="slide" data-theme="a" href="#editTrackPOIInfoPage2">
               Continue Edits
@@ -1504,14 +1499,18 @@
 <div data-role="page" data-theme="a" id="editTrackPOIInfoPage2">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          href="#editTrackPOIInfoPage2" class="ui-btn-left">
+          href="#editTrackPOIInfoPage1" class="ui-btn-left">
               Back
           </a>
           <h2>
               Edit Point of Interest
           </h2>
       </div>
-      <div id="musicplayer-container"></div> 
+      <div id="musicplayer-container">
+          <div style="display: inline;" id="editTrackAudioPointPlay">play</div>
+          <div style="display: inline;" id="editTrackAudioPointPause">pause</div>
+          <div style="display: inline" id="editTrackAudioPointRestart">restart</div>
+      </div> 
       <div data-role="content">
           <!-- <a data-role="button" data-theme="b" href="#RecordAudioPage" data-transition="slide"> -->
           <!-- we don't have a #recordAudioPage. do we need one? -da 
