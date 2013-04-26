@@ -1,5 +1,8 @@
 class Tour < ActiveRecord::Base
-  attr_accessible :difficulty, :name, :path, :tourtime, :interest_points_attributes, :tour_length, :description
+  attr_accessible :difficulty, :name, :path, :tourtime, :interest_points_attributes, 
+    :tour_length, :description, :cover_image
+
+  has_attached_file :cover_image
 
   set_rgeo_factory_for_column(:path,
                               RGeo::Geographic.spherical_factory(:srid => 3785))
@@ -12,4 +15,6 @@ class Tour < ActiveRecord::Base
   end
 
   accepts_nested_attributes_for :interest_points
+
+
 end
