@@ -123,6 +123,94 @@ function onDeviceReadyCreate() {
     }
   }
 
+/* Image Resizing Code Mod in Progress +AJW
+//=========================================================//
+
+
+var filesToUpload = input.files;
+
+// Not sure it's necessary to confirm files are photos since we are accessing the caera directly //
+
+// if (!file.type.match(/image.*/)) {
+// // this file is not an image.
+// };
+
+/*
+
+var img = document.createElement("img");
+var reader = new FileReader();  
+reader.onload = function(e) {img.src = e.target.result}
+reader.readAsDataURL(file);
+
+var ctx = canvas.getContext("2d");
+ctx.drawImage(img, 0, 0);
+
+// A super easy trick is to simply have a small canvas (800×600 for example) 
+// and to draw the image tag into this canvas.
+// Of course, you’ll have to update the canvas dimensions to keep the ratio of the image.
+
+var MAX_WIDTH = 800;
+var MAX_HEIGHT = 600;
+var width = img.width;
+var height = img.height;
+ 
+if (width > height) {
+  if (width > MAX_WIDTH) {
+    height *= MAX_WIDTH / width;
+    width = MAX_WIDTH;
+  }
+} else {
+  if (height > MAX_HEIGHT) {
+    width *= MAX_HEIGHT / height;
+    height = MAX_HEIGHT;
+  }
+}
+canvas.width = width;
+canvas.height = height;
+var ctx = canvas.getContext("2d");
+ctx.drawImage(img, 0, 0, width, height);
+
+// Now, you have your image in a canvas. Basically, the possibilities are infinite. 
+// Let’s say you want to apply a sepia filter:
+
+/*
+
+var imgData = ctx.createImageData(width, height);
+var data = imgData.data;
+var pixels = ctx.getImageData(0, 0, width, height);
+for (var i = 0, ii = pixels.data.length; i < ii; i += 4) {
+    var r = pixels.data[i + 0];
+    var g =pixels.data[i + 1];
+    var b = this.pixels.data[i + 2];
+    data[i + 0] = (r * .393) + (g *.769) + (b * .189);
+    data[i + 1] = (r * .349) + (g *.686) + (b * .168)
+    data[i + 2] = (r * .272) + (g *.534) + (b * .131)
+    data[i + 3] = 255;
+}
+ctx.putImageData(imgData, 0, 0);
+
+var dataurl = canvas.toDataURL("image/png");
+
+// Use the upload events to create a progress bar:
+
+xhr.upload.addEventListener("progress", function(e) {
+  if (e.lengthComputable) {
+    var percentage = Math.round((e.loaded * 100) / e.total);
+    // do something
+}, false);
+
+
+var fd = new FormData();
+fd.append("name", "paul");
+fd.append("image", canvas.mozGetAsFile("foo.png"));
+fd.append("key", "××××××××××××");
+var xhr = new XMLHttpRequest();
+xhr.open("POST", "http://your.api.com/upload.json");
+xhr.send(fd);
+
+*/
+
+//=========================================================//
   function uploadPhoto(imageURI, uploadCallback) {
     uploadMedia(imageURI, uploadCallback, "image/jpeg");
   }
