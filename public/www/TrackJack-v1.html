@@ -1198,7 +1198,7 @@
               Back
           </a>
           <h2>
-              Edit a Tour
+              Edit Track Info
           </h2>
       </div>
       <div data-theme="b" data-divider-theme="b" data-inset="true">
@@ -1234,39 +1234,44 @@
       </div>
   </div>
   
-  <!-- Edit Intro
+  <!-- Edit Intro Page 1
   ================================================================================ -->
   
   <div data-role="page" data-theme="a" id="editTrackInfoPage">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          href="#editTrackListPage" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
-              Cancel
+          href="#editTrackListPage" class="ui-btn-left">
+              Back
           </a>
           <h2>
-              Edit Intro
+              Edit Track Info
           </h2>
       </div>
       <div data-role="content">
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
-                  <label for="editTrackName">
+                  <label for="editTrackName" class="inputpage-header">
+                    Name Your Track
                   </label>
                   <input id="editTrackName" value="Invasive Species on the Bike and Hike Trail" type="text">
               </fieldset>
           </div>
           <div data-role="fieldcontain">
               <fieldset data-role="controlgroup">
-                  <label for="editTrackDescription">
+                  <label for="editTrackDescription" class="inputpage-header">
+                    What You'll Learn
                   </label>
-                  <textarea name="" id="editTrackDescription" placeholder="">[Discover the most prevalent invasive species on the Bike and Hike Trails. Invasive plants are aggressive species that grow in areas where they do not historically occur. Some were introduced accidentally, while others may have been planted for herbal or medicinal purposes, for soil stabilization and wildlife habitat, or because of their showy flowers, fruit, leaves or bark.]</textarea>
+                  <textarea name="" id="editTrackDescription" placeholder="Tell people what they will learn on your track. Bullet points or a brief overview will work just fine.">[Discover the most prevalent invasive species on the Bike and Hike Trails. Invasive plants are aggressive species that grow in areas where they do not historically occur. Some were introduced accidentally, while others may have been planted for herbal or medicinal purposes, for soil stabilization and wildlife habitat, or because of their showy flowers, fruit, leaves or bark.]</textarea>
               </fieldset>
           </div>
           <div data-role="fieldcontain">
-              <label for="editTrackDifficulty">
-                  Trail Rating
+              <label for="editTrackDifficulty" class="inputpage-header">
+                  Trail Rating<br>
+                  <span class="subtitles">
+                      Help people decide if your track is right for them.
+                  </span>
               </label>
-              <select id="editTrackDifficulty" name="Trail Rating" data-theme="c">
+              <select id="editTrackDifficulty" name="Trail Rating" data-theme="b">
                   <option value="Easy">
                       Easy
                   </option>
@@ -1279,10 +1284,13 @@
               </select>
           </div>
           <div data-role="fieldcontain">
-              <label for="editTrackSubject">
-                  Subject
+              <label class="inputpage-header" for="editTrackSubject">
+                  Subject<br>
+                  <span class="subtitles">
+                      Help interested people find your track.
+                  </span>
               </label>
-              <select id="editTrackSubject" name="Category" data-theme="c">
+              <select id="editTrackSubject" name="Category" data-theme="b">
                   <option value="Wildlife">
                       Wildlife
                   </option>
@@ -1294,20 +1302,8 @@
                   </option>
               </select>
           </div>
-          <div style="">
-              <img style="width: 290px; height: 200px" src="img/BikeHike-Intro-290x200.jpg">
-          </div>
-          <ul data-role="listview" data-divider-theme="b" data-inset="true">
-              <li data-theme="c">
-                  <a href="#editTrackInfoUploadPhotoPage" data-transition="slide">
-                      Upload New Photo
-                  </a>
-              </li>
-          </ul>
-          <div style="height:20px">
-          </div>
-          <a data-role="button" id="editTrackInfoSave" data-transition="slide" data-theme="a" href="#editTrackPOIListPage">
-              Save
+          <a data-role="button" data-transition="none" data-theme="c" href="#viewTrackInputPage2" id="editTrackGoToPage2">
+              Continue
           </a>
           <a data-role="button" id="editTrackInfoDelete" data-transition="slide" href="#page17">
               Delete Entire Tour
@@ -1335,6 +1331,52 @@
         </div>
       </div>
   </div>
+
+
+<!-- Edit Intro Page 2
+  ================================================================================ -->
+  <div data-role="page" data-theme="a" id="viewTrackInputPage2">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#editTrackListPage" class="ui-btn-left">
+              Cancel
+          </a>
+          <h2>
+              Edit Photo
+          </h2>
+      </div>
+      <div data-role="content">
+          <a data-role="button" data-transition="slide" data-theme="b" href="#editTrackInfoUploadPhotoPage">
+              Upload New Photo
+          </a>
+          <div id="editTrackImageDiv">
+              <img  id="editTrackInfoImage">
+          </div>
+          <a data-role="button" id="editTrackInfoSave" data-transition="slide" data-theme="c" href="#editTrackPOIListPage">
+              Save
+          </a>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#viewTrackListPage" data-transition="fade">
+                      Home
+                  </a>
+              </li>
+              <li>
+                  <a href="#infopage" data-transition="fade">
+                      Help
+                  </a>
+              </li>
+              <li>
+                  <a href="#settingsPage" data-transition="fade">
+                      Settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+
 
 <!-- Edit POI
 ================================================================================ -->
