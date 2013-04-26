@@ -6,10 +6,8 @@ function onDeviceReadyCreate() {
   console.log("onDeviceReady-create");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
   // change this to your server's IP
-  //var host = "http://127.0.0.1:3000";
-  var host = "http://trackserver-test.herokuapp.com";
-  //var host = "http://10.0.3.14:3000";
-  //var host = "";
+  var host = "http://127.0.0.1:3000";
+  // var host = "http://trackserver-test.herokuapp.com";
   var minCreatePointAccuracy = 100;
   var tour = {
     interest_points: []
@@ -497,6 +495,6 @@ $(document).ready(function() {
   if (window.isphone) {
     document.addEventListener("deviceready", onDeviceReadyCreate, false);
   } else {
-    onDeviceReady();
+    onDeviceReadyCreate();
   }
 });

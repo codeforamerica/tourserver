@@ -8,7 +8,7 @@ function onDeviceReadyView() {
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
   // change this to your server's IP
   var host = "http://trackserver-test.herokuapp.com";
-  //var host = "http://127.0.0.1:3000";
+  // var host = "http://127.0.0.1:3000";
   var minCheckLocationAccuracy = 20; // meters to trigger a point
   var currentViewingTour = {};
 
@@ -88,7 +88,7 @@ function onDeviceReadyView() {
   function showTourList(response) {
     console.log("showTourList");
     var $tourTemplate = $("#viewTrackListItemTemplate");
-    $(".viewTrackList").children().remove('li:not(.viewTrackListItemTemplate)');
+    $("#viewTrackList").children().remove('li:not(.viewTrackListItemTemplate)');
     console.log($tourTemplate);
     for (var i = 0; i < response.length; i++) {
       console.log(response[i]);
@@ -104,7 +104,7 @@ function onDeviceReadyView() {
 
       //TODO: figure out why jqmdata doesn't work
       $tourListEntry.data("tourid", response[i].id);
-      $(".viewTrackList").append($tourListEntry);
+      $("#viewTrackList").append($tourListEntry);
     }
     // class for tours in selectable list.
     // tour id should be in 'data-tourid' attribute
@@ -114,8 +114,8 @@ function onDeviceReadyView() {
     });
     $tourTemplate.remove();
 
-    $('.viewTrackList').listview('refresh');
-    $('.viewTrackList').show();
+    $('#viewTrackList').listview('refresh');
+    $('#viewTrackList').show();
 
   }
 
@@ -435,6 +435,6 @@ $(document).ready(function() {
   if (window.isphone) {
     document.addEventListener("deviceready", onDeviceReadyView, false);
   } else {
-    onDeviceReady();
+    onDeviceReadyView();
   }
 });
