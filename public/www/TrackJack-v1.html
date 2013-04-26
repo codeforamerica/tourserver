@@ -1388,8 +1388,8 @@
 
   <div data-role="page" data-theme="a" id="editTrackPOIListPage">
       <div data-theme="a" data-role="header" data-position="fixed">
-          <a data-role="button" data-direction="reverse" data-transition="slide"
-          href="#editTrackListPage" class="ui-btn-left">
+          <a data-role="button" data-rel="back" data-direction="reverse" data-transition="slide"
+          href="#" class="ui-btn-left">
               Back
           </a>
           <h2>
@@ -1436,8 +1436,7 @@
 
   <div data-role="page" data-theme="a" id="editTrackPOIInfoPage1">
       <div data-theme="a" data-role="header" data-position="fixed">
-          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
-          href="#page17" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">
+          <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" class="ui-btn-left">
               Cancel
           </a>
           <h2>
@@ -1471,7 +1470,7 @@
               </li>
           </ul>
   <!-- unsure of how we need to change these button ids too leaving them the same -->
-          <a id="editTrackPOISave" data-role="button" data-transition="slide" data-theme="a" href="#editTrackPOIListPage">
+          <a id="editTrackPOISave" data-role="button" data-transition="slide" data-theme="a" href="#editTrackPOIInfoPage2">
               Continue Edits
           </a>
       </div>
@@ -1526,7 +1525,7 @@
             </p>
             <p id="textbox-text-poi2">You’ve created a place for learning. Submit this place, keep moving and add more places along your track!</p>
           </div>
-            <a id="createTrackPOISubmit" data-role="button" data-theme="c" href="#createTrackMainPage" data-transition="slide">
+            <a id="createTrackPOISubmit" data-role="button" data-theme="c" href="#editTrackListPage" data-transition="slide">
               Submit Changes
             </a>    
       </div>

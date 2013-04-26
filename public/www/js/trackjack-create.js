@@ -136,6 +136,7 @@ function onDeviceReadyCreate() {
   function writeAndUploadText(text, uploadCallback) {
     text = text.substr(0, 1500);
     console.log("uploadText");
+    // so very wrong. and yet:
     var fileName = Math.floor(Math.random() * 10000000) + ".txt";
     window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, gotFS, fail);
 

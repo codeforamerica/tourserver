@@ -22,7 +22,8 @@ function onDeviceReadyEdit() {
   $("#editTrackInfoUploadImageLibrary").click(saveTrackImageFromLibrary);
   $("#editTrackInfoUploadImageCamera").click(saveTrackImageFromCamera);
   $("#editTrackPOIUploadImageLibrary").click(savePointImageFromLibrary);
-  $("$editTrackPOIUploadImageCamera").click(savePointImageFromCamera);
+  $("#editTrackPOIUploadImageCamera").click(savePointImageFromCamera);
+  $("#editTrackRecordAudio").click(recordPointAudio);
 
   function deleteTrack(event) {
     event.preventDefault();
@@ -171,13 +172,14 @@ function onDeviceReadyEdit() {
 
   function populatePointList() {
     console.log("populatePointList");
-    var $pointTemplate = $("#editTrackPOIListItemTemplate");
+    var $pointTemplate = $("#editTrackPOIListItemTemplate").clone(false);
     $("#editTrackPOIList").children().remove('li:not(#editTrackPOIListItemTemplate)');
 
     for (var i = 0; i < currentViewingTour.interest_points.length; i++) {
       var myPoint = currentViewingTour.interest_points[i];
 
-      var $pointListEntry = $("#editTrackPOIListItemTemplate").clone(false);
+      var $pointListEntry = $pointTemplate.clone(false);
+      $pointListEntry.removeAttr("id");
       $pointListEntry.data("pointIndex", i);
       $pointListEntry.find(".editTrackPOIListItemTitle").text(myPoint.name);
       //TODO: get filler image if none is available
@@ -194,13 +196,14 @@ function onDeviceReadyEdit() {
         });
       });
       $("#editTrackPOIList").append($pointListEntry);
+      $pointListEntry.show();
     }
     $(".editTrackPOIListItem").click(function() {
       var pointIndex = $(this).data("pointIndex");
       currentViewPointIndex = pointIndex;
       $.mobile.changePage("#editTrackPOIInfoPage1")
     });
-    $("#editTrackPOIListItemTemplate").remove();
+    $("#editTrackPOIListItemTemplate").hide();
     $("#editTrackPOIList").listview('refresh');
   }
 
@@ -233,6 +236,26 @@ function onDeviceReadyEdit() {
     })
   }
 
+  function recordPointAudio (event) {
+    navigator.device.capture.captureAudio(captureSuccess, captureError);
+
+    function captureSuccess(mediaFiles) {
+      for (var i = 0; i < mediaFiles.length; i++) {
+        currentPoint.interp_items[0].media_items_attributes = currentPoint.interp_items[0].media_items_attributes || [];
+        var myAudioMediaItem = {
+          type: "audio",
+          data: mediaFiles[i].fullPath
+        };
+        console.log("myAudioMediaItem");
+        console.log(myAudioMediaItem);
+        currentPoint.interp_items[0].media_items_attributes.push(myAudioMediaItem);
+      }
+    }
+
+    function captureError(error) {
+      alert("An error has occurred (recordAudio): Code = " + error.code);
+    }
+  };
 
   function getTextItem(filename, CB) {
     var reader = new FileReader();
