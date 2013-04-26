@@ -1150,6 +1150,56 @@
       </div>
   </div>
 
+  <!-- Edit Track Places List
+================================================================================ -->
+
+  <div data-role="page" data-theme="a" id="editTrackPOIListPage">
+      <div data-theme="a" data-role="header" data-position="fixed" data-tap-toggle="false">
+          <a data-role="button" data-rel="back" data-direction="reverse" data-transition="slide"
+          href="#" class="ui-btn-left">
+              Back
+          </a>
+          <h2>
+              Edit Track Info
+          </h2>
+          <a data-role="button" data-transition="slide"
+          href="editTrackInfoPage1" class="ui-btn-right">
+              Next
+          </a>
+      </div>
+      <div data-theme="b" data-divider-theme="b" data-inset="true">
+        <ul id="editTrackPOIList" data-role="listview" data-divider-theme="b">
+          <li id="editTrackPOIListItemTemplate" class="editTrackPOIListItem" data-theme="b">
+            <a href="#page19" data-transition="slide">
+            <h1 class="editTrackPOIListItemTitle" id="header-editplaces" style="white-space: normal">[Introduction]</h1>
+            <img class="editTrackPOIListItemImage" src="img/BikeHike-square.jpg" alt="test image">
+            </a>
+          </li>
+         </ul>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a" data-tap-toggle="false">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#viewTrackListPage" data-transition="fade">
+                      Home
+                  </a>
+              </li>
+              <li>
+                  <a href="#infopage" data-transition="fade">
+                      Help
+                  </a>
+              </li>
+              <li>
+                  <a href="#settingsPage" data-transition="fade">
+                      Settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+
  <!-- Edit Track Loading Page 
 ================================================================================ -->
 
@@ -1379,51 +1429,6 @@
       </div>
   </div>
 
-<!-- Edit Track Places List
-================================================================================ -->
-
-  <div data-role="page" data-theme="a" id="editTrackPOIListPage">
-      <div data-theme="a" data-role="header" data-position="fixed" data-tap-toggle="false">
-          <a data-role="button" data-rel="back" data-direction="reverse" data-transition="slide"
-          href="#" class="ui-btn-left">
-              Back
-          </a>
-          <h2>
-              Edit Track Info
-          </h2>
-      </div>
-      <div data-theme="b" data-divider-theme="b" data-inset="true">
-        <ul id="editTrackPOIList" data-role="listview" data-divider-theme="b">
-          <li id="editTrackPOIListItemTemplate" class="editTrackPOIListItem" data-theme="b">
-            <a href="#page19" data-transition="slide">
-            <h1 class="editTrackPOIListItemTitle" id="header-editplaces" style="white-space: normal">[Introduction]</h1>
-            <img class="editTrackPOIListItemImage" src="img/BikeHike-square.jpg" alt="test image">
-            </a>
-          </li>
-         </ul>
-      </div>
-      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a" data-tap-toggle="false">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      Home
-                  </a>
-              </li>
-              <li>
-                  <a href="#infopage" data-transition="fade">
-                      Help
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      Settings
-                  </a>
-              </li>
-          </ul>
-        </div>
-      </div>
-  </div>
 
 
 <!-- Edit POI Page 1
