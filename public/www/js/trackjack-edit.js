@@ -14,16 +14,29 @@ function onDeviceReadyEdit() {
 
   $("#editTrackListPage").on('pagebeforeshow', getTourList);
   $("#editTrackLoadingPage").on('pagebeforeshow', loadMediaItems);
-  $("#editTrackInfoPage").on('pagebeforeshow', populateTrackInfoPage);
+  $("#editTrackInfoPage1").on('pagebeforeshow', populateTrackInfoPage1);
+  $("#editTrackInfoPage2").on('pagebeforeshow', populateTrackInfoPage2);
   $("#editTrackPOIListPage").on('pagebeforeshow', populatePointList);
-  $("#editTrackPOIInfoPage").on('pagebeforeshow', populatePointInfoPage);
+  $("#editTrackPOIInfoPage1").on('pagebeforeshow', populatePointInfoPage1);
+  $("#editTrackInfoDelete").click(deleteTrack);
+  $("#editTrackInfoUploadImageLibrary").click(saveTrackImageFromLibrary);
+  $("#editTrackInfoUploadImageCamera").click(saveTrackImageFromCamera);
+  $("#editTrackPOIUploadImageLibrary").click(savePointImageFromLibrary);
+  $("$editTrackPOIUploadImageCamera").click(savePointImageFromCamera);
 
+  function deleteTrack(event) {
+    event.preventDefault();
+    console.log("deleteTrack");
+    alert("Deleting tracks isn't supported yet.");
+  }
 
   //dupe of trackjack-view.js. should package these.
 
+
   function getTourList() {
     console.log("getTourList");
-    //$("#editTrackList").hide();
+    $(".viewTrackListDiv").hide();
+    $("#editTrackListLoading").show();
     currentViewPointIndex = 0;
 
     var callData = {
@@ -33,10 +46,12 @@ function onDeviceReadyEdit() {
     makeAPICall(callData, showTourList);
   }
 
+
   function showTourList(response) {
     console.log("showTourList");
-    var $tourTemplate = $("#editTrackListItemTemplate");
-    $("#editTrackList").children().remove('li:not(#editTrackListItemTemplate)');
+    $("#editTrackListLoading").hide();
+    var $tourTemplate = $("#editTrackListItemTemplate").clone(false);
+    $("#editTrackList").children().remove('li');
     // console.log($tourTemplate);
     for (var i = 0; i < response.length; i++) {
       var $tourListEntry = $tourTemplate.clone(false);
@@ -62,7 +77,7 @@ function onDeviceReadyEdit() {
     $tourTemplate.remove();
 
     $('#editTrackList').listview('refresh');
-    $('#editTrackList').show();
+    $('.viewTrackListDiv').show();
 
   }
 
@@ -113,11 +128,45 @@ function onDeviceReadyEdit() {
 
   function downloadDone() {
     console.log("downloadDone");
-    $.mobile.changePage($("#editTrackInfoPage"));
+    $.mobile.changePage($("#editTrackInfoPage1"));
   }
 
- function populateTrackInfoPage() {
-    $("#editTrackName")
+  function populateTrackInfoPage1() {
+    $("#editTrackName").val(currentViewingTour.name);
+    $("#editTrackDescription").val(currentViewingTour.description);
+    $("#editTrackDifficulty").val(currentViewingTour.difficulty);
+    //TODO: $("#editTrackSubject").val(currentViewingTour)
+  }
+
+  function populateTrackInfoPage2() {
+    //TODO: code to display cover_image
+
+  }
+
+  // this photo code will need to be consolidated with a success callback
+
+  function saveTrackImageFromLibrary() {
+    saveTrackImage(navigator.camera.PictureSourceType.PHOTOLIBRARY);
+  }
+
+  function saveTrackImageFromCamera() {
+    saveTrackImage(navigator.camera.PictureSourceType.CAMERA);
+  }
+
+  function saveTrackImage(pictureSource) {
+
+  }
+
+  function savePointImageFromLibrary() {
+
+  }
+
+  function savePointImageFromCamera() {
+
+  }
+
+  function savePointImage(pictureSource) {
+
   }
 
   function populatePointList() {
@@ -131,6 +180,8 @@ function onDeviceReadyEdit() {
       var $pointListEntry = $("#editTrackPOIListItemTemplate").clone(false);
       $pointListEntry.data("pointIndex", i);
       $pointListEntry.find(".editTrackPOIListItemTitle").text(myPoint.name);
+      //TODO: get filler image if none is available
+      $pointListEntry.find(".editTrackPOIListItemImage").attr("src", "");
       $.each(myPoint.interp_items, function(index, interp_item) {
         $.each(interp_item.media_items, function(index, media_item) {
           var mimeType = media_item.item_content_type;
@@ -147,19 +198,52 @@ function onDeviceReadyEdit() {
     $(".editTrackPOIListItem").click(function() {
       var pointIndex = $(this).data("pointIndex");
       currentViewPointIndex = pointIndex;
-      $.mobile.changePage("#editTrackPOIInfoPage")
+      $.mobile.changePage("#editTrackPOIInfoPage1")
     });
     $("#editTrackPOIListItemTemplate").remove();
     $("#editTrackPOIList").listview('refresh');
   }
- 
-  function populatePointInfoPage() {
-    console.log("populatePointInfoPage");
-    $("#editTrackPOIName").val(currentViewingTour.interest_points[currentViewPointIndex].name);
-    $("#editTrackPOIDescription").val(currentViewingTour.interest_points[currentViewPointIndex].description);
-    $("#editTrackPOIDifficulty").val(currentV)  
+
+  function populatePointInfoPage1() {
+    console.log("populatePointInfoPage1");
+    var currentPoint = currentViewingTour.interest_points[currentViewPointIndex];
+    $("#editTrackPOIName").val(currentPoint.name);
+    $.each(currentPoint.interp_items, function(index, interp_item) {
+      $.each(interp_item.media_items, function(index, media_item) {
+        var mimeType = media_item.item_content_type;
+        var filename = media_item.item_file_name;
+        if (mimeType.indexOf("text") == 0) {
+          getTextItem(filename, function(textContents) {
+            $("#editTrackPOIDescription").html(textContents);
+          });
+        } else if (mimeType.indexOf("audio") == 0) {
+          // $("#viewTrackAudioPointPlay").click(function(event) {
+          //   event.preventDefault();
+          //   if (myAudio == null) {
+          //     myAudio = new Media(mediaFiles[filename].fullPath, audioSuccess, audioError, audioStatus);
+          //   }
+          //   myAudio.play({
+          //     numberOfLoops: 1
+          //   });
+          // });
+        } else if (mimeType.indexOf("image") == 0) {
+          $("#editTrackPOIImage").attr('src', mediaFiles[filename].fullPath);
+        }
+      });
+    })
   }
 
+
+  function getTextItem(filename, CB) {
+    var reader = new FileReader();
+    var fileEntry = mediaFiles[filename];
+    reader.onloadend = function(evt) {
+      CB(evt.target.result);
+    }
+    fileEntry.file(function(myFile) {
+      reader.readAsText(myFile);
+    });
+  }
 
   function downloadMediaItem(itemInfo, doneCallback) {
     var itemURL = itemInfo.fullitem;
@@ -225,8 +309,6 @@ function onDeviceReadyEdit() {
       $("#results").text(JSON.stringify(response));
     });
   }
-
-
 }
 
 $(document).ready(function() {

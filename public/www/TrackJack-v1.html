@@ -1104,6 +1104,7 @@
               TrackJack
           </h2>
       </div>
+      <div id="editTrackListLoading">Loading track list...</div>
       <div class="viewTrackListDiv" data-theme="b" data-divider-theme="b" data-inset="true">
          <ul id="editTrackList" class="viewTrackList" data-role="listview" data-divider-theme="b">
           <li id="editTrackListItemTemplate" class="viewTrackListItem" data-theme="b">
@@ -1189,56 +1190,12 @@
   </div>
 
 
-<!-- Edit Track Places List
-================================================================================ -->
 
-  <div data-role="page" data-theme="a" id="editTrackPOIListPage">
-      <div data-theme="a" data-role="header" data-position="fixed">
-          <a data-role="button" data-direction="reverse" data-transition="slide"
-          href="#editTrackListPage" class="ui-btn-left">
-              Back
-          </a>
-          <h2>
-              Edit Track Info
-          </h2>
-      </div>
-      <div data-theme="b" data-divider-theme="b" data-inset="true">
-        <ul id="editTrackPOIList" data-role="listview" data-divider-theme="b">
-          <li id="editTrackPOIListItemTemplate" class="editTrackPOIListItem" data-theme="b">
-            <a href="#page19" data-transition="slide">
-            <h1 class="editTrackPOIListItemTitle" id="header-editplaces" style="white-space: normal">[Introduction]</h1>
-            <img class="editTrackPOIListItemImage" src="img/BikeHike-square.jpg" alt="test image">
-            </a>
-          </li>
-         </ul>
-      </div>
-      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      Home
-                  </a>
-              </li>
-              <li>
-                  <a href="#infopage" data-transition="fade">
-                      Help
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      Settings
-                  </a>
-              </li>
-          </ul>
-        </div>
-      </div>
-  </div>
   
   <!-- Edit Intro Page 1
   ================================================================================ -->
   
-  <div data-role="page" data-theme="a" id="editTrackInfoPage">
+  <div data-role="page" data-theme="a" id="editTrackInfoPage1">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#editTrackListPage" class="ui-btn-left">
@@ -1303,10 +1260,10 @@
                   </option>
               </select>
           </div>
-          <a data-role="button" data-transition="none" data-theme="c" href="#viewTrackInputPage2" id="editTrackGoToPage2">
+          <a data-role="button" data-transition="none" data-theme="c" href="#editTrackInputPage2" id="editTrackGoToPage2">
               Continue
           </a>
-          <a data-role="button" id="editTrackInfoDelete" data-transition="slide" href="#page17">
+          <a data-role="button" id="editTrackInfoDelete" href="#">
               Delete Entire Tour
           </a>
       </div>
@@ -1336,7 +1293,7 @@
 
 <!-- Edit Intro Page 2
   ================================================================================ -->
-  <div data-role="page" data-theme="a" id="viewTrackInputPage2">
+  <div data-role="page" data-theme="a" id="editTrackInputPage2">
       <div data-theme="a" data-role="header" data-position="fixed">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#editTrackListPage" class="ui-btn-left">
               Cancel
@@ -1376,6 +1333,7 @@
           </ul>
         </div>
       </div>
+    </div>
   </div>
 
 
@@ -1393,10 +1351,10 @@
       </div>
       <div data-role="content">
         <div class="uploadPhotoDiv">
-          <a data-role="button" data-theme="b" data-transition="slide" class="createTrackUploadImageLibrary" >
+          <a id="editTrackUploadImageLibrary" data-role="button" data-theme="b" data-transition="slide" class="createTrackUploadImageLibrary" >
               Add from Library
           </a>
-          <a data-role="button" data-transition="slide" data-theme="b" class="createTrackUploadImageCamera">
+          <a id="editTrackUploadImageCamera" data-role="button" data-transition="slide" data-theme="b" class="createTrackUploadImageCamera">
               Take New Photo
           </a>
         </div>
@@ -1424,6 +1382,53 @@
           </div>
       </div>
   </div>
+
+<!-- Edit Track Places List
+================================================================================ -->
+
+  <div data-role="page" data-theme="a" id="editTrackPOIListPage">
+      <div data-theme="a" data-role="header" data-position="fixed">
+          <a data-role="button" data-direction="reverse" data-transition="slide"
+          href="#editTrackListPage" class="ui-btn-left">
+              Back
+          </a>
+          <h2>
+              Edit Track Info
+          </h2>
+      </div>
+      <div data-theme="b" data-divider-theme="b" data-inset="true">
+        <ul id="editTrackPOIList" data-role="listview" data-divider-theme="b">
+          <li id="editTrackPOIListItemTemplate" class="editTrackPOIListItem" data-theme="b">
+            <a href="#page19" data-transition="slide">
+            <h1 class="editTrackPOIListItemTitle" id="header-editplaces" style="white-space: normal">[Introduction]</h1>
+            <img class="editTrackPOIListItemImage" src="img/BikeHike-square.jpg" alt="test image">
+            </a>
+          </li>
+         </ul>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#viewTrackListPage" data-transition="fade">
+                      Home
+                  </a>
+              </li>
+              <li>
+                  <a href="#infopage" data-transition="fade">
+                      Help
+                  </a>
+              </li>
+              <li>
+                  <a href="#settingsPage" data-transition="fade">
+                      Settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+
 
 <!-- Edit POI Page 1
 ================================================================================ -->
@@ -1456,17 +1461,17 @@
               </fieldset>
           </div>
           <div style="">
-              <img style="width: 290px; height: 360px" src="img/GarlicMustard-290x360.jpg">
+              <img id="editTrackPOIImage" style="width: 290px; height: 360px" src="img/GarlicMustard-290x360.jpg">
           </div>
           <ul data-role="listview" data-divider-theme="d" data-inset="true">
               <li data-theme="d">
-                  <a href="#editTrackPOIUploadPhotoPage" data-transition="slide">
+                  <a id="editTrackPOIUploadPhoto" href="#editTrackPOIUploadPhotoPage" data-transition="slide">
                       Upload New Photo
                   </a>
               </li>
           </ul>
   <!-- unsure of how we need to change these button ids too leaving them the same -->
-          <a id="editTrackPOISave" data-role="button" data-transition="slide" data-theme="a" href="#page17">
+          <a id="editTrackPOISave" data-role="button" data-transition="slide" data-theme="a" href="#editTrackPOIListPage">
               Continue Edits
           </a>
       </div>
@@ -1553,7 +1558,7 @@
 <!-- Edit POI Photo Upload Image
 ================================================================================ -->
 
-  <div data-role="page" data-theme="a" id="editTrackUploadPointPhotoPage">
+  <div data-role="page" data-theme="a" id="editTrackPOIUploadPhotoPage">
       <div data-theme="a" data-role="header" data-position="fixed">
         <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#editTrackPOIPage2" class="ui-btn-left">
           Back
@@ -1564,10 +1569,10 @@
       </div>
       <div data-role="content">
         <div class="uploadPhotoDiv">
-          <a data-role="button" data-theme="b" data-transition="slide" class="createTrackUploadImageLibrary" >
+          <a id="editTrackPOIUploadImageLibrary" data-role="button" data-theme="b" data-transition="slide" class="editTrackUploadImageLibrary" >
               Add from Library
           </a>
-          <a data-role="button" data-transition="slide" data-theme="b" class="createTrackUploadImageCamera">
+          <a id="editTrackPOIUploadImageCamera" data-role="button" data-transition="slide" data-theme="b" class="createTrackUploadImageCamera">
               Take New Photo
           </a>
         </div>

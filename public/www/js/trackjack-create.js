@@ -132,7 +132,7 @@ function onDeviceReadyCreate() {
   }
 
   /// Text upload ///
-
+  // write text to a file to get a file URL to pass to uploadMedia
   function writeAndUploadText(text, uploadCallback) {
     text = text.substr(0, 1500);
     console.log("uploadText");
@@ -283,7 +283,7 @@ function onDeviceReadyCreate() {
 
     function submitMediaItems(tour) {
       console.log("submitMediaItems");
-      // is there a better way to avoid undefined issues?
+      // is there a better way to avoid undefined issues? 
       var mediaItemsSubmissions = new Array();
       var mediaSubmitParams = [];
       console.log(mediaItemsSubmissions.length);
