@@ -19,3 +19,4 @@
 
 # Ignore paperclip attachments
 /public/system/media_items
+/public/system/tours

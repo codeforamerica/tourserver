@@ -6,8 +6,8 @@ function onDeviceReadyCreate() {
   console.log("onDeviceReady-create");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
   // change this to your server's IP
-  var host = "http://127.0.0.1:3000";
-  // var host = "http://trackserver-test.herokuapp.com";
+  // var host = "http://127.0.0.1:3000";
+  var host = "http://trackserver-test.herokuapp.com";
   var minCreatePointAccuracy = 100;
   var tour = {
     interest_points: []
@@ -85,16 +85,41 @@ function onDeviceReadyCreate() {
 
 
   // Photo upload ///
+  $("#createTrackUploadImageLibrary").click(function(event) {
+    saveCoverImage(navigator.camera.PictureSourceType.PHOTOLIBRARY);
+  });
+
+  function saveCoverImage(sourceType) {
+    navigator.camera.getPicture(cameraSuccess, cameraError, {
+      quality: 40,
+      destinationType: navigator.camera.DestinationType.FILE_URI,
+      sourceType: sourceType
+    });
+
+    function cameraSuccess(photoURL) {
+      console.log("photo success");
+      $("#createTrackImage").attr("src", photoURL);
+      tour.cover_image_url = photoURL
+      $.mobile.changePage($("#createTrackInputPage2"));
+    }
+
+    function cameraError(error) {
+      console.log(error);
+    }
+
+  }
+
+
 
   // upload photo from album button
-  $("#createTrackUploadImageLibrary").click(function(event) {
+  $("#createTrackPOIUploadImageLibrary").click(function(event) {
     console.log("album");
     console.log("event");
     saveImage(navigator.camera.PictureSourceType.PHOTOLIBRARY);
   });
 
   // take photo 
-  $("#createTrackUploadImageCamera").click(function(event) {
+  $("#createTrackPOIUploadImageCamera").click(function(event) {
     console.log("camera");
     saveImage(navigator.camera.PictureSourceType.CAMERA);
   });
@@ -124,7 +149,7 @@ function onDeviceReadyCreate() {
       console.log(error);
     }
   }
-  
+
   function uploadPhoto(imageURI, uploadCallback) {
     uploadMedia(imageURI, uploadCallback, "image/jpeg");
   }
@@ -135,6 +160,7 @@ function onDeviceReadyCreate() {
 
   /// Text upload ///
   // write text to a file to get a file URL to pass to uploadMedia
+
   function writeAndUploadText(text, uploadCallback) {
     text = text.substr(0, 1500);
     console.log("uploadText");
@@ -169,6 +195,9 @@ function onDeviceReadyCreate() {
     }
   }
 
+
+  /// the next two functions (uploadMedia/uploadCoverImage) should maybe be consolidated
+
   function uploadMedia(mediaURI, uploadCallback, mimeType) {
     var options = new FileUploadOptions();
     options.mimeType = mimeType;
@@ -182,6 +211,44 @@ function onDeviceReadyCreate() {
 
     var ft = new FileTransfer();
     ft.upload(mediaURI, host + "/media_items.json", uploadWin, uploadFail, options);
+
+    return;
+
+    function uploadWin(r) {
+      console.log("Code = " + r.responseCode);
+      uploadCallback(r.response);
+    }
+
+    function uploadFail(error) {
+      alert("An error has occurred (uploadMedia:): Code = " + error.code + "(" + mediaURI + ")");
+      if (confirm("uploadMedia Failed. Try again?") + JSON.stringify(callData.data)) {
+        uploadMedia(mediaURI, uploadCallback, mimeType);
+      } else {
+        // silent fail!
+      }
+    }
+  }
+
+  // this is actually where the tour record is created,
+  // because I haven't been able to come up with a clever way 
+  // to post a JSON tour record and a Paperclip attachment
+  // at the same time. We create the tour record when uploading
+  // the cover_photo, then update it later with the tour info
+
+  function uploadCoverImage(mediaURI, uploadCallback, mimeType) {
+    console.log("uploadCoverImage");
+    var options = new FileUploadOptions();
+    options.mimeType = mimeType;
+    options.fileKey = "tour[cover_image]";
+    options.fileName = mediaURI.substr(mediaURI.lastIndexOf('/') + 1);
+
+    var params = new Object();
+    params["tour[cover_image]"] = "Cover Image";
+    options.params = params;
+    //options.chunkedmode = false;
+
+    var ft = new FileTransfer();
+    ft.upload(mediaURI, host + "/tours.json", uploadWin, uploadFail, options);
 
     return;
 
@@ -256,6 +323,10 @@ function onDeviceReadyCreate() {
   }
 
   // save tour button
+  // for now, this isn't actually going to create the tour, but update one
+  // already created, because we need to upload the cover_image first.
+  // that's when we create the tour
+
   function uploadTour(event) {
 
     console.log("uploadTour");
@@ -272,8 +343,8 @@ function onDeviceReadyCreate() {
     function submitTour(tour) {
       console.log("submitTour");
       var callData = {
-        type: "post",
-        path: "/tours.json"
+        type: "put",
+        path: "/tours/" + tour.id + ".json"
       };
       callData.data = reformatTourForSubmission(tour);
       makeAPICall(callData, function() {
@@ -343,7 +414,6 @@ function onDeviceReadyCreate() {
             return function(callback) {
               curMediaItem.mediaUploadFunc(curMediaItem.data, function(response) {
                 console.log("seriesItemCallback");
-                console.log(curMediaItem.mediaUploadFunc);
                 curMediaItem.callback(response);
                 callback(null, "two");
               });
@@ -351,13 +421,31 @@ function onDeviceReadyCreate() {
           }(curMediaItem);
           funcArray.push(myMediaUploadArrayItem);
         }
+        funcArray.push(function(callback) {
+          uploadCoverImage($("#createTrackImage").attr("src"), function(response) {
+            console.log("finalSeriesCallback");
+            addTourIDToTour(response);
+            callback(null, "three")
+          }, "image/jpeg");
+        });
+        console.log(funcArray);
         async.series(funcArray, asyncCallback);
       }
     }
 
-    function asyncCallback() {
+    function asyncCallback(err, results) {
       console.log("asyncCallback");
+      console.log(err);
+      console.log(results);
       submitTour(tour);
+    }
+
+    function addTourIDToTour(response) {
+      console.log("addTourIDToTour");
+      response = JSON.parse(response);
+      console.log(response);
+      tour.id = response.id;
+      console.log(tour.id);
     }
 
     function addMediaItemIDToTour(response, mediaItem) {
@@ -393,6 +481,9 @@ function onDeviceReadyCreate() {
         delete tour.interest_points;
       }
 
+      if (tour.cover_image_url) {
+
+      }
       // make the heartbeat WKT path
       tour.path = "LINESTRING" + "(" + tour.pathpoints.join(", ") + ")";
       console.log("end reformatTourForSubmission");

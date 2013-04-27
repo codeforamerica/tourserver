@@ -6,7 +6,9 @@ class ToursController < ApplicationController
 
   def convert_wkt
     parser = RGeo::WKRep::WKTParser.new(nil, :support_ewkt => true)
-    params[:tour][:path] = parser.parse(params[:tour][:path])
+    if (params[:tour][:path])
+      params[:tour][:path] = parser.parse(params[:tour][:path])
+    end
     params[:tour].delete(:pathpoints)
 
     # TODO: need to refactor the need for this away.
@@ -47,9 +49,11 @@ class ToursController < ApplicationController
   def show
     @tour = Tour.find(params[:id])
 
+    @show_tour = @tour.clone
+    @show_tour["fullitem"] = @show_tour.cover_image.url
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @tour, 
+      format.json { render :json => @show_tour, 
         :include => {:interest_points => {:include => {:interp_items => {:include => :media_items} } }},
         :methods => :tour_length
       }

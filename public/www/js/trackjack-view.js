@@ -134,12 +134,12 @@ function onDeviceReadyView() {
 
   function showTourInfo() {
     console.log("showTourInfo");
-    console.log(currentViewingTour);
-    console.log(currentViewingTour["name"]);
     $("#viewTrackTitle2").text(currentViewingTour.name);
     $(".viewTrackDistance").text(((currentViewingTour.tour_length) * 0.000621371192).toFixed(2)); 
     $(".viewTrackChapters").text(currentViewingTour.interest_points.length + " chapters");
     $(".viewTrackDifficulty").text(currentViewingTour.difficulty);
+    console.log(currentViewingTour.fullPath);
+    $("#viewTrackImage").attr("src", currentViewingTour.fullPath );
     if (currentViewingTour.description) {
       $("#viewTrackDescription").text(currentViewingTour.description);
     }
@@ -182,7 +182,6 @@ function onDeviceReadyView() {
         });
       });
     });
-
     async.parallel(mediaTaskArray, startPointSequence);
   }
 
