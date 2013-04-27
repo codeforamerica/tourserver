@@ -1,6 +1,6 @@
 class Tour < ActiveRecord::Base
   attr_accessible :difficulty, :name, :path, :tourtime, :interest_points_attributes, 
-    :tour_length, :description, :cover_image
+    :tour_length, :description, :cover_image, :cover_image_file_name
 
   has_attached_file :cover_image
 
