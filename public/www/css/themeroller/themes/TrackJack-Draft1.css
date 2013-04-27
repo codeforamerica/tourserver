@@ -230,7 +230,7 @@
 	border: 1px solid #e5e1d1 /*{b-bup-border}*/;
 	background: #F7F5EB /*{b-bup-background-color}*/;
 	font-weight: normal;
-	color: red /* #716552*/ /*{b-bup-color}*/;
+	color: red #716552 /*{b-bup-color}*/;
 	text-shadow: 0 /*{b-bup-shadow-x}*/ 0px /*{b-bup-shadow-y}*/ 0 /*{b-bup-shadow-radius}*/ #ffffff /*{b-bup-shadow-color}*/;
 	background-image: -webkit-gradient(linear, left top, left bottom, from( #f7f5eb /*{b-bup-background-start}*/), to( #f7f5eb /*{b-bup-background-end}*/)); /* Saf4+, Chrome */
 	background-image: -webkit-linear-gradient( #f7f5eb /*{b-bup-background-start}*/, #f7f5eb /*{b-bup-background-end}*/); /* Chrome 10+, Saf5.1+ */
