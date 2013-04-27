@@ -1,5 +1,7 @@
 TourServer::Application.routes.draw do
 
+  match '/tours/:id(.:format)' => 'tours#update', :via => :post
+
   resources :tours do
     resources :interest_points do
     end

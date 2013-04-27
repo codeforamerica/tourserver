@@ -15,12 +15,12 @@ function onDeviceReadyEdit() {
   $("#editTrackListPage").on('pagebeforeshow', getTourList);
   $("#editTrackLoadingPage").on('pagebeforeshow', loadMediaItems);
   $("#editTrackInfoPage1").on('pagebeforeshow', populateTrackInfoPage1);
-  $("#editTrackInfoPage2").on('pagebeforeshow', populateTrackInfoPage2);
+  $("#editTrackInputPage2").on('pagebeforeshow', populateTrackInfoPage2);
   $("#editTrackPOIListPage").on('pagebeforeshow', populatePointList);
   $("#editTrackPOIInfoPage1").on('pagebeforeshow', populatePointInfoPage1);
-  $("#editTrackInfoDelete").click(deleteTrack);  
-  $("#editTrackInfoUploadImageLibrary").click(saveTrackImageFromLibrary);
-  $("#editTrackInfoUploadImageCamera").click(saveTrackImageFromCamera);
+  $("#editTrackInfoDelete").click(deleteTrack);
+  $("#editTrackInfoUploadImageLibrary").click(saveCoverImageFromLibrary);
+  $("#editTrackInfoUploadImageCamera").click(saveCoverImageFromCamera);
   $("#editTrackPOIUploadImageLibrary").click(savePointImageFromLibrary);
   $("#editTrackPOIUploadImageCamera").click(savePointImageFromCamera);
   $("#editTrackPOISubmit").click(savePoint);
@@ -66,6 +66,10 @@ function onDeviceReadyEdit() {
       var $viewTrackDistance = $tourListEntry.find(".viewTrackDistance");
       $viewTrackDistance.text(((response[i].tour_length) * 0.000621371192).toFixed(2));
       $tourListEntry.find(".viewTrackChapters").text(response[i].chapters.length + " chapters");
+      console.log(response[i].fullitem);
+      if (response[i].fullitem != "/cover_images/original/missing.png") {
+        $tourListEntry.find(".editTrackListImage").attr("src", response[i].fullitem);
+      }
 
       //TODO: figure out why jqmdata doesn't work
       $tourListEntry.data("tourid", response[i].id);
@@ -145,21 +149,38 @@ function onDeviceReadyEdit() {
 
   function populateTrackInfoPage2() {
     //TODO: code to display cover_image
-
+    if (currentViewingTour.fullitem.indexOf("missing.png") == -1) {
+      $("#editTrackInfoImage").attr("src", currentViewingTour.fullitem);
+    }
   }
 
   // this photo code will need to be consolidated with a success callback
 
-  function saveTrackImageFromLibrary() {
-    saveTrackImage(navigator.camera.PictureSourceType.PHOTOLIBRARY);
+  function saveCoverImageFromLibrary() {
+    saveCoverImage(navigator.camera.PictureSourceType.PHOTOLIBRARY);
   }
 
-  function saveTrackImageFromCamera() {
-    saveTrackImage(navigator.camera.PictureSourceType.CAMERA);
+  function saveCoverImageFromCamera() {
+    saveCoverImage(navigator.camera.PictureSourceType.CAMERA);
   }
 
-  function saveTrackImage(pictureSource) {
+  function saveCoverImage(sourceType) {
+    navigator.camera.getPicture(cameraSuccess, cameraError, {
+      quality: 40,
+      destinationType: navigator.camera.DestinationType.FILE_URI,
+      sourceType: sourceType
+    });
 
+    function cameraSuccess(photoURL) {
+      console.log("photo success");
+      $("#createTrackImage").attr("src", photoURL);
+      currentViewingTour.cover_image_url = photoURL
+      $.mobile.changePage($("#editTrackInputPage2"));
+    }
+
+    function cameraError(error) {
+      console.log(error);
+    }
   }
 
   function savePointImageFromLibrary() {
@@ -362,7 +383,43 @@ function onDeviceReadyEdit() {
 
   function savePoint(event) {
     console.log("savePoint");
-    $.mobile.changePage($("#editTrackPOIListPage"), {transition: "slide"});
+    $.mobile.changePage($("#editTrackPOIListPage"), {
+      transition: "slide"
+    });
+  }
+
+  // again, one line difference between this and the create version
+  // TODO: consolidate post-demo
+  function updateCoverImage(mediaURI, uploadCallback, mimeType) {
+    console.log("uploadCoverImage");
+    var options = new FileUploadOptions();
+    options.mimeType = mimeType;
+    options.fileKey = "tour[cover_image]";
+    options.fileName = mediaURI.substr(mediaURI.lastIndexOf('/') + 1);
+
+    var params = new Object();
+    params["tour[cover_image]"] = "Cover Image";
+    options.params = params;
+    //options.chunkedmode = false;
+
+    var ft = new FileTransfer();
+    ft.upload(mediaURI, host + "/tours/" + currentViewingTour.id + ".json", uploadWin, uploadFail, options);
+
+    return;
+
+    function uploadWin(r) {
+      console.log("Code = " + r.responseCode);
+      uploadCallback(r.response);
+    }
+
+    function uploadFail(error) {
+      alert("An error has occurred (uploadMedia:): Code = " + error.code + "(" + mediaURI + ")");
+      if (confirm("uploadMedia Failed. Try again?") + JSON.stringify(callData.data)) {
+        uploadMedia(mediaURI, uploadCallback, mimeType);
+      } else {
+        // silent fail!
+      }
+    }
   }
 
   //lots of copy and paste from the create code here.
@@ -376,7 +433,10 @@ function onDeviceReadyEdit() {
     tour.name = $("#editTrackName").val();
     tour.difficulty = $("#editTrackRating").val();
     tour.description = $("#editTrackDescription").val();
-    
+    updateCoverImage($("#createTrackImage").attr("src"), function() {
+      console.log("coverImageCallback");
+    }, "image/jpeg");
+
 
     console.log("uploadTour");
     for (var i = 0; i < tour.interest_points.length; i++) {
@@ -514,6 +574,9 @@ function onDeviceReadyEdit() {
       }
       if (tour.tour_length) {
         delete tour.tour_length;
+      }
+      if (tour.cover_image_url) {
+        delete tour.cover_image_url;
       }
       // make the heartbeat WKT path
       //tour.path = "LINESTRING" + "(" + tour.pathpoints.join(", ") + ")";

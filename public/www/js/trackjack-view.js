@@ -99,7 +99,8 @@ function onDeviceReadyView() {
       var $viewTrackDistance = $tourListEntry.find(".viewTrackDistance");
       $viewTrackDistance.text(((response[i].tour_length) * 0.000621371192).toFixed(2));
       $tourListEntry.find(".viewTrackChapters").text(response[i].chapters.length + " chapters");
-      if (response[i].fullitem) {
+      console.log(response[i].fullitem);
+      if (response[i].fullitem != "/cover_images/original/missing.png") {
         $tourListEntry.find(".viewTrackListImage").attr("src", response[i].fullitem);
       }
       //TODO: figure out why jqmdata doesn't work
