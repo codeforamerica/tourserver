@@ -247,7 +247,7 @@
 	border: 1px solid #E5E1D1 /*{b-bhover-border}*/;
 	background: #E5E1D1 /*{b-bhover-background-color}*/;
 	font-weight: bold;
-	color: blue/* #716552*/ /*{b-bhover-color}*/;
+	color: #716552 /*{b-bhover-color}*/;
 	text-shadow: 0 /*{b-bhover-shadow-x}*/ 0px /*{b-bhover-shadow-y}*/ 0 /*{b-bhover-shadow-radius}*/ #ffffff /*{b-bhover-shadow-color}*/;
 	background-image: -webkit-gradient(linear, left top, left bottom, from( #E5E1D1 /*{b-bhover-background-start}*/), to( #E5E1D1 /*{b-bhover-background-end}*/)); /* Saf4+, Chrome */
 	background-image: -webkit-linear-gradient( #E5E1D1 /*{b-bhover-background-start}*/, #E5E1D1 /*{b-bhover-background-end}*/); /* Chrome 10+, Saf5.1+ */
