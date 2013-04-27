@@ -173,7 +173,7 @@ function onDeviceReadyEdit() {
 
     function cameraSuccess(photoURL) {
       console.log("photo success");
-      $("#createTrackImage").attr("src", photoURL);
+      $("#editTrackInfoImage").attr("src", photoURL);
       currentViewingTour.cover_image_url = photoURL
       $.mobile.changePage($("#editTrackInputPage2"));
     }
