@@ -75,7 +75,7 @@ function onDeviceReadyView() {
 
   function getTourList() {
     console.log("getTourList");
-    $(".viewTrackList").hide();
+    $("#viewTrackList").hide();
     currentViewPointIndex = 0;
 
     var callData = {
@@ -136,7 +136,10 @@ function onDeviceReadyView() {
     console.log("showTourInfo");
     console.log(currentViewingTour);
     console.log(currentViewingTour["name"]);
-    $(".viewTrackTitle").text(currentViewingTour.name);
+    $("#viewTrackTitle2").text(currentViewingTour.name);
+    $(".viewTrackDistance").text(((currentViewingTour.tour_length) * 0.000621371192).toFixed(2)); 
+    $(".viewTrackChapters").text(currentViewingTour.interest_points.length + " chapters");
+    $(".viewTrackDifficulty").text(currentViewingTour.difficulty);
     if (currentViewingTour.description) {
       $("#viewTrackDescription").text(currentViewingTour.description);
     }

@@ -19,12 +19,13 @@ function onDeviceReadyEdit() {
   $("#editTrackPOIListPage").on('pagebeforeshow', populatePointList);
   $("#editTrackPOIInfoPage1").on('pagebeforeshow', populatePointInfoPage1);
   $("#editTrackInfoDelete").click(deleteTrack);  
-  $("#editTrackPOISubmit").click(uploadTour);
   $("#editTrackInfoUploadImageLibrary").click(saveTrackImageFromLibrary);
   $("#editTrackInfoUploadImageCamera").click(saveTrackImageFromCamera);
   $("#editTrackPOIUploadImageLibrary").click(savePointImageFromLibrary);
   $("#editTrackPOIUploadImageCamera").click(savePointImageFromCamera);
+  $("#editTrackPOISubmit").click(savePoint);
   $("#editTrackRecordAudio").click(recordPointAudio);
+  $("#editTrackInfoSave").click(uploadTour);
 
 
   function deleteTrack(event) {
@@ -78,9 +79,9 @@ function onDeviceReadyEdit() {
       moveToTourInfo(tourid);
     });
     $tourTemplate.remove();
-
-    $('#editTrackList').listview('refresh');
     $('.viewTrackListDiv').show();
+    $('#editTrackList').listview('refresh');
+
 
   }
 
@@ -132,7 +133,7 @@ function onDeviceReadyEdit() {
 
   function downloadDone() {
     console.log("downloadDone");
-    $.mobile.changePage($("#editTrackInfoPage1"));
+    $.mobile.changePage($("#editTrackPOIListPage"));
   }
 
   function populateTrackInfoPage1() {
@@ -359,6 +360,10 @@ function onDeviceReadyEdit() {
     });
   }
 
+  function savePoint(event) {
+    console.log("savePoint");
+    $.mobile.changePage($("#editTrackPOIListPage"), {transition: "slide"});
+  }
 
   //lots of copy and paste from the create code here.
   //needs to be refactored somewhere sensible
