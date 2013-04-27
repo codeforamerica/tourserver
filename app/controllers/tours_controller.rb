@@ -34,7 +34,9 @@ class ToursController < ApplicationController
   # GET /tours.json
   def index
     @tours = Tour.all
-
+    @tours.each do |tour|
+      tour["fullitem"] = tour.cover_image.url
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @tours, 

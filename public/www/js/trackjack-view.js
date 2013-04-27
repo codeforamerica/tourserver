@@ -91,17 +91,17 @@ function onDeviceReadyView() {
     $("#viewTrackList").children().remove('li:not(.viewTrackListItemTemplate)');
     console.log($tourTemplate);
     for (var i = 0; i < response.length; i++) {
-      console.log(response[i]);
       var $tourListEntry = $tourTemplate.clone(false);
       var $viewTrackTitle = $tourListEntry.find(".viewTrackTitle");
       $viewTrackTitle.text(response[i].name);
       var $viewTrackDifficulty = $tourListEntry.find(".viewTrackDifficulty");
       $viewTrackDifficulty.text(response[i].difficulty);
-      console.log(response[i].tour_length);
       var $viewTrackDistance = $tourListEntry.find(".viewTrackDistance");
       $viewTrackDistance.text(((response[i].tour_length) * 0.000621371192).toFixed(2));
       $tourListEntry.find(".viewTrackChapters").text(response[i].chapters.length + " chapters");
-
+      if (response[i].fullitem) {
+        $tourListEntry.find(".viewTrackListImage").attr("src", response[i].fullitem);
+      }
       //TODO: figure out why jqmdata doesn't work
       $tourListEntry.data("tourid", response[i].id);
       $("#viewTrackList").append($tourListEntry);
@@ -139,7 +139,7 @@ function onDeviceReadyView() {
     $(".viewTrackChapters").text(currentViewingTour.interest_points.length + " chapters");
     $(".viewTrackDifficulty").text(currentViewingTour.difficulty);
     console.log(currentViewingTour.fullPath);
-    $("#viewTrackImage").attr("src", currentViewingTour.fullPath );
+    $("#viewTrackImage").attr("src", currentViewingTour.fullitem );
     if (currentViewingTour.description) {
       $("#viewTrackDescription").text(currentViewingTour.description);
     }
