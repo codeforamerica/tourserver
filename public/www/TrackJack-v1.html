@@ -116,23 +116,16 @@
 
 <!-- Help Page -->
 
-    <div data-role="page" data-theme="a" id="infoPage">
-
-
+  <div data-role="page" data-theme="a" id="infoPage">
 <!-- Note that I didn't change the id "infopage" above +AJW -->
-
       <div data-theme="a" data-role="header" data-position="fixed" data-tap-toggle="false">
-          <span class="ui-title">Help</span>
-
-<!-- this span "ui-title" is a bit confusing to me...I see it empty many times in other places... +AJW 
-      This is probably left over stuff from the codiqa out put for the header. I'll go through and make change everything so they are written the same -KL -->
-
-          <a data-role="button" data-direction="reverse" data-transition="slide" class="ui-btn-left" href="#settingsPage">
+          <h3>Help</h3>
+          <a data-role="button" data-direction="reverse" data-transition="slide" class="ui-btn-left" href="#" data-rel="back">
               Back
           </a>
       </div>
       <div data-role="content">
-          <div class="textbox-white textbox-text">
+          <div class="textbox-white">
               <h class="textbox-header">Let us help you!</h>
               <p>
                   Help Page<br><br><br><br><br><br><br>
@@ -165,11 +158,11 @@
 <!-- View Track List Page
 ================================================================================ -->
 
-  <div data-role="page" data-theme="d" id="viewTrackListPage">
+  <div data-role="page" data-theme="a" id="viewTrackListPage">
       <div data-theme="a" data-role="header" data-position="fixed" data-tap-toggle="false">
-          <h2>
+          <h3>
               TrackJack
-          </h2>
+          </h3>
       </div>
       <div class="viewTrackListDiv" data-theme="b" data-divider-theme="b" data-inset="true">
          <ul id="viewTrackList" class="viewTrackList" data-role="listview" data-divider-theme="b">
@@ -224,7 +217,7 @@
 <!-- View Track Information / Metadata Page
 ================================================================================ -->
 
-  <div data-role="page" data-theme="d" id="viewTrackInfoPage">
+  <div data-role="page" data-theme="a" id="viewTrackInfoPage">
       <div data-theme="a" data-role="header" data-position="fixed" data-tap-toggle="false">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#page1" class="ui-btn-left">
               Tracks
@@ -232,9 +225,9 @@
           <a data-role="button" data-transition="slide" data-theme="c" href="#viewTrackLoadingPage" class="ui-btn-right" id="viewTrackStart">
               Go
           </a>
-          <h2>
+          <h3>
               TrackJack
-          </h2>
+          </h3>
       </div>
       <div class="header" data-theme="b", data-role="header" >
           <h3 class="viewTrackTitle" id="viewTrackTitle2">[Track Title]</h3>
@@ -307,11 +300,11 @@
 <!-- Track Loading Page 
 ================================================================================ -->
 
-<div data-role="page" data-theme="d" id="viewTrackLoadingPage">
+<div data-role="page" data-theme="a" id="viewTrackLoadingPage">
       <div data-theme="a" data-role="header" data-position="fixed" data-tap-toggle="false">
-          <h2>
+          <h3>
               TrackJack
-          </h2>
+          </h3>
       </div>
       <div class="viewTrackLoadingDiv" data-theme="b" data-divider-theme="b" data-inset="true">
         Loading data...
@@ -342,9 +335,9 @@
 <!-- View Track Instructions Page
 ================================================================================ -->
 
-  <div data-role="page" data-theme="d" id="viewTrackInstructionsPage">
+  <div data-role="page" data-theme="a" id="viewTrackInstructionsPage">
       <div data-theme="a" data-role="header" data-position="fixed" data-tap-toggle="false">
-          <span class="ui-title"></span>
+          <h3></h3>
           <a data-role="button" data-transition="slide" data-theme="a" href="#viewTrackPointPage" class="ui-btn-right viewTrackSkipToCurrent">
               Skip
           </a>
@@ -409,9 +402,9 @@
 <!-- View Track Point Page
 ================================================================================ -->
 
-  <div data-role="page" data-theme="d" id="viewTrackPointPage">
+  <div data-role="page" data-theme="a" id="viewTrackPointPage">
       <div data-theme="a" data-role="header" data-position="fixed" data-tap-toggle="false">
-          <h2 id="InterpItem-Header">
+          <h3 id="InterpItem-Header">
               <span id="viewTrackCurrentPointIndex">
                   [1]
 
@@ -420,7 +413,7 @@
               <span id="viewTrackTotalPoints">
                   [12]
               </span>
-          </h2>
+          </h3>
           <!-- note that the href and text of these two buttons are now being set in trackjack-view.js based on whether this is the final point (da) -->
             <a data-role="button" data-transition="slide" data-theme="c" href="#viewTrackCompletePage" class="ui-btn-right viewTrackNextInBetween">
               next
@@ -479,7 +472,7 @@
 
   <div data-role="page" data-theme="d" id="viewTrackCompletePage">
       <div data-theme="a" data-role="header" data-position="fixed" data-tap-toggle="false">
-          <span class="ui-title"></span>
+          <h3></h3>
           <a data-role="button" data-direction="reverse" data-transition="slide" class="ui-btn-left viewTrackBackToPrevious">
               Back
           </a>
@@ -534,7 +527,9 @@
 
   <div data-role="page" data-theme="a" id="createTrackInfoPage">
       <div data-theme="a" data-role="header" data-position="fixed" data-tap-toggle="false">
-          <span class="ui-title">Create A Track</span>
+          <h3>
+            Create A Track
+          </h3>
           <a data-role="button" data-direction="reverse" data-transition="slide" class="ui-btn-left" href="#settingsPage">
               Cancel
           </a>
@@ -592,9 +587,9 @@
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#createTrackInputPage1" class="ui-btn-left">
               Back
           </a>
-          <h2>
+          <h3>
               Create a Track
-          </h2>
+          </h3>
       </div>
       <div data-role="content">
           <div data-role="fieldcontain">
@@ -686,9 +681,9 @@
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#" class="ui-btn-left">
               Back
           </a>
-          <h2>
+          <h3>
               Create a Track
-          </h2>
+          </h3>
       </div>
       <div data-role="content">
           <a data-role="button" data-theme="b" href="#createTrackUploadStartImagePage" data-transition="slide" id="createTrackImageUpload">
@@ -781,7 +776,7 @@
 <!-- Create Track Main Page (Between Dropping Points)
 ================================================================================ -->
 
-  <div data-role="page" data-theme="d" id="createTrackMainPage">
+  <div data-role="page" data-theme="a" id="createTrackMainPage">
       <div data-theme="a" data-role="header" data-position="fixed" data-tap-toggle="false">
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide"
           href="#CreateTrackInputPage2" class="ui-btn-left" id="createTrackCancelRecording">
@@ -841,9 +836,9 @@
           href="#createTrackMainPage" class="ui-btn-left" id="createTrackCancelPOI">
               Cancel
           </a>
-          <h2>
+          <h3>
               Create a Place
-          </h2>
+          </h3>
       </div>
       <div data-role="content">
           <div data-role="fieldcontain">
@@ -1000,7 +995,7 @@
 <!-- Create Track Upload Track Page
 ================================================================================ -->
 
-  <div data-role="page" data-theme="d" id="createTrackUploadPage">
+  <div data-role="page" data-theme="a" id="createTrackUploadPage">
       <div data-theme="a" data-role="header" data-position="fixed" data-tap-toggle="false">
           <h3>
               Upload Track
@@ -1096,9 +1091,9 @@
 
   <div data-role="page" data-theme="a" id="editTrackListPage">
       <div data-theme="a" data-role="header" data-position="fixed" data-tap-toggle="false">
-          <h2>
+          <h3>
               TrackJack
-          </h2>
+          </h3>
       </div>
       <div id="editTrackListLoading">Loading track list...</div>
       <div class="viewTrackListDiv" data-theme="b" data-divider-theme="b" data-inset="true">
@@ -1159,9 +1154,9 @@
           href="#" class="ui-btn-left">
               Back
           </a>
-          <h2>
+          <h3>
               Edit Track Info
-          </h2>
+          </h3>
           <a data-role="button" data-transition="slide" href="#editTrackInfoPage1" class="ui-btn-right">
               Next
           </a>
@@ -1204,9 +1199,9 @@
 
 <div data-role="page" data-theme="a" id="editTrackLoadingPage">
       <div data-theme="a" data-role="header" data-position="fixed" data-tap-toggle="false">
-          <h2>
+          <h3>
               TrackJack
-          </h2>
+          </h3>
       </div>
       <div class="viewTrackLoadingDiv" data-theme="a" data-divider-theme="b" data-inset="true">
         Loading track data...
@@ -1245,9 +1240,9 @@
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#editTrackListPage" class="ui-btn-left">
               Back
           </a>
-          <h2>
+          <h3>
               Edit Track Info
-          </h2>
+          </h3>
       </div>
       <div data-role="content">
           <div data-role="fieldcontain">
@@ -1342,9 +1337,9 @@
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide" href="#editTrackListPage" class="ui-btn-left">
               Back
           </a>
-          <h2>
+          <h3>
               Edit Photo
-          </h2>
+          </h3>
       </div>
       <div data-role="content">
           <a data-role="button" data-transition="slide" data-theme="b" href="#editTrackInfoUploadPhotoPage">
@@ -1439,9 +1434,9 @@
           <a data-role="button" data-direction="reverse" data-rel="back" data-transition="slide">
               Cancel
           </a>
-          <h2>
+          <h3>
               Edit Place
-          </h2>
+          </h3>
       </div>
       <div data-role="content">
           <div data-role="fieldcontain">
@@ -1505,9 +1500,9 @@
           href="#editTrackPOIInfoPage1" class="ui-btn-left">
               Back
           </a>
-          <h2>
+          <h3>
               Edit Point of Interest
-          </h2>
+          </h3>
       </div>
       <div id="musicplayer-container">
           <div style="display: inline;" id="editTrackAudioPointPlay">play</div>
