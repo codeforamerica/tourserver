@@ -307,8 +307,8 @@
           </h3>
       </div>
       <div class="viewTrackLoadingDiv" data-theme="b" data-divider-theme="b" data-inset="true">
-        Loading data...
-       </div>
+      <h class="loading-gif">loading trails</h>
+      </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a" data-tap-toggle="false">
         <div data-role="navbar">
           <ul>
@@ -792,14 +792,26 @@
                 <p>When you’ve added all your points, tap "Finish Track" to wrap up.</p>
               </div>
           </div>
-          <div data-role="controlgroup" data-type="horizontal" id="addPointFinishBar">
-              <a class="btn-short" data-role="button" data-transition="slideup" href="#createTrackPOIPage1" data-theme="c" id="createTrackAddPoint">
-                  Add Point
+          <fieldset id="addPointFinishBar">
+              <a data-role="button" data-inline="true" data-transition="slideup" href="#createTrackPOIPage1" data-theme="c" id="createTrackAddPoint">
+                  Add Place
               </a>
-              <a class="btn-short" data-role="button" data-transition="slideup" data-theme="c" href="#createTrackUploadPage" id="createTrackDone">
-                  Finish Track
+              <a data-role="button" data-inline="true" data-transition="slideup" data-theme="c" href="#createTrackUploadPage" id="createTrackDone">
+                  &nbsp;&nbsp;Finished&nbsp;&nbsp;
               </a>
-          </div>
+          </fieldset>
+          <!-- test: wouldn't click through <fieldset class="ui-grid-a">
+              <div class="ui-block-a"><button data-theme="c" data-transition="slideup" href="#createTrackPOIPage1" id="createTrackAddPoint">Add Place</button></div>
+              <div class="ui-block-b"><button data-theme="c" data-transition="slideup" href="#createTrackUploadPage" id="createTrackDone">Finished</button></div>     
+          </fieldset> -->
+          <!-- test: wont lay on same line <fieldset class="ui-grid-a">
+              <a data-role="button" data-transition="slideup" href="#createTrackPOIPage1" data-theme="c" id="createTrackAddPoint" class="ui-block-a">
+                  Add Place
+              </a>
+              <a data-role="button" data-transition="slideup" data-theme="c" href="#createTrackUploadPage" id="createTrackDone" class="ui-block-b">
+                  Finished
+              </a>
+          </fieldset> -->
           <img class="map" id="createTrackMapInProgress" src="https://maps.googleapis.com/maps/api/staticmap?center=Akron, OH&amp;zoom=14&amp;size=288x200&amp;markers= Akron, OH&amp;sensor=false">
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a" data-tap-toggle="false">

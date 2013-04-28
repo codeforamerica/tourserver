@@ -240,3 +240,19 @@
     background-color: #fbfbfb;
     border: 1px solid #b8b8b8;   
 }
+
+/* loading pages
+====================================================== */
+.viewTrackLoadingDiv {
+    background-color: #716552;
+    opacity: 0.2;
+    width: 100%;
+    height: 500px;
+}
+.loading-gif {
+    padding: 30px;
+    font-family: Rokkitt;
+    font-weight: 700;
+    font-size: 1.5em;
+    color: #0E1237;
+}
