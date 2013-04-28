@@ -291,7 +291,10 @@ function onDeviceReadyEdit() {
         var filename = media_item.item_file_name;
         if (mimeType.indexOf("text") == 0) {
           getTextItem(filename, function(textContents) {
-            $("#editTrackPOIDescription").html(textContents);
+            if (!($("#editTrackPOIDescription").html())) {
+              currentPoint.textMediaItemID = media_item.id;
+              $("#editTrackPOIDescription").html(textContents);
+            }
           });
         } else if (mimeType.indexOf("audio") == 0) {
           if (!($("#editTrackAudioPointPlay").data("src"))) {
@@ -399,7 +402,9 @@ function onDeviceReadyEdit() {
     if ($("#editTrackPOIImage").attr("src").indexOf("http") != 0) {
       uploadPointImage($("#editTrackPOIImage").attr("src"), function() {
         uploadPointAudio($("#editTrackAudioPointPlay").data("src"), function() {
-          uploadPointMetadata();
+          uploadPointText($("#editTrackPOIDescription").val(), function() {
+            uploadPointMetadata();
+          });
         });
       });
     } else {
@@ -439,13 +444,39 @@ function onDeviceReadyEdit() {
       }
     }
 
+
+    function uploadPointText(textContents, doneCallback) {
+      console.log("uploadPointText");
+      // nore acrobatics required here because the text isn't in a file yet
+      if (textContents) {
+        writeTextToFile(textContents, function(textURL) {
+          console.log("textURL");
+          console.log(textURL);
+          uploadMedia({
+            mediaURL: textURL,
+            objectName: "media_item",
+            mediaFieldName: "item",
+            objectID: pointData.textMediaItemID,
+            mimeType: "text/plain",
+            doneCallback: doneCallback
+          });
+        });
+      } else {
+        doneCallback();
+      }
+    }
+
     function uploadPointMetadata() {
       console.log("uploadPointMetadata");
       var callData = {
         type: 'put',
-        path: "/media_items/" + pointData.id + ".json"
+        path: "/media_items/" + pointData.id + ".json",
+        data: {
+          name: pointData.name
+        }
       };
-      callData.data = pointData;
+      console.log("callData");
+      console.log(callData);
       makeAPICall(callData, function() {
         alert("Point metadata saved");
         moveToTourInfo(currentEditingTour.id);
@@ -453,6 +484,40 @@ function onDeviceReadyEdit() {
     }
 
 
+  }
+
+  function writeTextToFile(text, uploadCallback) {
+    text = text.substr(0, 1500);
+    console.log("uploadText");
+    // so very wrong. and yet:
+    var fileName = Math.floor(Math.random() * 10000000) + ".txt";
+    window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, gotFS, fail);
+
+    function gotFS(fileSystem) {
+      fileSystem.root.getFile(fileName, {
+        create: true,
+        exclusive: false
+      }, gotFileEntry, fail);
+    }
+
+    function gotFileEntry(fileEntry) {
+      fileEntry.createWriter(gotFileWriter, fail);
+    }
+
+    function gotFileWriter(writer) {
+      console.log("writer.filename: ");
+      console.log(writer.fileName)
+      writer.onwriteend = function(evt) {
+        console.log("evt");
+        console.log(evt);
+        uploadCallback(writer.fileName);
+      };
+      writer.write(text);
+    }
+
+    function fail(error) {
+      alert("An error has occurred: (writeAndUploadText) Code = " + error.code);
+    }
   }
 
   function getTextItem(filename, CB) {
