@@ -3,7 +3,7 @@ TourServer::Application.routes.draw do
   # this is here because PhoneGap file transfers are all POST
   # requests, and we need to use them for updates
   match '/tours/:id(.:format)' => 'tours#update', :via => :post
-
+  match '/media_items/:id(.:format)' => 'media_items#update', :via => :post
   resources :tours do
     resources :interest_points do
     end
