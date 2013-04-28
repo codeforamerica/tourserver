@@ -5,11 +5,14 @@ class ToursController < ApplicationController
   before_filter :convert_wkt, :only => [:create, :update]
 
   def convert_wkt
-    parser = RGeo::WKRep::WKTParser.new(nil, :support_ewkt => true)
-    if (params[:tour][:path])
-      params[:tour][:path] = parser.parse(params[:tour][:path])
+    if (params[:tour])
+      if (params[:tour][:path])
+        parser = RGeo::WKRep::WKTParser.new(nil, :support_ewkt => true)
+        params[:tour][:path] = parser.parse(params[:tour][:path])
+      end
+      params[:tour].delete(:pathpoints)
     end
-    params[:tour].delete(:pathpoints)
+
 
     # TODO: need to refactor the need for this away.
     # removing any media_items from submission because we submit them 

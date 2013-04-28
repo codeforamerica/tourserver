@@ -175,7 +175,9 @@ function onDeviceReadyEdit() {
 
     function cameraSuccess(photoURL) {
       console.log("photo success");
-      $("#editTrackInfoImage").attr("src", photoURL);
+      console.log(photoURL);
+      currentEditingTour.fullitem = photoURL;
+      console.log($("#editTrackInfoImage").attr("src"));
       $.mobile.changePage($("#editTrackInputPage2"));
     }
 
@@ -188,16 +190,22 @@ function onDeviceReadyEdit() {
     console.log("uploadTourMetadata");
     var tourMetadata = {};
     tourMetadata.name = $("#editTrackName").val();
-    tourMetadata.difficulty = $("#editTrackRating").val();
+    tourMetadata.difficulty = $("#editTrackDifficulty").val();
     tourMetadata.description = $("#editTrackDescription").val();
     tourMetadata.id = currentEditingTour.id;
-    uploadMetadataCoverImage($("#editTrackInfoImage").attr("src"), uploadTourMetadata);
+    if ($("#editTrackInfoImage").attr("src").indexOf("http") != 0) {
+      uploadMetadataCoverImage($("#editTrackInfoImage").attr("src"), uploadTourMetadata);
+    }
+    else {
+      uploadTourMetadata();
+    }
     return;
 
     function uploadMetadataCoverImage(imageURI, doneCallback) {
       uploadMedia({
         mediaURL: imageURI,
         objectName: "tour",
+        mediaFieldName: "cover_image",
         objectID: tourMetadata.id,
         mimeType: "image/jpeg",
         doneCallback: doneCallback
@@ -211,6 +219,7 @@ function onDeviceReadyEdit() {
           path: "/tours/" + tourMetadata.id + ".json"
         };
         callData.data = tourMetadata;
+        console.log(callData);
         makeAPICall(callData, function() {
           alert("Tour metadata saved");
           $.mobile.changePage($("#editTrackPOIListPage"), {
@@ -455,6 +464,7 @@ function onDeviceReadyEdit() {
       // supply ID for update to an existing item
       // make sure the server will accept POST for updates
       // because that's all Phonegap's FileTransfer can do 
+      console.log("uploadMedia");
       var ftOptions = new FileUploadOptions();
       ftOptions.mimeType = params.mimeType;
       ftOptions.fileKey = params.objectName + "[" + params.mediaFieldName + "]";
@@ -468,10 +478,13 @@ function onDeviceReadyEdit() {
       var ft = new FileTransfer();
       var ftURL;
       if (params.objectID) {
-        ftURL = host + "/" + params.objectName + "/" + params.objectID + ".json";
+        ftURL = host + "/" + params.objectName + "s/" + params.objectID + ".json";
       } else {
-        ftURL = host + "/" + params.objectName + ".json";
+        ftURL = host + "/" + params.objectName + "s.json";
       }
+      console.log(params.mediaURL);
+      console.log(ftURL);
+      console.log(ftOptions);
       ft.upload(params.mediaURL, ftURL, uploadWin, uploadFail, ftOptions);
 
       return;
@@ -483,7 +496,7 @@ function onDeviceReadyEdit() {
 
       function uploadFail(error) {
         alert("An error has occurred (uploadMedia:): Code = " + error.code + "(" + params.mediaURL + ")");
-        if (confirm("uploadMedia Failed. Try again?") + JSON.stringify(callData.data)) {
+        if (confirm("uploadMedia Failed. Try again?")) {
           uploadMedia(params);
         } else {
           // silent fail!
