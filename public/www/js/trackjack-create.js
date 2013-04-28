@@ -330,10 +330,6 @@ function onDeviceReadyCreate() {
   function uploadTour(event) {
 
     console.log("uploadTour");
-    for (var i = 0; i < tour.interest_points.length; i++) {
-      //for each point
-      var myPoint = tour.interest_points[i];
-    }
     stopGeolocation();
     // submitMediaItems calls submitTour on completion
     submitMediaItems(tour);
@@ -359,9 +355,7 @@ function onDeviceReadyCreate() {
     function submitMediaItems(tour) {
       console.log("submitMediaItems");
       // is there a better way to avoid undefined issues? 
-      var mediaItemsSubmissions = new Array();
       var mediaSubmitParams = [];
-      console.log(mediaItemsSubmissions.length);
       if (tour.interest_points) {
         for (var i = 0; i < tour.interest_points.length; i++) {
           var myPoint = tour.interest_points[i];
