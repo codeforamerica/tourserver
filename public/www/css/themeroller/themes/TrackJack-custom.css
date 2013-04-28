@@ -192,7 +192,7 @@
     font-size: 1.1em !important;
 }
 .subtitles {
-  font-size: .8em;
+  font-size: .9em;
   font-family: Muli;
   font-weight: 300;
 }
@@ -217,10 +217,6 @@
   border: 1px solid #b8b8b8;
 }
 
-#addPointFinishBar {
-    width: 100%;
-}
-
 #CreateTrackPOIImage {
     width: 100%;
     height: auto;
@@ -243,7 +239,7 @@
 
 /* loading pages
 ====================================================== */
-/*  test out.viewTrackLoadingDiv {
+/*  test: .viewTrackLoadingDiv {
     background-color: #716552;
     opacity: 0.2;
     width: 100%;
