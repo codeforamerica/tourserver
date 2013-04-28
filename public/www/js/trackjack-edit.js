@@ -11,6 +11,7 @@ function onDeviceReadyEdit() {
   var mediaFiles = {};
   var currentEditingTour = {};
   var newTour = {};
+  var currentEditingPoint = {};
 
   $("#editTrackListPage").on('pagebeforeshow', getTourList);
   $("#editTrackLoadingPage").on('pagebeforeshow', loadMediaItems);
@@ -23,7 +24,7 @@ function onDeviceReadyEdit() {
   $("#editTrackInfoUploadImageCamera").click(saveCoverImageFromCamera);
   $("#editTrackPOIUploadImageLibrary").click(savePointImageFromLibrary);
   $("#editTrackPOIUploadImageCamera").click(savePointImageFromCamera);
-  $("#editTrackPOISubmit").click(savePoint);
+  $("#editTrackPOISubmit").click(uploadNewPointData);
   $("#editTrackRecordAudio").click(recordPointAudio);
   $("#editTrackInfoSave").click(uploadTourMetadata);
 
@@ -156,8 +157,6 @@ function onDeviceReadyEdit() {
     }
   }
 
-  // this photo code will need to be consolidated with a success callback
-
   function saveCoverImageFromLibrary() {
     saveCoverImage(navigator.camera.PictureSourceType.PHOTOLIBRARY);
   }
@@ -175,7 +174,6 @@ function onDeviceReadyEdit() {
 
     function cameraSuccess(photoURL) {
       console.log("photo success");
-      console.log(photoURL);
       currentEditingTour.fullitem = photoURL;
       console.log($("#editTrackInfoImage").attr("src"));
       $.mobile.changePage($("#editTrackInputPage2"));
@@ -195,8 +193,7 @@ function onDeviceReadyEdit() {
     tourMetadata.id = currentEditingTour.id;
     if ($("#editTrackInfoImage").attr("src").indexOf("http") != 0) {
       uploadMetadataCoverImage($("#editTrackInfoImage").attr("src"), uploadTourMetadata);
-    }
-    else {
+    } else {
       uploadTourMetadata();
     }
     return;
@@ -212,309 +209,383 @@ function onDeviceReadyEdit() {
       });
     }
 
-      function uploadTourMetadata() {
-        console.log("uploadTourMetadata");
-        var callData = {
-          type: 'put',
-          path: "/tours/" + tourMetadata.id + ".json"
-        };
-        callData.data = tourMetadata;
-        console.log(callData);
-        makeAPICall(callData, function() {
-          alert("Tour metadata saved");
-          $.mobile.changePage($("#editTrackPOIListPage"), {
-            transition: "slide"
-          });
-        })
-      }
-    }
-
-    // Point Editing
-
-    function savePointImageFromLibrary() {
-      savePointImage(navigator.camera.PictureSourceType.PHOTOLIBRARY);
-    }
-
-    function savePointImageFromCamera() {
-      saveCoverImage(navigator.camera.PictureSourceType.CAMERA);
-    }
-
-    function savePointImage(pictureSource) {
-      navigator.camera.getPicture(cameraSuccess, cameraError, {
-        quality: 40,
-        destinationType: navigator.camera.DestinationType.FILE_URI,
-        sourceType: sourceType
-      });
-
-      function cameraSuccess(photoURL) {
-        console.log("photo success");
-        $("#editTrackPOIImage").attr("src", photoURL);
-        var currentPoint = currentEditingTour.interest_points[currentEditPointIndex];
-        currentPoint.interp_items[0].media_items_attributes = currentPoint.interp_items[0].media_items_attributes || [];
-        currentPoint.interp_items[0].media_items_attributes.push({
-          type: "image",
-          data: photoURL
+    function uploadTourMetadata() {
+      console.log("uploadTourMetadata");
+      var callData = {
+        type: 'put',
+        path: "/tours/" + tourMetadata.id + ".json"
+      };
+      callData.data = tourMetadata;
+      console.log(callData);
+      makeAPICall(callData, function() {
+        alert("Tour metadata saved");
+        $.mobile.changePage($("#editTrackPOIListPage"), {
+          transition: "slide"
         });
-        $.mobile.changePage($("#editTrackPOIInfoPage1"));
-      }
-
-      function cameraError(error) {
-        console.log(error);
-      }
+      })
     }
+  }
 
-    function populatePointList() {
-      console.log("populatePointList");
-      var $pointTemplate = $("#editTrackPOIListItemTemplate").clone(false);
-      $("#editTrackPOIList").children().remove('li:not(#editTrackPOIListItemTemplate)');
+  // Point Editing
 
-      for (var i = 0; i < currentEditingTour.interest_points.length; i++) {
-        var myPoint = currentEditingTour.interest_points[i];
+  function populatePointList() {
+    console.log("populatePointList");
+    var $pointTemplate = $("#editTrackPOIListItemTemplate").clone(false);
+    $("#editTrackPOIList").children().remove('li:not(#editTrackPOIListItemTemplate)');
 
-        var $pointListEntry = $pointTemplate.clone(false);
-        $pointListEntry.removeAttr("id");
-        $pointListEntry.data("pointIndex", i);
-        $pointListEntry.find(".editTrackPOIListItemTitle").text(myPoint.name);
-        //TODO: get filler image if none is available
-        $pointListEntry.find(".editTrackPOIListItemImage").attr("src", "");
-        $.each(myPoint.interp_items, function(index, interp_item) {
-          $.each(interp_item.media_items, function(index, media_item) {
-            var mimeType = media_item.item_content_type;
-            var filename = media_item.item_file_name;
-            console.log(mediaFiles[filename].fullPath);
-            if (mimeType.indexOf("image") == 0) {
-              $pointListEntry.find(".editTrackPOIListItemImage")
-                .attr("src", mediaFiles[filename].fullPath);
-            }
-          });
-        });
-        $("#editTrackPOIList").append($pointListEntry);
-        $pointListEntry.show();
-      }
-      $(".editTrackPOIListItem").click(function() {
-        var pointIndex = $(this).data("pointIndex");
-        currentEditPointIndex = pointIndex;
-        $.mobile.changePage("#editTrackPOIInfoPage1")
-      });
-      $("#editTrackPOIListItemTemplate").hide();
-      $("#editTrackPOIList").listview('refresh');
-    }
+    for (var i = 0; i < currentEditingTour.interest_points.length; i++) {
+      var myPoint = currentEditingTour.interest_points[i];
 
-    function populatePointInfoPage1() {
-      console.log("populatePointInfoPage1");
-      var currentPoint = currentEditingTour.interest_points[currentEditPointIndex];
-      $("#editTrackPOIName").val(currentPoint.name);
-      var myAudio = null;
-      $.each(currentPoint.interp_items, function(index, interp_item) {
+      var $pointListEntry = $pointTemplate.clone(false);
+      $pointListEntry.removeAttr("id");
+      $pointListEntry.data("pointIndex", i);
+      $pointListEntry.find(".editTrackPOIListItemTitle").text(myPoint.name);
+      //TODO: get filler image if none is available
+      $pointListEntry.find(".editTrackPOIListItemImage").attr("src", "");
+      $.each(myPoint.interp_items, function(index, interp_item) {
         $.each(interp_item.media_items, function(index, media_item) {
           var mimeType = media_item.item_content_type;
           var filename = media_item.item_file_name;
-          if (mimeType.indexOf("text") == 0) {
-            getTextItem(filename, function(textContents) {
-              $("#editTrackPOIDescription").html(textContents);
-            });
-          } else if (mimeType.indexOf("audio") == 0) {
-            $("#editTrackAudioPointPlay").click(function(event) {
-              event.preventDefault();
-              console.log("editTrackAudioPointPlay");
-              if (myAudio == null) {
-                myAudio = new Media(mediaFiles[filename].fullPath, audioSuccess, audioError, audioStatus);
-              }
-              myAudio.play({
-                numberOfLoops: 1
-              });
-            });
-          } else if (mimeType.indexOf("image") == 0) {
+          console.log(mediaFiles[filename].fullPath);
+          var $pointImage = $pointListEntry.find(".editTrackPOIListItemImage");
+          if ((mimeType.indexOf("image") == 0) && (!($pointImage.attr("src")))) {
+            $pointImage.attr("src", mediaFiles[filename].fullPath);
+          }
+        });
+      });
+      $("#editTrackPOIList").append($pointListEntry);
+      $pointListEntry.show();
+    }
+    $(".editTrackPOIListItem").click(function() {
+      var pointIndex = $(this).data("pointIndex");
+      currentEditPointIndex = pointIndex;
+      $.mobile.changePage("#editTrackPOIInfoPage1")
+    });
+    $("#editTrackPOIListItemTemplate").hide();
+    $("#editTrackPOIList").listview('refresh');
+  }
+
+  // note that this also populates the audio item on the 
+  // second page, even though it's not visible yet.
+
+  // should probably skip this if the current point has already been loaded, 
+  // so we can use the elements as our variables without worrying about
+  // them being reset
+
+  function populatePointInfoPage1() {
+    console.log("populatePointInfoPage1");
+    var currentPoint = currentEditingTour.interest_points[currentEditPointIndex];
+    $("#editTrackPOIName").val(currentPoint.name);
+    var myAudio = null;
+    $.each(currentPoint.interp_items, function(index, interp_item) {
+      $.each(interp_item.media_items, function(index, media_item) {
+        var mimeType = media_item.item_content_type;
+        var filename = media_item.item_file_name;
+        if (mimeType.indexOf("text") == 0) {
+          getTextItem(filename, function(textContents) {
+            $("#editTrackPOIDescription").html(textContents);
+          });
+        } else if (mimeType.indexOf("audio") == 0) {
+          if (!($("#editTrackAudioPointPlay").data("src"))) {
+            console.log("resetting audio");
+            currentPoint.audioMediaItemID = media_item.id;
+            $("#editTrackAudioPointPlay").data("src", mediaFiles[filename].fullPath);
+          }
+          $("#editTrackAudioPointPlay").click(function(event) {
+            playAudio();
+          });
+        } else if (mimeType.indexOf("image") == 0) {
+          // if we haven't been here before, set the src and the id
+          if (!currentPoint.imageMediaItemID) {
+            currentPoint.imageMediaItemID = media_item.id;
+            console.log("resetting #editTrackPOIImage");
             $("#editTrackPOIImage").attr('src', mediaFiles[filename].fullPath);
           }
+        }
+      });
+    })
+
+    function playAudio() {
+      if (myAudio == null) {
+        myAudio = new Media($("#editTrackAudioPointPlay").data("src"),
+        audioSuccess, audioError, audioStatus);
+      }
+      myAudio.play({
+        numberOfLoops: 1
+      });
+    }
+
+  }
+
+  function savePointImageFromLibrary() {
+    savePointImage(navigator.camera.PictureSourceType.PHOTOLIBRARY);
+  }
+
+  function savePointImageFromCamera() {
+    saveCoverImage(navigator.camera.PictureSourceType.CAMERA);
+  }
+
+  function savePointImage(sourceType) {
+    navigator.camera.getPicture(cameraSuccess, cameraError, {
+      quality: 40,
+      destinationType: navigator.camera.DestinationType.FILE_URI,
+      sourceType: sourceType
+    });
+
+    function cameraSuccess(photoURL) {
+      console.log("photo success");
+      $("#editTrackPOIImage").attr("src", photoURL);
+      $.mobile.changePage($("#editTrackPOIInfoPage1"));
+    }
+
+    function cameraError(error) {
+      console.log(error);
+    }
+  }
+
+  function recordPointAudio(event) {
+    navigator.device.capture.captureAudio(captureSuccess, captureError, {
+      limit: 1
+    });
+
+    function captureSuccess(audioFiles) {
+      console.log("captureSuccess");
+      console.log(audioFiles[0].fullPath);
+      $("#editTrackAudioPointPlay").data("src", audioFiles[0].fullPath);
+    }
+
+    function captureError(error) {
+      alert("An error has occurred (recordAudio): Code = " + error.code);
+    }
+  }
+
+  function audioSuccess() {
+    $("#viewTrackAudioPointPause").click(function(event) {
+      event.preventDefault();
+      myAudio.pause();
+    });
+    $("#viewTrackAudioPointRestart").click(function(event) {
+      event.preventDefault();
+      myAudio.seekTo(0);
+    });
+  }
+
+  function audioStatus(code) {
+    // may need this for control updates
+    console.log("Audio Status: " + code);
+  }
+
+  function audioError() {
+    console.log("Error: " + response);
+  }
+
+  function uploadNewPointData(event) {
+    console.log("uploadNewPointData");
+    var pointData = {};
+    pointData.name = $("#editTrackPOIName").val();
+    pointData.description = $("#editTrackPOIDescription").val();
+    pointData.imageMediaItemID = currentEditingTour.interest_points[currentEditPointIndex].imageMediaItemID;
+    pointData.audioMediaItemID = currentEditingTour.interest_points[currentEditPointIndex].audioMediaItemID;
+    if ($("#editTrackPOIImage").attr("src").indexOf("http") != 0) {
+      uploadPointImage($("#editTrackPOIImage").attr("src"), function() {
+        if ($("#editTrackAudioPointPlay").data("src")) {
+          uploadPointAudio($("#editTrackAudioPointPlay").data("src"), function() {
+            uploadPointMetadata();
+          });
+        }
+      });
+    } else {
+      uploadPointMetadata();
+    }
+
+    $.mobile.changePage($("#editTrackPOIListPage"), {
+      transition: "slide"
+    });
+    return;
+
+    function uploadPointImage(imageURI, doneCallback) {
+      console.log("uploadPointImage")
+      uploadMedia({
+        mediaURL: imageURI,
+        objectName: "media_item",
+        mediaFieldName: "item",
+        objectID: pointData.imageMediaItemID,
+        mimeType: "image/jpeg",
+        doneCallback: doneCallback
+      });
+      // hack to change POI list item image
+      // look for the current list item and replace the img src
+      $.each("#editTrackPOIList li", function(index, $listItem) {
+        if ($listitem.data("pointIndex") == currentEditPointIndex) {
+          $listitem.find(".editTrackPOIListItemImage").attr("src", imageURI)
+        }
+      });
+    }
+
+    function uploadPointAudio(audioURI, doneCallback) {
+      console.log("uploadPointAudio");
+      uploadMedia({
+        mediaURL: audioURI,
+        objectName: "media_item",
+        mediaFieldName: "item",
+        objectID: pointData.audioMediaItemID,
+        mimeType: "audio/wav",
+        doneCallback: doneCallback
+      });
+    }
+
+    function uploadPointMetadata() {
+      console.log("uploadPointMetadata");
+      var callData = {
+        type: 'put',
+        path: "/media_items/" + pointData.id + ".json"
+      };
+      callData.data = pointMetadata;
+      console.log(callData);
+      makeAPICall(callData, function() {
+        alert("Point metadata saved");
+        $.mobile.changePage($("#editTrackPOIListPage"), {
+          transition: "slide"
         });
       })
     }
 
-    function recordPointAudio(event) {
-      navigator.device.capture.captureAudio(captureSuccess, captureError);
 
-      function captureSuccess(mediaFiles) {
-        for (var i = 0; i < mediaFiles.length; i++) {
-          currentPoint.interp_items[0].media_items_attributes = currentPoint.interp_items[0].media_items_attributes || [];
-          var myAudioMediaItem = {
-            type: "audio",
-            data: mediaFiles[i].fullPath
-          };
-          console.log("myAudioMediaItem");
-          console.log(myAudioMediaItem);
-          currentPoint.interp_items[0].media_items_attributes.push(myAudioMediaItem);
-        }
-      }
+  }
 
-      function captureError(error) {
-        alert("An error has occurred (recordAudio): Code = " + error.code);
-      }
+  function getTextItem(filename, CB) {
+    var reader = new FileReader();
+    var fileEntry = mediaFiles[filename];
+    reader.onloadend = function(evt) {
+      CB(evt.target.result);
+    }
+    fileEntry.file(function(myFile) {
+      reader.readAsText(myFile);
+    });
+  }
+
+  function downloadMediaItem(itemInfo, doneCallback) {
+    var itemURL = itemInfo.fullitem;
+    var itemType = itemInfo.item_content_type;
+    window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, gotFS, fail);
+
+    function gotFS(filesystem) {
+      filesystem.root.getDirectory("tour" + currentEditingTour.id, {
+        create: true,
+        exclusive: false
+      }, gotDir, fail);
     }
 
-    function audioSuccess() {
-      $("#viewTrackAudioPointPause").click(function(event) {
-        event.preventDefault();
-        myAudio.pause();
-      });
-      $("#viewTrackAudioPointRestart").click(function(event) {
-        event.preventDefault();
-        myAudio.seekTo(0);
-      });
+    function gotDir(directory) {
+      directory.getFile(itemInfo.item_file_name, {
+        create: true,
+        exclusive: false
+      }, gotFile, fail);
     }
 
-    function audioStatus(code) {
-      // may need this for control updates
-      console.log("Audio Status: " + code);
+    function gotFile(fileEntry) {
+      var fileTransfer = new FileTransfer();
+      fileTransfer.download(itemURL, fileEntry.fullPath, downloadSuccess, fail);
     }
 
-    function audioError() {
-      console.log("Error: " + response);
+    function downloadSuccess(fileEntry) {
+      console.log("downloadSuccess");
+      // console.log(fileEntry);
+      mediaFiles[fileEntry.name] = fileEntry;
+
+      doneCallback(null, fileEntry.name);
     }
 
-
-    function getTextItem(filename, CB) {
-      var reader = new FileReader();
-      var fileEntry = mediaFiles[filename];
-      reader.onloadend = function(evt) {
-        CB(evt.target.result);
-      }
-      fileEntry.file(function(myFile) {
-        reader.readAsText(myFile);
-      });
-    }
-
-    function downloadMediaItem(itemInfo, doneCallback) {
-      var itemURL = itemInfo.fullitem;
-      var itemType = itemInfo.item_content_type;
-      window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, gotFS, fail);
-
-      function gotFS(filesystem) {
-        filesystem.root.getDirectory("tour" + currentEditingTour.id, {
-          create: true,
-          exclusive: false
-        }, gotDir, fail);
-      }
-
-      function gotDir(directory) {
-        directory.getFile(itemInfo.item_file_name, {
-          create: true,
-          exclusive: false
-        }, gotFile, fail);
-      }
-
-      function gotFile(fileEntry) {
-        var fileTransfer = new FileTransfer();
-        fileTransfer.download(itemURL, fileEntry.fullPath, downloadSuccess, fail);
-      }
-
-      function downloadSuccess(fileEntry) {
-        console.log("downloadSuccess");
-        // console.log(fileEntry);
-        mediaFiles[fileEntry.name] = fileEntry;
-
-        doneCallback(null, fileEntry.name);
-      }
-
-      function fail(error) {
-        console.log(error);
-        doneCallback("downloadFail", itemInfo.fullitem);
-      }
-    }
-
-    function makeAPICall(callData, doneCallback) {
-      console.log('makeAPICall');
-      if (!($.isEmptyObject(callData.data))) {
-        callData.data = JSON.stringify(callData.data);
-      }
-      var url = host + callData.path;
-      var request = $.ajax({
-        type: callData.type,
-        url: url,
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        //beforeSend: function(xhr) {
-        //  xhr.setRequestHeader("Accept", "application/json")
-        //},
-        data: callData.data
-      }).fail(function(jqXHR, textStatus, errorThrown) {
-        $("#results").text("error: " + JSON.stringify(errorThrown));
-      }).done(function(response, textStatus, jqXHR) {
-        if (typeof doneCallback === 'function') {
-          //responseObj = JSON.parse(response);
-          //console.log("responseObj: " + responseObj);
-          doneCallback.call(this, response);
-        }
-        $("#results").text(JSON.stringify(response));
-      });
-    }
-
-    function savePoint(event) {
-      console.log("savePoint");
-      var currentPoint = currentEditingTour.interest_points[currentEditPointIndex];
-      console.log(currentPoint.interp_items);
-      $.mobile.changePage($("#editTrackPOIListPage"), {
-        transition: "slide"
-      });
-    }
-
-
-    function uploadMedia(params) {
-      // { mimetype, objectName, mediaFieldName, objectID, mediaURL, doneCallback }
-      // supply ID for update to an existing item
-      // make sure the server will accept POST for updates
-      // because that's all Phonegap's FileTransfer can do 
-      console.log("uploadMedia");
-      var ftOptions = new FileUploadOptions();
-      ftOptions.mimeType = params.mimeType;
-      ftOptions.fileKey = params.objectName + "[" + params.mediaFieldName + "]";
-      ftOptions.fileName = params.mediaURL.substr(params.mediaURL.lastIndexOf('/') + 1);
-
-      var ftParams = new Object();
-      params[params.objectName + "[name]"] = "Placeholder Name";
-      ftOptions.params = ftParams;
-      //ftOptions.chunkedmode = false;
-
-      var ft = new FileTransfer();
-      var ftURL;
-      if (params.objectID) {
-        ftURL = host + "/" + params.objectName + "s/" + params.objectID + ".json";
-      } else {
-        ftURL = host + "/" + params.objectName + "s.json";
-      }
-      console.log(params.mediaURL);
-      console.log(ftURL);
-      console.log(ftOptions);
-      ft.upload(params.mediaURL, ftURL, uploadWin, uploadFail, ftOptions);
-
-      return;
-
-      function uploadWin(r) {
-        console.log("Code = " + r.responseCode);
-        params.doneCallback(r.response);
-      }
-
-      function uploadFail(error) {
-        alert("An error has occurred (uploadMedia:): Code = " + error.code + "(" + params.mediaURL + ")");
-        if (confirm("uploadMedia Failed. Try again?")) {
-          uploadMedia(params);
-        } else {
-          // silent fail!
-        }
-      }
+    function fail(error) {
+      console.log(error);
+      doneCallback("downloadFail", itemInfo.fullitem);
     }
   }
 
-  $(document).ready(function() {
-    // are we running in native app or in browser?
-    window.isphone = false;
-    if (document.URL.indexOf("http://") == -1) {
-      window.isphone = true;
+  function makeAPICall(callData, doneCallback) {
+    console.log('makeAPICall');
+    if (!($.isEmptyObject(callData.data))) {
+      callData.data = JSON.stringify(callData.data);
+    }
+    var url = host + callData.path;
+    var request = $.ajax({
+      type: callData.type,
+      url: url,
+      dataType: "json",
+      contentType: "application/json; charset=utf-8",
+      //beforeSend: function(xhr) {
+      //  xhr.setRequestHeader("Accept", "application/json")
+      //},
+      data: callData.data
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+      $("#results").text("error: " + JSON.stringify(errorThrown));
+    }).done(function(response, textStatus, jqXHR) {
+      if (typeof doneCallback === 'function') {
+        //responseObj = JSON.parse(response);
+        //console.log("responseObj: " + responseObj);
+        doneCallback.call(this, response);
+      }
+      $("#results").text(JSON.stringify(response));
+    });
+  }
+
+
+  function uploadMedia(params) {
+    // { mimetype, objectName, mediaFieldName, objectID, mediaURL, doneCallback }
+    // supply ID for update to an existing item
+    // make sure the server will accept POST for updates
+    // because that's all Phonegap's FileTransfer can do 
+    console.log("uploadMedia");
+    var ftOptions = new FileUploadOptions();
+    ftOptions.mimeType = params.mimeType;
+    ftOptions.fileKey = params.objectName + "[" + params.mediaFieldName + "]";
+    ftOptions.fileName = params.mediaURL.substr(params.mediaURL.lastIndexOf('/') + 1);
+
+    var ftParams = new Object();
+    params[params.objectName + "[name]"] = "Placeholder Name";
+    ftOptions.params = ftParams;
+    //ftOptions.chunkedmode = false;
+
+    var ft = new FileTransfer();
+    var ftURL;
+    if (params.objectID) {
+      ftURL = host + "/" + params.objectName + "s/" + params.objectID + ".json";
+    } else {
+      ftURL = host + "/" + params.objectName + "s.json";
+    }
+    console.log(params.mediaURL);
+    console.log(ftURL);
+    console.log(ftOptions);
+    ft.upload(params.mediaURL, ftURL, uploadWin, uploadFail, ftOptions);
+
+    return;
+
+    function uploadWin(r) {
+      console.log("Code = " + r.responseCode);
+      params.doneCallback(r.response);
     }
 
-    if (window.isphone) {
-      document.addEventListener("deviceready", onDeviceReadyEdit, false);
-    } else {
-      onDeviceReadyEdit();
+    function uploadFail(error) {
+      alert("An error has occurred (uploadMedia:): Code = " + error.code + "(" + params.mediaURL + ")");
+      if (confirm("uploadMedia Failed. Try again?")) {
+        uploadMedia(params);
+      } else {
+        // silent fail!
+      }
     }
-  });
+  }
+}
+
+$(document).ready(function() {
+  // are we running in native app or in browser?
+  window.isphone = false;
+  if (document.URL.indexOf("http://") == -1) {
+    window.isphone = true;
+  }
+
+  if (window.isphone) {
+    document.addEventListener("deviceready", onDeviceReadyEdit, false);
+  } else {
+    onDeviceReadyEdit();
+  }
+});
