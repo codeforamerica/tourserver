@@ -250,7 +250,9 @@
     height: 500px;
 } */
 .loading {
-    background-color: #E5E1D1;
+    /* background-color: #E5E1D1;
+    box-shadow: 0px 1px 20px #D3D0C2; */
+    background-color: white;
     box-shadow: 0px 1px 20px #E5E1D1;
     opacity: 0.8;
     padding: 1px 15px 1px 15px;
