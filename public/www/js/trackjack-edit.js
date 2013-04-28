@@ -106,6 +106,7 @@ function onDeviceReadyEdit() {
   }
 
   function loadMediaItems() {
+    console.log("loadMediaItems");
     // load all of the media items, then continue
     // make an array of download functions, then call async.parallel on it
     var mediaTaskArray = [];
@@ -228,8 +229,13 @@ function onDeviceReadyEdit() {
 
   // Point Editing
 
+  function reloadTourForPointList() {
+    moveToTourInfo(currentEditingTour.id);
+  }
+
   function populatePointList() {
     console.log("populatePointList");
+
     var $pointTemplate = $("#editTrackPOIListItemTemplate").clone(false);
     $("#editTrackPOIList").children().remove('li:not(#editTrackPOIListItemTemplate)');
 
@@ -248,7 +254,9 @@ function onDeviceReadyEdit() {
           var filename = media_item.item_file_name;
           console.log(mediaFiles[filename].fullPath);
           var $pointImage = $pointListEntry.find(".editTrackPOIListItemImage");
+          console.log($pointImage);
           if ((mimeType.indexOf("image") == 0) && (!($pointImage.attr("src")))) {
+            console.log("resetting list item image");
             $pointImage.attr("src", mediaFiles[filename].fullPath);
           }
         });
@@ -382,56 +390,53 @@ function onDeviceReadyEdit() {
   function uploadNewPointData(event) {
     console.log("uploadNewPointData");
     var pointData = {};
+    var myCurrentPoint = currentEditingTour.interest_points[currentEditPointIndex];
     pointData.name = $("#editTrackPOIName").val();
+    pointData.id = myCurrentPoint.id;
     pointData.description = $("#editTrackPOIDescription").val();
-    pointData.imageMediaItemID = currentEditingTour.interest_points[currentEditPointIndex].imageMediaItemID;
-    pointData.audioMediaItemID = currentEditingTour.interest_points[currentEditPointIndex].audioMediaItemID;
+    pointData.imageMediaItemID = myCurrentPoint.imageMediaItemID;
+    pointData.audioMediaItemID = myCurrentPoint.audioMediaItemID;
     if ($("#editTrackPOIImage").attr("src").indexOf("http") != 0) {
       uploadPointImage($("#editTrackPOIImage").attr("src"), function() {
-        if ($("#editTrackAudioPointPlay").data("src")) {
-          uploadPointAudio($("#editTrackAudioPointPlay").data("src"), function() {
-            uploadPointMetadata();
-          });
-        }
+        uploadPointAudio($("#editTrackAudioPointPlay").data("src"), function() {
+          uploadPointMetadata();
+        });
       });
     } else {
       uploadPointMetadata();
     }
-
-    $.mobile.changePage($("#editTrackPOIListPage"), {
-      transition: "slide"
-    });
     return;
 
     function uploadPointImage(imageURI, doneCallback) {
-      console.log("uploadPointImage")
-      uploadMedia({
-        mediaURL: imageURI,
-        objectName: "media_item",
-        mediaFieldName: "item",
-        objectID: pointData.imageMediaItemID,
-        mimeType: "image/jpeg",
-        doneCallback: doneCallback
-      });
-      // hack to change POI list item image
-      // look for the current list item and replace the img src
-      $.each("#editTrackPOIList li", function(index, $listItem) {
-        if ($listitem.data("pointIndex") == currentEditPointIndex) {
-          $listitem.find(".editTrackPOIListItemImage").attr("src", imageURI)
-        }
-      });
+      console.log("uploadPointImage");
+      if (imageURI) {
+        uploadMedia({
+          mediaURL: imageURI,
+          objectName: "media_item",
+          mediaFieldName: "item",
+          objectID: pointData.imageMediaItemID,
+          mimeType: "image/jpeg",
+          doneCallback: doneCallback
+        });
+      } else {
+        doneCallback();
+      }
     }
 
     function uploadPointAudio(audioURI, doneCallback) {
       console.log("uploadPointAudio");
-      uploadMedia({
-        mediaURL: audioURI,
-        objectName: "media_item",
-        mediaFieldName: "item",
-        objectID: pointData.audioMediaItemID,
-        mimeType: "audio/wav",
-        doneCallback: doneCallback
-      });
+      if (audioURI) {
+        uploadMedia({
+          mediaURL: audioURI,
+          objectName: "media_item",
+          mediaFieldName: "item",
+          objectID: pointData.audioMediaItemID,
+          mimeType: "audio/wav",
+          doneCallback: doneCallback
+        });
+      } else {
+        doneCallback();
+      }
     }
 
     function uploadPointMetadata() {
@@ -440,13 +445,10 @@ function onDeviceReadyEdit() {
         type: 'put',
         path: "/media_items/" + pointData.id + ".json"
       };
-      callData.data = pointMetadata;
-      console.log(callData);
+      callData.data = pointData;
       makeAPICall(callData, function() {
         alert("Point metadata saved");
-        $.mobile.changePage($("#editTrackPOIListPage"), {
-          transition: "slide"
-        });
+        moveToTourInfo(currentEditingTour.id);
       })
     }
 
