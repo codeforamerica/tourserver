@@ -9,9 +9,7 @@ function onDeviceReadyView() {
   // change this to your server's IP
   var host = "http://trackserver-test.herokuapp.com";
   // var host = "http://127.0.0.1:3000";
-  setTimeout(function() {
-    navigator.splashscreen.hide();
-  }, 2000);
+
   var minCheckLocationAccuracy = 20; // meters to trigger a point
   var currentViewingTour = {};
 
@@ -268,38 +266,40 @@ function onDeviceReadyView() {
 
     return;
 
-    function playAudio() {
-      console.log("playAudio");
-      var myAudio;
-      if (myAudio == null && $("#viewTrackAudioPointPlay").data("src")) {
-        console.log("playAudio2");
-        myAudio = new Media($("#viewTrackAudioPointPlay").data("src"),
-        audioSuccess, audioError, audioStatus);
-      }
-      myAudio.play({
-        numberOfLoops: 1
-      });
-    }
 
-    function audioSuccess() {
-      $("#viewTrackAudioPointPause").click(function(event) {
-        event.preventDefault();
-        myAudio.pause();
-      });
-      $("#viewTrackAudioPointRestart").click(function(event) {
-        event.preventDefault();
-        myAudio.seekTo(0);
-      });
-    }
+  }
 
-    function audioStatus(code) {
-      // may need this for control updates
-      console.log("Audio Status: " + code);
+  function playAudio() {
+    console.log("playAudio");
+    var myAudio;
+    if (myAudio == null && $("#viewTrackAudioPointPlay").data("src")) {
+      console.log("playAudio2");
+      myAudio = new Media($("#viewTrackAudioPointPlay").data("src"),
+      audioSuccess, audioError, audioStatus);
     }
+    myAudio.play({
+      numberOfLoops: 1
+    });
+  }
 
-    function audioError() {
-      console.log("Error: " + response);
-    }
+  function audioSuccess() {
+    $("#viewTrackAudioPointPause").click(function(event) {
+      event.preventDefault();
+      myAudio.pause();
+    });
+    $("#viewTrackAudioPointRestart").click(function(event) {
+      event.preventDefault();
+      myAudio.seekTo(0);
+    });
+  }
+
+  function audioStatus(code) {
+    // may need this for control updates
+    console.log("Audio Status: " + code);
+  }
+
+  function audioError() {
+    console.log("Error: " + response);
   }
 
   function getTextItem(filename, CB) {

@@ -13,6 +13,9 @@ function onDeviceReadyEdit() {
   var newTour = {};
   var currentEditingPoint = {};
 
+setTimeout(function() {
+    navigator.splashscreen.hide();
+  }, 2000);
   $("#editTrackListPage").on('pagebeforeshow', getTourList);
   $("#editTrackLoadingPage").on('pagebeforeshow', loadMediaItems);
   $("#editTrackInfoPage1").on('pagebeforeshow', populateTrackInfoPage1);
