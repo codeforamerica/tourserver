@@ -45,6 +45,65 @@
 </head>
 <body>
 
+<!-- View Track List Page
+================================================================================ -->
+
+  <div data-role="page" data-theme="a" id="viewTrackListPage">
+      <div data-theme="a" data-role="header" data-position="fixed" data-tap-toggle="false">
+          <h3>
+              TrackJack
+          </h3>
+      </div>
+      <div class="viewTrackListDiv" data-theme="b" data-divider-theme="b" data-inset="true">
+         <ul id="viewTrackList" class="viewTrackList" data-role="listview" data-divider-theme="b">
+          <li id="viewTrackListItemTemplate" class="viewTrackListItem" data-theme="b" data-transition="slide">
+            <!--  <a href="#viewTrackInfoPage" data-transition="slide"> Dan Needs this commented out-->
+                <h1 class="viewTrackTitle" style="white-space: normal">
+                  [Invasive Species on B ike and Hike Trail]
+                </h1>
+                <img src="img/EmptyPhoto-Sq.png" alt="test image" class="viewTrackListImage">
+                <p>
+
+                  <span class="viewTrackDistance">
+                    [X]
+                  </span>
+                   miles, 
+                  <span class="viewTrackDifficulty">
+                    [easy]
+                  </span>
+                  , 
+                  <span class="viewTrackChapters">
+                    [X chapters]
+                  </span>
+                </p>
+              <!--</a>-->
+          </li>
+        </ul>
+      </div>
+      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a" data-tap-toggle="false">
+        <div data-role="navbar">
+          <ul>
+              <li>
+                  <a href="#viewTrackListPage" data-transition="fade">
+                      Home
+                  </a>
+              </li>
+              <li>
+                  <a href="#infoPage" data-transition="fade">
+                      Help
+                  </a>
+              </li>
+              <li>
+                  <a href="#settingsPage" data-transition="fade">
+                      Settings
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+
+
 <!-- Settings Page
 ================================================================================ -->
 
@@ -159,65 +218,6 @@
       </div>
   </div>
 
-<!-- View Track List Page
-================================================================================ -->
-
-  <div data-role="page" data-theme="a" id="viewTrackListPage">
-      <div data-theme="a" data-role="header" data-position="fixed" data-tap-toggle="false">
-          <h3>
-              TrackJack
-          </h3>
-      </div>
-      <div class="viewTrackListDiv" data-theme="b" data-divider-theme="b" data-inset="true">
-         <ul id="viewTrackList" class="viewTrackList" data-role="listview" data-divider-theme="b">
-          <li id="viewTrackListItemTemplate" class="viewTrackListItem" data-theme="b" data-transition="slide">
-            <!--  <a href="#viewTrackInfoPage" data-transition="slide"> Dan Needs this commented out-->
-                <h1 class="viewTrackTitle" style="white-space: normal">
-                  [Invasive Species on B ike and Hike Trail]
-                </h1>
-                <img src="img/BikeHike-square.jpg" alt="test image" class="viewTrackListImage">
-                <p>
-
-                  <span class="viewTrackDistance">
-                    [X]
-                  </span>
-                   miles, 
-                  <span class="viewTrackDifficulty">
-                    [easy]
-                  </span>
-                  , 
-                  <span class="viewTrackChapters">
-                    [X chapters]
-                  </span>
-                </p>
-              <!--</a>-->
-          </li>
-        </ul>
-      </div>
-      <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a" data-tap-toggle="false">
-        <div data-role="navbar">
-          <ul>
-              <li>
-                  <a href="#viewTrackListPage" data-transition="fade">
-                      Home
-                  </a>
-              </li>
-              <li>
-                  <a href="#infoPage" data-transition="fade">
-                      Help
-                  </a>
-              </li>
-              <li>
-                  <a href="#settingsPage" data-transition="fade">
-                      Settings
-                  </a>
-              </li>
-          </ul>
-        </div>
-      </div>
-  </div>
-
-
 <!-- View Track Information / Metadata Page
 ================================================================================ -->
 
@@ -275,7 +275,7 @@
 
                       <h> Starting Location</h>
                   </div>
-                  <img id="viewTrackImage" src="img/BikeHike-Intro-290x200.jpg" />
+                  <img id="viewTrackImage" src="img/EmptyPhoto-288x200.png" />
               </div>
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a" data-tap-toggle="false">
