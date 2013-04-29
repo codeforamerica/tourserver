@@ -74,6 +74,12 @@
     font-size: 1em !important;
     font-weight: 300 !important;     
 }
+#textbox-text-et-instructions {
+    font-family: Muli !important;
+    font-size: 1em !important;
+    font-weight: 300 !important;     
+}
+}
 
 /* track name header (this one is being funny-
   the styling won't work as a class, so I just used the ids
@@ -150,11 +156,12 @@
 }
 #interp-label-container {
     background-color: #e0dcca;
-    padding: 10px;
-    
-    width: 70%;
-    display: inline-block;
+    padding: 15px;
+    margin-top: -5px;
+   /*  display: inline-block;
+   width: 70%; */
 }
+/* currently not in use, but needs saving 
 #viewTrackShowDescription {
     background-color: #A3BE8B;
     width: 16%;
@@ -166,12 +173,12 @@
     font-size: 1.1em;
     text-align: center;
     color: #0E1237;
-}
+} */
 #viewTrackPointName {
     font-family: Rokkitt;
     font-weight: 700;
     font-size: 1.1em;
-}
+} 
 
 
 /* music player 
