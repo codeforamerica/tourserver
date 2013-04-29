@@ -9,6 +9,9 @@ function onDeviceReadyView() {
   // change this to your server's IP
   var host = "http://trackserver-test.herokuapp.com";
   // var host = "http://127.0.0.1:3000";
+  setTimeout(function() {
+    navigator.splashscreen.hide();
+  }, 2000);
   var minCheckLocationAccuracy = 20; // meters to trigger a point
   var currentViewingTour = {};
 
