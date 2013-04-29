@@ -60,7 +60,7 @@ function onDeviceReadyCreate() {
     function geoSuccess(position) {
       latestPosition = position;
       if (position.coords.accuracy <= minCreatePointAccuracy) {
-        console.log(position);
+        logpp(position);
         //$('#location').text(position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + " " + position.coords.accuracy + "m");
         createInterestPoint(position);
       } else {
@@ -237,6 +237,7 @@ function onDeviceReadyCreate() {
 
   function uploadCoverImage(mediaURI, uploadCallback, mimeType) {
     console.log("uploadCoverImage");
+    console.log("mediaURI");
     var options = new FileUploadOptions();
     options.mimeType = mimeType;
     options.fileKey = "tour[cover_image]";
@@ -279,7 +280,7 @@ function onDeviceReadyCreate() {
           data: mediaFiles[i].fullPath
         };
         console.log("myAudioMediaItem");
-        console.log(myAudioMediaItem);
+        logpp(myAudioMediaItem);
         currentPoint.interp_items[0].media_items_attributes.push(myAudioMediaItem);
       }
     }
@@ -292,7 +293,7 @@ function onDeviceReadyCreate() {
   //Cancel the current point input
   $("#cancelPoint").click(function(event) {
     clearCurrentPoint();
-    console.log(tour);
+    logpp(tour);
   });
 
   // save the current point
@@ -308,7 +309,7 @@ function onDeviceReadyCreate() {
         data: $('#createTrackPOIDescription').val()
       };
       console.log("textmediaitem");
-      console.log(myTextMediaItem);
+      logpp(myTextMediaItem);
       currentPoint.interp_items[0].media_items_attributes.push(myTextMediaItem);
     }
     tour.interest_points.push(currentPoint);
@@ -333,15 +334,24 @@ function onDeviceReadyCreate() {
     stopGeolocation();
     // submitMediaItems calls submitTour on completion
     submitMediaItems(tour);
-    console.log(tour);
+    logpp(tour);
     return;
 
     function submitTour(tour) {
       console.log("submitTour");
-      var callData = {
-        type: "put",
-        path: "/tours/" + tour.id + ".json"
-      };
+      var callData;
+      // there's no pre-exisitng tour record if there's been no cover image upload
+      if (tour.id) {
+        callData = {
+          type: "put",
+          path: "/tours/" + tour.id + ".json"
+        };
+      } else {
+        callData = {
+          type: "post",
+          path: "/tours.json"
+        }
+      }
       callData.data = reformatTourForSubmission(tour);
       makeAPICall(callData, function() {
         alert("Tour saved!");
@@ -367,7 +377,7 @@ function onDeviceReadyCreate() {
                 for (var k = 0; k < myInterpItem.media_items_attributes.length; k++) {
                   var myMediaItem = myInterpItem.media_items_attributes[k];
                   console.log("myMediaItem: ");
-                  console.log(myMediaItem);
+                  logpp(myMediaItem);
                   var uploadFunc = function(type) {
                     if (type.indexOf("image") == 0) {
                       return uploadPhoto;
@@ -401,7 +411,7 @@ function onDeviceReadyCreate() {
       // then use the series completion callback to trigger saving the tour object
       if (mediaSubmitParams) {
         var funcArray = [];
-        console.log("mediaSubmitParams.length" + mediaSubmitParams.length);
+        console.log("mediaSubmitParams.length " + mediaSubmitParams.length);
         for (var i = 0; i < mediaSubmitParams.length; i++) {
           var curMediaItem = mediaSubmitParams[i];
           var myMediaUploadArrayItem = function(curMediaItem) {
@@ -415,13 +425,15 @@ function onDeviceReadyCreate() {
           }(curMediaItem);
           funcArray.push(myMediaUploadArrayItem);
         }
-        funcArray.push(function(callback) {
-          uploadCoverImage($("#createTrackImage").attr("src"), function(response) {
-            console.log("finalSeriesCallback");
-            addTourIDToTour(response);
-            callback(null, "three")
-          }, "image/jpeg");
-        });
+        if ($("#createTrackImage").attr("src")) {
+          funcArray.push(function(callback) {
+            uploadCoverImage($("#createTrackImage").attr("src"), function(response) {
+              console.log("finalSeriesCallback");
+              addTourIDToTour(response);
+              callback(null, "three")
+            }, "image/jpeg");
+          });
+        }
         console.log(funcArray);
         async.series(funcArray, asyncCallback);
       }
@@ -437,7 +449,7 @@ function onDeviceReadyCreate() {
     function addTourIDToTour(response) {
       console.log("addTourIDToTour");
       response = JSON.parse(response);
-      console.log(response);
+      logpp(response);
       tour.id = response.id;
       console.log(tour.id);
     }
@@ -446,7 +458,7 @@ function onDeviceReadyCreate() {
       var myResponse = JSON.parse(response);
       mediaItem.id = myResponse.id;
       console.log("mediaItem: ");
-      console.log(mediaItem);
+      logpp(mediaItem);
       return mediaItem;
     }
 
@@ -464,6 +476,8 @@ function onDeviceReadyCreate() {
                 delete myMediaItem.data;
                 delete myMediaItem.type;
               }
+            } else {
+              delete myInterpItem.media_items_attributes;
             }
           }
         }
@@ -572,6 +586,9 @@ function onDeviceReadyCreate() {
   }
 }
 
+function logpp(js) {
+  console.log(JSON.stringify(js, null, "  "));
+}
 
 
 $(document).ready(function() {

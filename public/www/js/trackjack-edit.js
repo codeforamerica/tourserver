@@ -67,7 +67,7 @@ function onDeviceReadyEdit() {
       var $viewTrackDistance = $tourListEntry.find(".viewTrackDistance");
       $viewTrackDistance.text(((response[i].tour_length) * 0.000621371192).toFixed(2));
       $tourListEntry.find(".viewTrackChapters").text(response[i].chapters.length + " chapters");
-      console.log(response[i].fullitem);
+      logpp(response[i].fullitem);
       if (response[i].fullitem != "/cover_images/original/missing.png") {
         $tourListEntry.find(".editTrackListImage").attr("src", response[i].fullitem);
       }
@@ -98,7 +98,7 @@ function onDeviceReadyEdit() {
     };
     makeAPICall(callData, function(response) {
       currentEditingTour = response;
-      console.log(response);
+      logpp(response);
       $.mobile.changePage($("#editTrackLoadingPage"), {
         transition: "slide"
       });
@@ -217,7 +217,7 @@ function onDeviceReadyEdit() {
         path: "/tours/" + tourMetadata.id + ".json"
       };
       callData.data = tourMetadata;
-      console.log(callData);
+      logpp(callData);
       makeAPICall(callData, function() {
         alert("Tour metadata saved");
         $.mobile.changePage($("#editTrackPOIListPage"), {
@@ -254,7 +254,6 @@ function onDeviceReadyEdit() {
           var filename = media_item.item_file_name;
           console.log(mediaFiles[filename].fullPath);
           var $pointImage = $pointListEntry.find(".editTrackPOIListItemImage");
-          console.log($pointImage);
           if ((mimeType.indexOf("image") == 0) && (!($pointImage.attr("src")))) {
             console.log("resetting list item image");
             $pointImage.attr("src", mediaFiles[filename].fullPath);
@@ -397,6 +396,7 @@ function onDeviceReadyEdit() {
     console.log("uploadNewPointData");
     var pointData = {};
     var myCurrentPoint = currentEditingTour.interest_points[currentEditPointIndex];
+    var myInterpItemID = myCurrentPoint.interp_items[0].id;
     pointData.name = $("#editTrackPOIName").val();
     pointData.id = myCurrentPoint.id;
     pointData.description = $("#editTrackPOIDescription").val();
@@ -428,7 +428,16 @@ function onDeviceReadyEdit() {
           mediaFieldName: "item",
           objectID: pointData.imageMediaItemID,
           mimeType: "image/jpeg",
-          doneCallback: doneCallback
+          doneCallback: function(r) {
+            logpp(r);
+            if (r.response) { // replacing an existing attachment returns an empty response
+              var response = JSON.parse(r.response);
+              logpp(response);
+              logpp(response.id);
+              pointData.imageMediaItemID = response.id;
+            }
+            doneCallback();
+          }
         });
       } else {
         doneCallback();
@@ -444,30 +453,54 @@ function onDeviceReadyEdit() {
           mediaFieldName: "item",
           objectID: pointData.audioMediaItemID,
           mimeType: "audio/wav",
-          doneCallback: doneCallback
+          doneCallback: function(r) {
+            logpp(r);
+            if (r.response) {
+              var response = JSON.parse(r.response);
+              logpp(response);
+              logpp(response.id)
+              if (!pointData.audioMediaItemID) {
+                console.log("looking for new text item ID");
+                pointData.audioMediaItemID = response.id;
+              }
+            }
+            doneCallback();
+          }
         });
       } else {
         doneCallback();
       }
     }
 
-
     function uploadPointText(textContents, doneCallback) {
       console.log("uploadPointText");
-      console.log(textContents);
-      console.log(pointData.textMediaItemID);
+      logpp(textContents);
+      logpp(pointData.textMediaItemID);
       // nore acrobatics required here because the text isn't in a file yet
       if (textContents) {
         writeTextToFile(textContents, function(textURL) {
           console.log("textURL");
-          console.log(textURL);
+          logpp(textURL);
           uploadMedia({
             mediaURL: textURL,
             objectName: "media_item",
             mediaFieldName: "item",
             objectID: pointData.textMediaItemID,
             mimeType: "text/plain",
-            doneCallback: doneCallback
+            doneCallback: function(r) {
+              logpp(r);
+              if (r.response) {
+                logpp(pointData);
+                logpp(response);
+                logpp(response.id);
+                if (!pointData.textMediaItemID) {
+                  response = JSON.parse(response);
+                  console.log("looking for new text item ID");
+                  pointData.textMediaItemID = response.id;
+                }
+              }
+              doneCallback();
+            }
           });
         });
       } else {
@@ -477,19 +510,90 @@ function onDeviceReadyEdit() {
 
     function uploadPointMetadata(doneCallback) {
       console.log("uploadPointMetadata");
+
+      console.log("myInterpItemID");
+      logpp(myInterpItemID);
+      console.log("pointData");
+      logpp(pointData);
       var callData = {
         type: 'put',
         path: "/interest_points/" + pointData.id + ".json",
         data: {
-          name: pointData.name
+          name: pointData.name,
+          interp_items_attributes: [{
+            id: myInterpItemID
+          }]
         }
       };
+      var pointMediaItems = [];
       console.log("callData");
-      console.log(callData);
-      makeAPICall(callData, doneCallback)
+      logpp(callData);
+      makeAPICall(callData, function() {
+        fixMediaItems(doneCallback);
+      });
     }
 
+    function fixMediaItems(doneCallback) {
+      console.log("fixMediaItems");
+      fixTextItem(function() {
+        fixImageItem(function() {
+          fixAudioItem(function() {
+            doneCallback();
+          });
+        });
+      });
+    }
 
+    function fixTextItem(doneCallback) {
+      console.log("fixTextItem");
+      if (pointData.textMediaItemID) {
+        var callData = {
+          type: 'put',
+          path: "/media_items/" + pointData.textMediaItemID + ".json",
+          data: {
+            interp_item_id: myInterpItemID
+          }
+        }
+        logpp(callData);
+        makeAPICall(callData, doneCallback);
+      } else {
+        doneCallback();
+      }
+    }
+
+    function fixImageItem(doneCallback) {
+      console.log("fixImageItem");
+      if (pointData.imageMediaItemID) {
+        var callData = {
+          type: 'put',
+          path: "/media_items/" + pointData.imageMediaItemID + ".json",
+          data: {
+            interp_item_id: myInterpItemID
+          }
+        }
+        logpp(callData);
+        makeAPICall(callData, doneCallback);
+      } else {
+        doneCallback();
+      }
+    }
+
+    function fixAudioItem(doneCallback) {
+      console.log("fixAudioItem");
+      if (pointData.audioMediaItemID) {
+        var callData = {
+          type: 'put',
+          path: "/media_items/" + pointData.audioMediaItemID + ".json",
+          data: {
+            interp_item_id: myInterpItemID
+          }
+        }
+        logpp(callData);
+        makeAPICall(callData, doneCallback);
+      } else {
+        doneCallback();
+      }
+    }
   }
 
   function writeTextToFile(text, uploadCallback) {
@@ -515,7 +619,7 @@ function onDeviceReadyEdit() {
       console.log(writer.fileName)
       writer.onwriteend = function(evt) {
         console.log("evt");
-        console.log(evt);
+        logpp(evt);
         uploadCallback(writer.fileName);
       };
       writer.write(text);
@@ -540,6 +644,9 @@ function onDeviceReadyEdit() {
   function downloadMediaItem(itemInfo, doneCallback) {
     var itemURL = itemInfo.fullitem;
     var itemType = itemInfo.item_content_type;
+    console.log("downloadMediaItem");
+    console.log(itemURL);
+    console.log(itemType);
     window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, gotFS, fail);
 
     function gotFS(filesystem) {
@@ -635,7 +742,7 @@ function onDeviceReadyEdit() {
 
     function uploadWin(r) {
       console.log("Code = " + r.responseCode);
-      params.doneCallback(r.response);
+      params.doneCallback(r);
     }
 
     function uploadFail(error) {
@@ -647,6 +754,10 @@ function onDeviceReadyEdit() {
       }
     }
   }
+}
+
+function logpp(js) {
+  console.log(JSON.stringify(js, null, "  "));
 }
 
 $(document).ready(function() {
