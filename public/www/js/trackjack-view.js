@@ -80,6 +80,7 @@ function onDeviceReadyView() {
 
   function getTourList() {
     console.log("getTourList");
+    stopGeolocation();
     $("#viewTrackList").hide();
     currentViewPointIndex = 0;
 
@@ -247,21 +248,18 @@ function onDeviceReadyView() {
           });
         } else if (mimeType.indexOf("audio") == 0) {
           $("#newplayer").attr("src", mediaFiles[filename].fullPath);
+          $("#newplayer").show();
           $( 'audio' ).audioPlayer();
-          // if (!($("#viewTrackAudioPointPlay").data("src"))) {
-          //   console.log("populating audio");
-          //   currentPoint.audioMediaItemID = media_item.id;
-          //   $("#viewTrackAudioPointPlay").data("src", mediaFiles[filename].fullPath);
-          // }
         } else if (mimeType.indexOf("image") == 0) {
           $("#viewTrackPointImage").attr('src', mediaFiles[filename].fullPath);
         }
       });
     });
+    if (!($("#newplayer").attr("src")) {
+      $("#newplayer").hide();
+    }
 
     return;
-
-
   }
 
   function getTextItem(filename, CB) {
