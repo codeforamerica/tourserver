@@ -30,6 +30,7 @@ function onDeviceReadyView() {
   $(".viewTrackNextInBetween").click(advancePointIndex);
   $(".viewTrackBackToPrevious").click(decrementPointIndex);
   $("#viewTrackCompletePage").on('pagebeforeshow', tourDone);
+  $("#viewTrackAudioPointPlay").click(playAudio);
 
 
   // skip the geolocation and display the upcoming point
@@ -54,6 +55,10 @@ function onDeviceReadyView() {
     currentViewPointIndex++;
     console.log(currentViewPointIndex);
     console.log(event);
+    $("#viewTrackPointName").val("");
+    $("#viewTrackPointDescription").val("");
+    $("#viewTrackPointImage").removeAttr("src");
+    $("#viewTrackAudioPointPlay").removeData("src");
     $.mobile.changePage($(this).attr("href"), {
       transition: "slide"
     });
@@ -250,16 +255,10 @@ function onDeviceReadyView() {
             $("#viewTrackPointDescription").html(textContents);
           });
         } else if (mimeType.indexOf("audio") == 0) {
-          if (myAudio == null) {
-            $("#viewTrackAudioPointPlay").click(function(event) {
-              event.preventDefault();
-              if (myAudio == null) {
-                myAudio = new Media(mediaFiles[filename].fullPath, audioSuccess, audioError, audioStatus);
-              }
-              myAudio.play({
-                numberOfLoops: 1
-              });
-            });
+          if (!($("#viewTrackAudioPointPlay").data("src"))) {
+            console.log("populating audio");
+            currentPoint.audioMediaItemID = media_item.id;
+            $("#viewTrackAudioPointPlay").data("src", mediaFiles[filename].fullPath);
           }
         } else if (mimeType.indexOf("image") == 0) {
           $("#viewTrackPointImage").attr('src', mediaFiles[filename].fullPath);
@@ -268,6 +267,19 @@ function onDeviceReadyView() {
     });
 
     return;
+
+    function playAudio() {
+      console.log("playAudio");
+      var myAudio;
+      if (myAudio == null && $("#viewTrackAudioPointPlay").data("src")) {
+        console.log("playAudio2");
+        myAudio = new Media($("#viewTrackAudioPointPlay").data("src"),
+        audioSuccess, audioError, audioStatus);
+      }
+      myAudio.play({
+        numberOfLoops: 1
+      });
+    }
 
     function audioSuccess() {
       $("#viewTrackAudioPointPause").click(function(event) {
