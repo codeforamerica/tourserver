@@ -1148,7 +1148,11 @@
               TrackJack
           </h3>
       </div>
-      <div id="editTrackListLoading">Loading track list...</div>
+      <div id="editTrackListLoading">
+        <div class="loading">
+          <p>Loading Tracks . . .</p>
+        </div>
+      </div>
       <div class="viewTrackListDiv" data-theme="b" data-divider-theme="b" data-inset="true">
          <ul id="editTrackList" class="viewTrackList" data-role="listview" data-divider-theme="b">
           <li id="editTrackListItemTemplate" class="viewTrackListItem" data-theme="b">
@@ -1204,7 +1208,7 @@
   <div data-role="page" data-theme="a" id="editTrackPOIListPage">
       <div data-theme="a" data-role="header" data-position="fixed" data-tap-toggle="false">
           <a data-role="button" data-rel="back" data-direction="reverse" data-transition="slide"
-          href="#editTrackLoadingPage" class="ui-btn-left">
+          href="#editTrackListPage" class="ui-btn-left">
               Back
           </a>
           <h3>
@@ -1431,7 +1435,7 @@
   </div>
 
 
-<!-- View Track Photo Upload Start Image
+<!-- Edit Track Photo Upload Start Image
 ================================================================================ -->
 
   <div data-role="page" data-theme="a" id="editTrackInfoUploadPhotoPage">
