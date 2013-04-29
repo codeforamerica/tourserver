@@ -84,6 +84,12 @@ function onDeviceReadyCreate() {
   });
 
 
+  // take photo 
+  $("#createTrackUploadImageCamera").click(function(event) {
+    console.log("camera");
+    saveCoverImage(navigator.camera.PictureSourceType.CAMERA);
+  });
+
   // Photo upload ///
   $("#createTrackUploadImageLibrary").click(function(event) {
     saveCoverImage(navigator.camera.PictureSourceType.PHOTOLIBRARY);
