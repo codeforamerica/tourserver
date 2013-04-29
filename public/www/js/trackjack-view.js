@@ -19,7 +19,7 @@ function onDeviceReadyView() {
   var triggerCurrentPointDistance = 10;
   var distanceToNextPoint = 100000;
 
-
+  getTourList();
   $("#viewTrackListPage").on('pagebeforeshow', getTourList);
   $("#viewTrackInfoPage").on('pagebeforeshow', showTourInfo);
   $("#viewTrackLoadingPage").on('pagebeforeshow', loadMediaItems);
