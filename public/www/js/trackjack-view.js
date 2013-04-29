@@ -28,7 +28,6 @@ function onDeviceReadyView() {
   $(".viewTrackNextInBetween").click(advancePointIndex);
   $(".viewTrackBackToPrevious").click(decrementPointIndex);
   $("#viewTrackCompletePage").on('pagebeforeshow', tourDone);
-  $("#viewTrackAudioPointPlay").click(playAudio);
 
 
   // skip the geolocation and display the upcoming point
@@ -220,20 +219,14 @@ function onDeviceReadyView() {
     var currentPoint = currentViewingTour.interest_points[currentViewPointIndex];
     if (currentViewPointIndex == 0) {
       console.log("first point");
-      // $(".viewTrackBackToPrevious .ui-btn-text").text("Back");
-      // $(".viewTrackBackToPrevious").attr("href", "#viewTrackInfoPage");
       $(".viewTrackNextInBetween .ui-btn-text").text("Next");
       $(".viewTrackNextInBetween").attr("href", "#viewTrackInstructionsPage");
     } else if (currentViewPointIndex == currentViewingTour.interest_points.length - 1) {
       console.log("last point");
-      // $(".viewTrackBackToPrevious .ui-btn-text").text("Back");
-      // $(".viewTrackBackToPrevious").attr("href", "#viewTrackPointPage");
       $(".viewTrackNextInBetween .ui-btn-text").text("Done");
       $(".viewTrackNextInBetween").attr("href", "#viewTrackCompletePage");
     } else {
       console.log("not last point");
-      // $(".viewTrackBackToPrevious .ui-btn-text").text("Back");
-      // $(".viewTrackBackToPrevious").attr("href", "#viewTrackPointPage");
       $(".viewTrackNextInBetween .ui-btn-text").text("Next");
       $(".viewTrackNextInBetween").attr("href", "#viewTrackInstructionsPage");
     }
@@ -253,11 +246,13 @@ function onDeviceReadyView() {
             $("#viewTrackPointDescription").html(textContents);
           });
         } else if (mimeType.indexOf("audio") == 0) {
-          if (!($("#viewTrackAudioPointPlay").data("src"))) {
-            console.log("populating audio");
-            currentPoint.audioMediaItemID = media_item.id;
-            $("#viewTrackAudioPointPlay").data("src", mediaFiles[filename].fullPath);
-          }
+          $("#newplayer").attr("src", mediaFiles[filename].fullPath);
+          $( 'audio' ).audioPlayer();
+          // if (!($("#viewTrackAudioPointPlay").data("src"))) {
+          //   console.log("populating audio");
+          //   currentPoint.audioMediaItemID = media_item.id;
+          //   $("#viewTrackAudioPointPlay").data("src", mediaFiles[filename].fullPath);
+          // }
         } else if (mimeType.indexOf("image") == 0) {
           $("#viewTrackPointImage").attr('src', mediaFiles[filename].fullPath);
         }
@@ -267,39 +262,6 @@ function onDeviceReadyView() {
     return;
 
 
-  }
-
-  function playAudio() {
-    console.log("playAudio");
-    var myAudio;
-    if (myAudio == null && $("#viewTrackAudioPointPlay").data("src")) {
-      console.log("playAudio2");
-      myAudio = new Media($("#viewTrackAudioPointPlay").data("src"),
-      audioSuccess, audioError, audioStatus);
-    }
-    myAudio.play({
-      numberOfLoops: 1
-    });
-  }
-
-  function audioSuccess() {
-    $("#viewTrackAudioPointPause").click(function(event) {
-      event.preventDefault();
-      myAudio.pause();
-    });
-    $("#viewTrackAudioPointRestart").click(function(event) {
-      event.preventDefault();
-      myAudio.seekTo(0);
-    });
-  }
-
-  function audioStatus(code) {
-    // may need this for control updates
-    console.log("Audio Status: " + code);
-  }
-
-  function audioError() {
-    console.log("Error: " + response);
   }
 
   function getTextItem(filename, CB) {
@@ -429,6 +391,10 @@ function onDeviceReadyView() {
 
 }
 //don't like using this. would like to get better distances via PostGIS
+
+function logpp(js) {
+  console.log(JSON.stringify(js, null, "  "));
+}
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var R = 6371; // Radius of the earth in km
