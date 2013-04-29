@@ -3,6 +3,6 @@ class MediaItem < ActiveRecord::Base
   has_attached_file :item
 
   belongs_to :interp_item
-  acts_as_list :scope => :interp_item_id
+  acts_as_list :scope => :interp_item
 
 end

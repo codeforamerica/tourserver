@@ -136,15 +136,14 @@ function onDeviceReadyView() {
   function showTourInfo() {
     console.log("showTourInfo");
     $("#viewTrackTitle2").text(currentViewingTour.name);
-    $(".viewTrackDistance").text(((currentViewingTour.tour_length) * 0.000621371192).toFixed(2)); 
+    $(".viewTrackDistance").text(((currentViewingTour.tour_length) * 0.000621371192).toFixed(2));
     $(".viewTrackChapters").text(currentViewingTour.interest_points.length + " chapters");
     $(".viewTrackDifficulty").text(currentViewingTour.difficulty);
     console.log(currentViewingTour.fullPath);
-    $("#viewTrackImage").attr("src", currentViewingTour.fullitem );
+    $("#viewTrackImage").attr("src", currentViewingTour.fullitem);
     if (currentViewingTour.description) {
       $("#viewTrackDescription").text(currentViewingTour.description);
-    }
-    else {
+    } else {
       $("#viewTrackDescription").text("No description");
     }
 
@@ -248,15 +247,17 @@ function onDeviceReadyView() {
             $("#viewTrackPointDescription").html(textContents);
           });
         } else if (mimeType.indexOf("audio") == 0) {
-          $("#viewTrackAudioPointPlay").click(function(event) {
-            event.preventDefault();
-            if (myAudio == null) {
-              myAudio = new Media(mediaFiles[filename].fullPath, audioSuccess, audioError, audioStatus);
-            }
-            myAudio.play({
-              numberOfLoops: 1
+          if (myAudio == null) {
+            $("#viewTrackAudioPointPlay").click(function(event) {
+              event.preventDefault();
+              if (myAudio == null) {
+                myAudio = new Media(mediaFiles[filename].fullPath, audioSuccess, audioError, audioStatus);
+              }
+              myAudio.play({
+                numberOfLoops: 1
+              });
             });
-          });
+          }
         } else if (mimeType.indexOf("image") == 0) {
           $("#viewTrackPointImage").attr('src', mediaFiles[filename].fullPath);
         }

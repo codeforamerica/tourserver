@@ -8,7 +8,7 @@ class Tour < ActiveRecord::Base
                               RGeo::Geographic.spherical_factory(:srid => 3785))
 
   has_many :chapters
-  has_many :interest_points, :through => :chapters
+  has_many :interest_points, :through => :chapters, :order => 'chapters.position';
 
   def tour_length
     path.length
