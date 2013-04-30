@@ -172,6 +172,8 @@ setTimeout(function() {
   function saveCoverImage(sourceType) {
     navigator.camera.getPicture(cameraSuccess, cameraError, {
       quality: 40,
+      targetWidth: 640,
+      allowEdit: true,
       destinationType: navigator.camera.DestinationType.FILE_URI,
       sourceType: sourceType
     });
@@ -345,6 +347,8 @@ setTimeout(function() {
   function savePointImage(sourceType) {
     navigator.camera.getPicture(cameraSuccess, cameraError, {
       quality: 40,
+      targetWidth: 640,
+      allowEdit: true,
       destinationType: navigator.camera.DestinationType.FILE_URI,
       sourceType: sourceType
     });

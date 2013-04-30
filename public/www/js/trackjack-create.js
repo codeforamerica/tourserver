@@ -22,7 +22,8 @@ function onDeviceReadyCreate() {
     $(".phone").show();
   }
 
-  $('#createTrackUpload').click(uploadTour);
+  //$('#createTrackUpload').click(uploadTour);
+  $('#createTrackSavingPage').on('pagebeforeshow', uploadTour);
 
   // start Tour button
   $("#createTrackStartRecording").click(function(event) {
@@ -98,6 +99,8 @@ function onDeviceReadyCreate() {
   function saveCoverImage(sourceType) {
     navigator.camera.getPicture(cameraSuccess, cameraError, {
       quality: 40,
+      targetWidth: 640,
+      allowEdit: true,
       destinationType: navigator.camera.DestinationType.FILE_URI,
       sourceType: sourceType
     });
@@ -133,6 +136,8 @@ function onDeviceReadyCreate() {
   function saveImage(sourceType) {
     navigator.camera.getPicture(cameraSuccess, cameraError, {
       quality: 40,
+      targetWidth: 640,
+      allowEdit: true,
       destinationType: navigator.camera.DestinationType.FILE_URI,
       sourceType: sourceType
     });

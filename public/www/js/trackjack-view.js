@@ -203,6 +203,9 @@ function onDeviceReadyView() {
 
   function showInBetweenScreen() {
     console.log("showInBetweenScreen");
+    if (geoWatchID == null) {
+      startGeolocation();
+    }
     if (currentViewPointIndex == 0) {
       $("#viewTrackFirstInBetweenText").show();
       $("#viewTrackInBetweenText").hide();
@@ -213,9 +216,7 @@ function onDeviceReadyView() {
     $("#tracklist-header").text(currentViewingTour.name);
     $("#currentViewPointIndex").html(currentViewPointIndex);
     $("#endPointIndex").text(currentViewingTour.interest_points.length - 1);
-    if (geoWatchID == null) {
-      startGeolocation();
-    }
+    
   }
 
   function showCurrentInterestPoint() {
@@ -356,7 +357,7 @@ function onDeviceReadyView() {
   }
 
 
-  function geoSuccess(position) {
+  function geoSuccess(position, UICallback) {
     var latestPosition = position;
     $("#accuracy").html("GPS Accuracy: " + latestPosition.coords.accuracy + "m");
 
@@ -372,7 +373,9 @@ function onDeviceReadyView() {
       var distanceToNextPointMiles = distanceToNextPoint * 0.000621371192;
       distanceToNextPointMiles = distanceToNextPointMiles.toFixed(2);
       $('.viewTrackDistanceToPoint').text(distanceToNextPointMiles);
-      $("#status").html(distanceToNextPoint + "m to this point of interest");
+      if (typeof UICallback === "function") {
+        UICallback();
+      }
       if (distanceToNextPoint < triggerCurrentPointDistance) {
         console.log("distance trigger");
         navigator.notification.vibrate(1500);
