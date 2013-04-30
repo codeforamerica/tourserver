@@ -49,7 +49,7 @@ function onDeviceReadyView() {
     console.log("advancePointIndex");
 
     if (currentViewPointIndex == currentViewingTour.interest_points.length - 1) {
-      // NOP
+      console.log("last page");
     } else {
       currentViewPointIndex++;
       $("#viewTrackPointName").val("");
@@ -148,8 +148,9 @@ function onDeviceReadyView() {
     $(".viewTrackDistance").text(((currentViewingTour.tour_length) * 0.000621371192).toFixed(2));
     $(".viewTrackChapters").text(currentViewingTour.interest_points.length + " chapters");
     $(".viewTrackDifficulty").text(currentViewingTour.difficulty);
-    console.log(currentViewingTour.fullPath);
-    $("#viewTrackImage").attr("src", currentViewingTour.fullitem);
+    if (currentViewingTour.fullitem.indexOf("missing") == -1) {
+      $("#viewTrackImage").attr("src", currentViewingTour.fullitem);
+    }
     if (currentViewingTour.description) {
       $("#viewTrackDescription").text(currentViewingTour.description);
     } else {
