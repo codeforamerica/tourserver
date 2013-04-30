@@ -495,10 +495,8 @@ setTimeout(function() {
               logpp(r);
               if (r.response) {
                 logpp(pointData);
-                logpp(response);
-                logpp(response.id);
                 if (!pointData.textMediaItemID) {
-                  response = JSON.parse(response);
+                  var response = JSON.parse(r.response);
                   console.log("looking for new text item ID");
                   pointData.textMediaItemID = response.id;
                 }
