@@ -255,7 +255,7 @@ function onDeviceReadyView() {
         }
       });
     });
-    if (!($("#newplayer").attr("src")) {
+    if (!($("#newplayer").attr("src"))) {
       $("#newplayer").hide();
     }
 
