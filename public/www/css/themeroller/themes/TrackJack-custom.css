@@ -133,7 +133,7 @@
 }
 #viewTrackImage {
     width: 288px;
-    height: 200px;
+    height: 288px;
 }
 .image-map-container {
     position: relative;  
@@ -152,7 +152,7 @@
 ====================================================== */
 #viewTrackPointImage {
     width: 288px;
-    height: 250px;
+    height: 288px;
 }
 #interp-label-container {
     background-color: #e0dcca;
@@ -211,53 +211,54 @@
 }
 */
 #createTrackImageDiv {
-  width: 100%;
-  height: 200px;
+  width: 288%;
+  height: 288px;
   background-color: #fbfbfb;
   border: 1px solid #b8b8b8;
 }
 
 #createTrackImage {
-    width: 100%;
-    height: auto;
+    width: 288px;
+    height: 288px;
 }
 
 #createTrackPOIImageDiv {
   width: 288px;
-  height: 250px;
+  height: 288px;
   background-color: #fbfbfb;
   border: 1px solid #b8b8b8;
 }
 
 #CreateTrackPOIImage {
-    width: 100%;
-    height: auto;
+    width: 288px;
+    height: 288px;
 }
 
 /*  Edit Track Info Section 
 ====================================================== */
 #editTrackImageDiv {
-    width: 100%;
-    height: 200px;
+    width: 288px;
+    height: 288px;
     background-color: #fbfbfb;
-    border: 1px solid #b8b8b8;   
+    border: 1px solid #b8b8b8;
+    display: block;   
 }
 
 #editTrackInfoImage {
-    width: 100%;
-    height: auto;    
+    width: 288px;
+    height: 288px;    
 }
 
 #editTrackPOIDiv {
-    width: 100%;
-    height: 200px;
+    width: 288px;
+    height: 288px;
     background-color: #fbfbfb;
     border: 1px solid #b8b8b8;   
 }
 
 #editTrackPOIImage {
-    width: 100%;
-    height: auto;
+    width: 288px;
+    height: 288px;
 }
 
 /* loading pages
