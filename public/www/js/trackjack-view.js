@@ -38,9 +38,7 @@ function onDeviceReadyView() {
   function tourDone() {
     $("#viewTrackTitleFinished").text(currentViewingTour.name);
     stopGeolocation();
-    currentViewPointIndex = 0;
-    currentViewingTour = {};
-    distanceToNextPoint = 100000;
+
 
   }
 
@@ -49,13 +47,16 @@ function onDeviceReadyView() {
   function advancePointIndex(event) {
     event.preventDefault();
     console.log("advancePointIndex");
-    currentViewPointIndex++;
-    console.log(currentViewPointIndex);
-    console.log(event);
-    $("#viewTrackPointName").val("");
-    $("#viewTrackPointDescription").val("");
-    $("#viewTrackPointImage").removeAttr("src");
-    $("#viewTrackAudioPointPlay").removeData("src");
+
+    if (currentViewPointIndex == currentViewingTour.interest_points.length - 1) {
+      // NOP
+    } else {
+      currentViewPointIndex++;
+      $("#viewTrackPointName").val("");
+      $("#viewTrackPointDescription").val("");
+      $("#viewTrackPointImage").removeAttr("src");
+      $("#viewTrackAudioPointPlay").removeData("src");
+    }
     $.mobile.changePage($(this).attr("href"), {
       transition: "slide"
     });
@@ -83,6 +84,8 @@ function onDeviceReadyView() {
     stopGeolocation();
     $("#viewTrackList").hide();
     currentViewPointIndex = 0;
+    currentViewingTour = {};
+    distanceToNextPoint = 100000;
 
     var callData = {
       type: "GET",
@@ -249,7 +252,7 @@ function onDeviceReadyView() {
         } else if (mimeType.indexOf("audio") == 0) {
           $("#newplayer").attr("src", mediaFiles[filename].fullPath);
           $("#newplayer").show();
-          $( 'audio' ).audioPlayer();
+          $('audio').audioPlayer();
         } else if (mimeType.indexOf("image") == 0) {
           $("#viewTrackPointImage").attr('src', mediaFiles[filename].fullPath);
         }
