@@ -250,16 +250,17 @@ setTimeout(function() {
       $pointListEntry.data("pointIndex", i);
       $pointListEntry.find(".editTrackPOIListItemTitle").text(myPoint.name);
       //TODO: get filler image if none is available
-      $pointListEntry.find(".editTrackPOIListItemImage").attr("src", "");
+      // $pointListEntry.find(".editTrackPOIListItemImage").attr("src", "");
       $.each(myPoint.interp_items, function(index, interp_item) {
         $.each(interp_item.media_items, function(index, media_item) {
           var mimeType = media_item.item_content_type;
           var filename = media_item.item_file_name;
           console.log(mediaFiles[filename].fullPath);
           var $pointImage = $pointListEntry.find(".editTrackPOIListItemImage");
-          if ((mimeType.indexOf("image") == 0) && (!($pointImage.attr("src")))) {
-            console.log("resetting list item image");
+          if (mimeType.indexOf("image") == 0) {
+            console.log("setting list item image");
             $pointImage.attr("src", mediaFiles[filename].fullPath);
+            console.log($pointImage);
           }
         });
       });
