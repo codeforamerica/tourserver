@@ -923,15 +923,10 @@
               Add Audio
           </h3>
       </div>
-      <div id="musicplayer-container">
-          <div style="display: inline;" id="createTrackAudioPointPlay">play</div>
-          <div style="display: inline;" id="createTrackAudioPointPause">pause</div>
-          <div style="display: inline" id="createTrackAudioPointRestart">restart</div>
-      </div> 
+     <div id="createAudioPlayer">
+       <audio id="createTrackAudioPlayer" preload="none" controls></audio>
+     </div>  
       <div data-role="content">
-          <!-- <a data-role="button" data-theme="b" href="#RecordAudioPage" data-transition="slide"> -->
-          <!-- we don't have a #recordAudioPage. do we need one? -da 
-          oops, probably not. I was refering to the phonegap audio page -->
           <a id="createTrackRecordAudio" data-role="button" data-theme="b" href="#" data-transition="slideup">
               Record Audio
           </a>

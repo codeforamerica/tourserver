@@ -232,7 +232,7 @@ function onDeviceReadyCreate() {
 
     function uploadFail(error) {
       alert("An error has occurred (uploadMedia:): Code = " + error.code + "(" + mediaURI + ")");
-      if (confirm("uploadMedia Failed. Try again?") + JSON.stringify(callData.data)) {
+      if (confirm("uploadMedia Failed. Try again?")) {
         uploadMedia(mediaURI, uploadCallback, mimeType);
       } else {
         // silent fail!
@@ -292,6 +292,9 @@ function onDeviceReadyCreate() {
         };
         console.log("myAudioMediaItem");
         logpp(myAudioMediaItem);
+        $("#createTrackAudioPlayer").attr("src", mediaFiles[i].fullPath);
+        $("#createTrackAudioPlayer").show();
+        $("audio").audioPlayer();
         currentPoint.interp_items[0].media_items_attributes.push(myAudioMediaItem);
       }
     }
@@ -331,6 +334,7 @@ function onDeviceReadyCreate() {
     $('#createTrackPOIName').val('');
     $('#createTrackPOIDescription').val('');
     $('#createTrackPOIImage').attr("src", "");
+    $('#createTrackAudioPlayer').removeAttr("src");
     currentPoint = {};
   }
 
@@ -369,7 +373,6 @@ function onDeviceReadyCreate() {
         $.mobile.changePage($("#createFinishPage"), {
           transition: "slide"
         });
-        window.location.reload(false);
       });
     };
 
