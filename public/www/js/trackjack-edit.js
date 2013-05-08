@@ -6,13 +6,10 @@ function onDeviceReadyEdit() {
   // change this to your server's IP
   // var host = "http://127.0.0.1:3000";
   var host = "http://trackserver-test.herokuapp.com";
-  var currentPoint = {};
+  var currentEditingTour = {};
   var currentEditPointIndex = 0;
   var mediaFiles = {};
-  var currentEditingTour = {};
-  var newTour = {};
-  var currentEditingPoint = {};
-
+  
   var METERS_TO_MILES = 0.000621371192;
 
   setTimeout(function() {

@@ -9,7 +9,7 @@ function onDeviceReadyCreate() {
   // var host = "http://127.0.0.1:3000";
   var host = "http://trackserver-test.herokuapp.com";
   var MIN_CREATE_POINT_ACCURACY = 100; // GPS accuracy at this distance or smaller required to create a point
-  
+
   var tour = {
     interest_points: []
   };
@@ -548,7 +548,8 @@ function onDeviceReadyCreate() {
     latestPosition = position;
     $('#activeLocation').text("Now: " + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + " " + position.coords.accuracy + "m");
     if ((position.coords.accuracy) < MIN_CREATE_POINT_ACCURACY) {
-    // need to have accuracy at this distance or smaller to create a point   var newPathLocation = position.coords.longitude + " " + position.coords.latitude;
+      // need to have accuracy at this distance or smaller to create a point   var newPathLocation = position.coords.longitude + " " + position.coords.latitude;
+      var newPathLocation = position.coords.longitude + " " + position.coords.latitude;
       tour.pathpoints = tour.pathpoints || [];
       tour.pathpoints.push(newPathLocation);
       console.log(tour.pathpoints.length);
@@ -563,9 +564,9 @@ function onDeviceReadyCreate() {
   }
 
   function makeAPICall(callData, doneCallback) {
-    if (!($.isEmptyObject(callData.data))) {
-      callData.data = JSON.stringify(callData.data);
-    }
+    // if (!($.isEmptyObject(callData.data))) {
+    //   callData.data = JSON.stringify(callData.data);
+    // }
     var url = host + callData.path;
     var request = $.ajax({
       type: callData.type,
@@ -575,7 +576,7 @@ function onDeviceReadyCreate() {
       //beforeSend: function(xhr) {
       //  xhr.setRequestHeader("Accept", "application/json")
       //},
-      data: callData.data
+      data: JSON.stringify(callData.data)
       //data: JSON.stringify(data)
     }).fail(function(jqXHR, textStatus, errorThrown) {
       //$("#results").text("error: " + JSON.stringify(errorThrown));
