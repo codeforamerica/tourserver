@@ -2,34 +2,35 @@
 
 class ToursController < ApplicationController
 
-  before_filter :convert_wkt, :only => [:create, :update]
-
-  def convert_wkt
+  before_filter :clean_data, :only => [:create, :update]
+  
+  def clean_data
     if (params[:tour])
       if (params[:tour][:path])
         parser = RGeo::WKRep::WKTParser.new(nil, :support_ewkt => true)
-        params[:tour][:path] = parser.parse(params[:tour][:path])
-      end
+        if params[:tour][:path] != "LINESTRING()"
+          params[:tour][:path] = parser.parse(params[:tour][:path])
+        end
+      end 
       params[:tour].delete(:pathpoints)
     end
 
-
-    # TODO: need to refactor the need for this away.
-    # removing any media_items from submission because we submit them 
-    # separately.
-    # if (!(params[:tour][:interest_points_attributes]).nil?) then
-    #   params[:tour][:interest_points_attributes].each do |ip|
-    #     logger.info(ip.inspect)
-    #     if (!ip[:interp_items_attributes].nil?) then
-    #       ip[:interp_items_attributes].each do |ii|
-    #         logger.info(ii.inspect)
-    #         if (!ii[:media_items_attributes].nil?) then
-    #           ii.delete(:media_items)
-    #         end
-    #       end
-    #     end
-    #   end
-    # end
+    # if there are no media_items associated with a point,
+    # https://github.com/rails/rails/issues/8832
+    # kicks in and media_items_attributes gets set to nil,
+    # which breaks things on the nested create,
+    # so let's delete it if it's empty
+    if (!(params[:tour][:interest_points_attributes]).nil?) then
+      params[:tour][:interest_points_attributes].each do |ip|
+        if (!ip[:interp_items_attributes].nil?) then
+          ip[:interp_items_attributes].each do |ii|
+            if (ii[:media_items_attributes].nil?) then
+              ii.delete(:media_items_attributes)
+            end
+          end
+        end
+      end
+    end
   end 
 
 
