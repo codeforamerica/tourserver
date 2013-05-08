@@ -13,9 +13,12 @@ function onDeviceReadyEdit() {
   var newTour = {};
   var currentEditingPoint = {};
 
-setTimeout(function() {
+  var METERS_TO_MILES = 0.000621371192;
+
+  setTimeout(function() {
     navigator.splashscreen.hide();
   }, 2000);
+
   $("#editTrackListPage").on('pagebeforeshow', getTourList);
   $("#editTrackLoadingPage").on('pagebeforeshow', loadMediaItems);
   $("#editTrackInfoPage1").on('pagebeforeshow', populateTrackInfoPage1);
@@ -40,8 +43,8 @@ setTimeout(function() {
 
   //dupe of trackjack-view.js. should package these.
 
-
   function getTourList() {
+    //stopGeolocation();
     console.log("getTourList");
     $(".viewTrackListDiv").hide();
     $("#editTrackListLoading").show();
@@ -54,23 +57,18 @@ setTimeout(function() {
     makeAPICall(callData, showTourList);
   }
 
-
   function showTourList(response) {
     console.log("showTourList");
     $("#editTrackListLoading").hide();
     var $tourTemplate = $("#editTrackListItemTemplate").clone(false);
     $("#editTrackList").children().remove('li');
-    // console.log($tourTemplate);
     for (var i = 0; i < response.length; i++) {
       var $tourListEntry = $tourTemplate.clone(false);
-      var $viewTrackTitle = $tourListEntry.find(".viewTrackTitle");
-      $viewTrackTitle.text(response[i].name);
-      var $viewTrackDifficulty = $tourListEntry.find(".viewTrackDifficulty");
-      $viewTrackDifficulty.text(response[i].difficulty);
+      var $viewTrackTitle = $tourListEntry.find(".viewTrackTitle").text(response[i].name);
+      var $viewTrackDifficulty = $tourListEntry.find(".viewTrackDifficulty").text(response[i].difficulty);
       var $viewTrackDistance = $tourListEntry.find(".viewTrackDistance");
-      $viewTrackDistance.text(((response[i].tour_length) * 0.000621371192).toFixed(2));
+      $viewTrackDistance.text(((response[i].tour_length) * METERS_TO_MILES).toFixed(2));
       $tourListEntry.find(".viewTrackChapters").text(response[i].chapters.length + " chapters");
-      logpp(response[i].fullitem);
       if (response[i].fullitem != "/cover_images/original/missing.png") {
         $tourListEntry.find(".editTrackListImage").attr("src", response[i].fullitem);
       }
@@ -89,8 +87,6 @@ setTimeout(function() {
     $tourTemplate.remove();
     $('.viewTrackListDiv').show();
     $('#editTrackList').listview('refresh');
-
-
   }
 
   function moveToTourInfo(tourid) {
@@ -115,7 +111,6 @@ setTimeout(function() {
     var mediaTaskArray = [];
 
     // TODO: this won't work if any interp_point has no media items.
-    console.log(currentEditingTour);
     $.each(currentEditingTour.interest_points, function(index, interest_point) {
       $.each(interest_point.interp_items, function(index, interp_item) {
         $.each(interp_item.media_items, function(index, media_item) {
@@ -161,15 +156,25 @@ setTimeout(function() {
     }
   }
 
+  // image saving
+
   function saveCoverImageFromLibrary() {
-    saveCoverImage(navigator.camera.PictureSourceType.PHOTOLIBRARY);
+    acquireImage(navigator.camera.PictureSourceType.PHOTOLIBRARY, coverImageSuccess, imageError);
   }
 
   function saveCoverImageFromCamera() {
-    saveCoverImage(navigator.camera.PictureSourceType.CAMERA);
+    acquireImage(navigator.camera.PictureSourceType.CAMERA, coverImageSuccess, imageError);
   }
 
-  function saveCoverImage(sourceType) {
+  function savePointImageFromLibrary() {
+    acquireImage(navigator.camera.PictureSourceType.PHOTOLIBRARY, pointImageSuccess, imageError);
+  }
+
+  function savePointImageFromCamera() {
+    acquireImage(navigator.camera.PictureSourceType.CAMERA, pointImageSuccess, imageError);
+  }
+
+  function acquireImage(sourceType, cameraSuccess, cameraError) {
     navigator.camera.getPicture(cameraSuccess, cameraError, {
       quality: 40,
       targetWidth: 640,
@@ -177,18 +182,26 @@ setTimeout(function() {
       destinationType: navigator.camera.DestinationType.FILE_URI,
       sourceType: sourceType
     });
-
-    function cameraSuccess(photoURL) {
-      console.log("photo success");
-      currentEditingTour.fullitem = photoURL;
-      console.log($("#editTrackInfoImage").attr("src"));
-      $.mobile.changePage($("#editTrackInputPage2"));
-    }
-
-    function cameraError(error) {
-      console.log(error);
-    }
   }
+
+  function coverImageSuccess(photoURL) {
+    console.log("photo success");
+    currentEditingTour.fullitem = photoURL;
+    console.log($("#editTrackInfoImage").attr("src"));
+    $.mobile.changePage($("#editTrackInputPage2"));
+  }
+
+  function pointImageSuccess(photoURL) {
+    console.log("photo success");
+    $("#editTrackPOIImage").attr("src", photoURL);
+    $.mobile.changePage($("#editTrackPOIInfoPage1"));
+  }
+
+  function imageError(error) {
+    console.log(error);
+  }
+
+  //////////////////
 
   function uploadTourMetadata(event) {
     console.log("uploadTourMetadata");
@@ -281,17 +294,12 @@ setTimeout(function() {
   // note that this also populates the audio item on the 
   // second page, even though it's not visible yet.
 
-  // should probably skip this if the current point has already been loaded, 
-  // so we can use the elements as our variables without worrying about
-  // them being reset
+  // this repopulates the page with appropriate media items on every refresh.
 
   function populatePointInfoPage1() {
     console.log("populatePointInfoPage1");
     var currentPoint = currentEditingTour.interest_points[currentEditPointIndex];
-    if (!($("#editTrackPOIName").val())) {
-      console.log("populating name");
-      $("#editTrackPOIName").val(currentPoint.name);
-    }
+    $("#editTrackPOIName").val(currentPoint.name);
     $.each(currentPoint.interp_items, function(index, interp_item) {
       $.each(interp_item.media_items, function(index, media_item) {
         var mimeType = media_item.item_content_type;
@@ -299,25 +307,15 @@ setTimeout(function() {
 
         if (mimeType.indexOf("text") == 0) {
           getTextItem(filename, function(textContents) {
-            if (!($("#editTrackPOIDescription").val())) {
-              console.log("populating text");
-              currentPoint.textMediaItemID = media_item.id;
-              $("#editTrackPOIDescription").val(textContents);
-            }
+            currentPoint.textMediaItemID = media_item.id;
+            $("#editTrackPOIDescription").val(textContents);
           });
         } else if (mimeType.indexOf("audio") == 0) {
-          if (!($("#editTrackAudioPointPlay").data("src"))) {
-            console.log("populating audio");
-            currentPoint.audioMediaItemID = media_item.id;
-            $("#editTrackAudioPointPlay").data("src", mediaFiles[filename].fullPath);
-          }
+          currentPoint.audioMediaItemID = media_item.id;
+          $("#editTrackAudioPointPlay").data("src", mediaFiles[filename].fullPath);
         } else if (mimeType.indexOf("image") == 0) {
-          // if we haven't been here before, set the src and the id
-          if (!currentPoint.imageMediaItemID) {
-            currentPoint.imageMediaItemID = media_item.id;
-            console.log("populating #editTrackPOIImage");
-            $("#editTrackPOIImage").attr('src', mediaFiles[filename].fullPath);
-          }
+          currentPoint.imageMediaItemID = media_item.id;
+          $("#editTrackPOIImage").attr('src', mediaFiles[filename].fullPath);
         }
       });
     })
@@ -336,46 +334,17 @@ setTimeout(function() {
     });
   }
 
-  function savePointImageFromLibrary() {
-    savePointImage(navigator.camera.PictureSourceType.PHOTOLIBRARY);
-  }
-
-  function savePointImageFromCamera() {
-    saveCoverImage(navigator.camera.PictureSourceType.CAMERA);
-  }
-
-  function savePointImage(sourceType) {
-    navigator.camera.getPicture(cameraSuccess, cameraError, {
-      quality: 40,
-      targetWidth: 640,
-      allowEdit: true,
-      destinationType: navigator.camera.DestinationType.FILE_URI,
-      sourceType: sourceType
-    });
-
-    function cameraSuccess(photoURL) {
-      console.log("photo success");
-      $("#editTrackPOIImage").attr("src", photoURL);
-      $.mobile.changePage($("#editTrackPOIInfoPage1"));
-    }
-
-    function cameraError(error) {
-      console.log(error);
-    }
-  }
-
   function recordPointAudio(event) {
-    navigator.device.capture.captureAudio(captureSuccess, captureError, {
+    navigator.device.capture.captureAudio(audioCaptureSuccess, audioCaptureError, {
       limit: 1
     });
 
-    function captureSuccess(audioFiles) {
+    function audioCaptureSuccess(audioFiles) {
       console.log("captureSuccess");
-      console.log(audioFiles[0].fullPath);
       $("#editTrackAudioPointPlay").data("src", audioFiles[0].fullPath);
     }
 
-    function captureError(error) {
+    function audioCaptureError(error) {
       alert("An error has occurred (recordAudio): Code = " + error.code);
     }
   }

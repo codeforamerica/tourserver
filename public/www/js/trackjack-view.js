@@ -1,8 +1,5 @@
 "use strict";
 
-// 22 April 2013 - A copy of trackrunner.js for modification and integration into the real app
-
-
 function onDeviceReadyView() {
   console.log("onDeviceReady-view");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
@@ -10,36 +7,34 @@ function onDeviceReadyView() {
   var host = "http://trackserver-test.herokuapp.com";
   // var host = "http://127.0.0.1:3000";
 
-  var minCheckLocationAccuracy = 20; // meters to trigger a point
-  var currentViewingTour = {};
+  var MIN_CHECK_LOCATION_ACCURACY = 20; // accuracy in meters required to trigger a point
+  var POINT_TRIGGER_DISTANCE = 10; // distance in meters to trigger display of the next point
 
+  var currentViewingTour = {};
   var mediaFiles = {};
-  var currentViewPointIndex = 0;
+  var currentViewPointIndex = 0; // current point being approached or displayed
   var geoWatchID = null;
-  var triggerCurrentPointDistance = 10;
   var distanceToNextPoint = 100000;
 
+  stopGeolocation();
   getTourList();
+
   $("#viewTrackListPage").on('pagebeforeshow', getTourList);
   $("#viewTrackInfoPage").on('pagebeforeshow', showTourInfo);
   $("#viewTrackLoadingPage").on('pagebeforeshow', loadMediaItems);
   $("#viewTrackInstructionsPage").on('pagebeforeshow', startTour);
+  
   $("#viewTrackPointPage").on('pagebeforeshow', showCurrentInterestPoint);
+  $("#skipInBetween").click(showCurrentInterestPoint);
+
   $(".viewTrackNextInBetween").click(advancePointIndex);
   $(".viewTrackBackToPrevious").click(decrementPointIndex);
   $("#viewTrackCompletePage").on('pagebeforeshow', tourDone);
 
 
-  // skip the geolocation and display the upcoming point
-  $("#skipInBetween").click(function() {
-    showCurrentInterestPoint();
-  });
-
   function tourDone() {
     $("#viewTrackTitleFinished").text(currentViewingTour.name);
     stopGeolocation();
-
-
   }
 
   // leave the current point and start going to the next point
@@ -63,8 +58,6 @@ function onDeviceReadyView() {
     return true;
   }
 
-  // back button hit, back to previous point
-
   function decrementPointIndex() {
     console.log("decrementPointIndex");
     if (currentViewPointIndex > 0) {
@@ -72,12 +65,6 @@ function onDeviceReadyView() {
     }
     console.log(currentViewPointIndex);
   }
-
-  // // tour is over (if you want it)
-  // $("#done").click(function(event) {
-  //   alert("Done!");
-  //   window.location.reload(false);
-  // });
 
   function getTourList() {
     console.log("getTourList");
@@ -216,7 +203,7 @@ function onDeviceReadyView() {
     $("#tracklist-header").text(currentViewingTour.name);
     $("#currentViewPointIndex").html(currentViewPointIndex);
     $("#endPointIndex").text(currentViewingTour.interest_points.length - 1);
-    
+
   }
 
   function showCurrentInterestPoint() {
@@ -237,11 +224,8 @@ function onDeviceReadyView() {
       $(".viewTrackNextInBetween").attr("href", "#viewTrackInstructionsPage");
     }
     var myAudio = null;
-    console.log(myAudio);
     $("#viewTrackCurrentPointIndex").text(currentViewPointIndex + 1);
     $("#viewTrackTotalPoints").text(currentViewingTour.interest_points.length);
-    console.log("currentPoint.name");
-    console.log(currentPoint.name);
     $("#viewTrackPointName").text(currentPoint.name);
     $.each(currentPoint.interp_items, function(index, interp_item) {
       $.each(interp_item.media_items, function(index, media_item) {
@@ -263,7 +247,6 @@ function onDeviceReadyView() {
     if (!($("#newplayer").attr("src"))) {
       $("#newplayer").hide();
     }
-
     return;
   }
 
@@ -303,10 +286,7 @@ function onDeviceReadyView() {
     }
 
     function downloadSuccess(fileEntry) {
-      console.log("downloadSuccess");
-      // console.log(fileEntry);
       mediaFiles[fileEntry.name] = fileEntry;
-
       doneCallback(null, fileEntry.name);
     }
 
@@ -335,8 +315,6 @@ function onDeviceReadyView() {
       $("#results").text("error: " + JSON.stringify(errorThrown));
     }).done(function(response, textStatus, jqXHR) {
       if (typeof doneCallback === 'function') {
-        //responseObj = JSON.parse(response);
-        //console.log("responseObj: " + responseObj);
         doneCallback.call(this, response);
       }
       $("#results").text(JSON.stringify(response));
@@ -361,7 +339,7 @@ function onDeviceReadyView() {
     var latestPosition = position;
     $("#accuracy").html("GPS Accuracy: " + latestPosition.coords.accuracy + "m");
 
-    if ((latestPosition.coords.accuracy) < minCheckLocationAccuracy) {
+    if ((latestPosition.coords.accuracy) < MIN_CHECK_LOCATION_ACCURACY) {
       var currentPointWKT = currentViewingTour.interest_points[currentViewPointIndex].location;
       var lnglat = /POINT \(([-\d|.]+) ([-\d|.]+)\)/.exec(currentPointWKT);
       var lng = parseFloat(lnglat[1]);
@@ -376,7 +354,7 @@ function onDeviceReadyView() {
       if (typeof UICallback === "function") {
         UICallback();
       }
-      if (distanceToNextPoint < triggerCurrentPointDistance) {
+      if (distanceToNextPoint < POINT_TRIGGER_DISTANCE) {
         console.log("distance trigger");
         navigator.notification.vibrate(1500);
         $.mobile.changePage($("#viewTrackPointPage"), {
@@ -395,12 +373,12 @@ function onDeviceReadyView() {
   }
 
 }
-//don't like using this. would like to get better distances via PostGIS
 
 function logpp(js) {
   console.log(JSON.stringify(js, null, "  "));
 }
 
+//don't like using this. would like to get better distances via PostGIS
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2 - lat1); // deg2rad below

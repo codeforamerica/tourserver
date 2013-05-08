@@ -5,10 +5,11 @@
 function onDeviceReadyCreate() {
   console.log("onDeviceReady-create");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
-  // change this to your server's IP
+
   // var host = "http://127.0.0.1:3000";
   var host = "http://trackserver-test.herokuapp.com";
-  var minCreatePointAccuracy = 100;
+  var MIN_CREATE_POINT_ACCURACY = 100; // GPS accuracy at this distance or smaller required to create a point
+  
   var tour = {
     interest_points: []
   };
@@ -22,13 +23,35 @@ function onDeviceReadyCreate() {
     $(".phone").show();
   }
 
-  //$('#createTrackUpload').click(uploadTour);
+  // DOM elements used for data at the moment:
+  // (in this jQuery Mobile app, everything is actually on one page)
+
+  //  Track attributes, kept for entire creation process:
+  // #createTrackName - Name of track being created
+  // #createTrackRating - Difficulty of track
+  // #createTrackDescription - Description of track
+  // #createTrackImage - Cover image for track 
+
+  //  Point attributes, reset for each new point
+  // #createTrackAudioPlayer - "src" jQuery .data attribute used to store current point audio URL
+  // #createTrackPOIName - Name of current point being created
+  // #createTrackPOIDescription - Description of current point
+  // #createTrackPOIImage - Image for current point
+
   $('#createTrackSavingPage').on('pagebeforeshow', uploadTour);
+  $('#createTrackStartRecording').click(startRecording);
+  $("#createTrackAddPoint").click(startNewPoint);
+  $("#createTrackUploadImageCamera").click(saveCoverImageFromCamera);
+  $("#createTrackUploadImageLibrary").click(saveCoverImageFromAlbum);
+  $("#createTrackPOIUploadImageLibrary").click(savePointImageFromAlbum);
+  $("#createTrackPOIUploadImageCamera").click(savePointImageFromCamera);
+  $("#createTrackRecordAudio").click(recordAudio);
+  $("#cancelPoint").click(cancelNewPoint);
+  $("#createTrackPOISubmit").click(saveNewPoint);
 
   // start Tour button
-  $("#createTrackStartRecording").click(function(event) {
-    console.log("createTrackName");
-    console.log($("#createTrackName").val());
+
+  function startRecording(event) {
     if ($("#createTrackName").val()) {
       tour.name = $("#createTrackName").val();
       tour.difficulty = $("#createTrackRating").val();
@@ -41,10 +64,11 @@ function onDeviceReadyCreate() {
       $.mobile.changePage($("#createTrackInputPage1"));
       return false;
     }
-  });
+  }
 
-  // create point
-  $("#createTrackAddPoint").click(function(event) {
+  // add point
+
+  function startNewPoint(event) {
     console.log("createTrackAddPoint");
     //click on the interest_point create button,
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
@@ -60,9 +84,7 @@ function onDeviceReadyCreate() {
 
     function geoSuccess(position) {
       latestPosition = position;
-      if (position.coords.accuracy <= minCreatePointAccuracy) {
-        logpp(position);
-        //$('#location').text(position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + " " + position.coords.accuracy + "m");
+      if (position.coords.accuracy <= MIN_CREATE_POINT_ACCURACY) {
         createInterestPoint(position);
       } else {
         // this should be smarter, and try again
@@ -82,58 +104,51 @@ function onDeviceReadyCreate() {
         name: "Passthrough"
       });
     }
-  });
-
-
-  // take photo 
-  $("#createTrackUploadImageCamera").click(function(event) {
-    console.log("camera");
-    saveCoverImage(navigator.camera.PictureSourceType.CAMERA);
-  });
-
-  // Photo upload ///
-  $("#createTrackUploadImageLibrary").click(function(event) {
-    saveCoverImage(navigator.camera.PictureSourceType.PHOTOLIBRARY);
-  });
-
-  function saveCoverImage(sourceType) {
-    navigator.camera.getPicture(cameraSuccess, cameraError, {
-      quality: 40,
-      targetWidth: 640,
-      allowEdit: true,
-      destinationType: navigator.camera.DestinationType.FILE_URI,
-      sourceType: sourceType
-    });
-
-    function cameraSuccess(photoURL) {
-      console.log("photo success");
-      $("#createTrackImage").attr("src", photoURL);
-      tour.cover_image_url = photoURL
-      $.mobile.changePage($("#createTrackInputPage2"));
-    }
-
-    function cameraError(error) {
-      console.log(error);
-    }
-
   }
 
 
-
-  // upload photo from album button
-  $("#createTrackPOIUploadImageLibrary").click(function(event) {
-    console.log("album");
-    console.log("event");
-    saveImage(navigator.camera.PictureSourceType.PHOTOLIBRARY);
-  });
-
   // take photo 
-  $("#createTrackPOIUploadImageCamera").click(function(event) {
-    console.log("camera");
-    saveImage(navigator.camera.PictureSourceType.CAMERA);
-  });
 
-  function saveImage(sourceType) {
+  function saveCoverImageFromCamera() {
+    acquireImage(navigator.camera.PictureSourceType.CAMERA, coverImageSuccess, cameraError);
+  }
+
+  function saveCoverImageFromAlbum() {
+    acquireImage(navigator.camera.PictureSourceType.PHOTOLIBRARY, coverImageSuccess, cameraError);
+  }
+
+  function savePointImageFromAlbum() {
+    acquireImage(navigator.camera.PictureSourceType.PHOTOLIBRARY, pointImageSuccess, cameraError);
+  }
+
+  function savePointImageFromCamera() {
+    acquireImage(navigator.camera.PictureSourceType.CAMERA, pointImageSuccess, cameraError);
+  }
+
+  function coverImageSuccess(photoURL) {
+    $("#createTrackImage").attr("src", photoURL);
+    tour.cover_image_url = photoURL
+    $.mobile.changePage($("#createTrackInputPage2"));
+  }
+
+  function pointImageSuccess(photoURL) {
+    $("#createTrackPOIImage").attr("src", photoURL);
+    var media_item = {};
+    currentPoint.interp_items[0].media_items_attributes = currentPoint.interp_items[0].media_items_attributes || [];
+    currentPoint.interp_items[0].media_items_attributes.push({
+      type: "image",
+      data: photoURL
+    });
+    console.log("media_items_attributes.length" + currentPoint.interp_items[0].media_items_attributes.length);
+    console.log(photoURL);
+    $.mobile.changePage($("#createTrackPOIPage1"));
+  }
+
+  function cameraError(error) {
+    console.log(error);
+  }
+
+  function acquireImage(sourceType, cameraSuccess, cameraError) {
     navigator.camera.getPicture(cameraSuccess, cameraError, {
       quality: 40,
       targetWidth: 640,
@@ -141,24 +156,6 @@ function onDeviceReadyCreate() {
       destinationType: navigator.camera.DestinationType.FILE_URI,
       sourceType: sourceType
     });
-
-    function cameraSuccess(photoURL) {
-      console.log("photo success");
-      $("#createTrackPOIImage").attr("src", photoURL);
-      var media_item = {};
-      currentPoint.interp_items[0].media_items_attributes = currentPoint.interp_items[0].media_items_attributes || [];
-      currentPoint.interp_items[0].media_items_attributes.push({
-        type: "image",
-        data: photoURL
-      });
-      console.log("media_items_attributes.length" + currentPoint.interp_items[0].media_items_attributes.length);
-      console.log(photoURL);
-      $.mobile.changePage($("#createTrackPOIPage1"));
-    }
-
-    function cameraError(error) {
-      console.log(error);
-    }
   }
 
   function uploadPhoto(imageURI, uploadCallback) {
@@ -171,10 +168,10 @@ function onDeviceReadyCreate() {
 
   /// Text upload ///
   // write text to a file to get a file URL to pass to uploadMedia
+  // because we're treating text items as media items to allow for several
 
   function writeAndUploadText(text, uploadCallback) {
     text = text.substr(0, 1500);
-    console.log("uploadText");
     // so very wrong. and yet:
     var fileName = Math.floor(Math.random() * 10000000) + ".txt";
     window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, gotFS, fail);
@@ -191,11 +188,7 @@ function onDeviceReadyCreate() {
     }
 
     function gotFileWriter(writer) {
-      console.log("writer.filename: ");
-      console.log(writer.fileName)
       writer.onwriteend = function(evt) {
-        console.log("evt");
-        console.log(evt);
         uploadMedia(writer.fileName, uploadCallback, "text/plain");
       };
       writer.write(text);
@@ -205,7 +198,6 @@ function onDeviceReadyCreate() {
       alert("An error has occurred: (writeAndUploadText) Code = " + error.code);
     }
   }
-
 
   /// the next two functions (uploadMedia/uploadCoverImage) should maybe be consolidated
 
@@ -279,8 +271,7 @@ function onDeviceReadyCreate() {
     }
   }
 
-  //Record Audio button
-  $("#createTrackRecordAudio").click(function(event) {
+  function recordAudio() {
     navigator.device.capture.captureAudio(captureSuccess, captureError);
 
     function captureSuccess(mediaFiles) {
@@ -302,16 +293,18 @@ function onDeviceReadyCreate() {
     function captureError(error) {
       alert("An error has occurred (recordAudio): Code = " + error.code);
     }
-  });
+  }
 
   //Cancel the current point input
-  $("#cancelPoint").click(function(event) {
+
+  function cancelNewPoint() {
     clearCurrentPoint();
     logpp(tour);
-  });
+  }
 
   // save the current point
-  $("#createTrackPOISubmit").click(function(event) {
+
+  function saveNewPoint() {
     currentPoint.name = $('#createTrackPOIName').val();
     // add an interp_item. For now, each interest_point will have only one interpretive item [0].
     // later, we can use interp_item as a container for groups of media_items
@@ -328,7 +321,7 @@ function onDeviceReadyCreate() {
     }
     tour.interest_points.push(currentPoint);
     clearCurrentPoint();
-  });
+  }
 
   function clearCurrentPoint() {
     $('#createTrackPOIName').val('');
@@ -554,8 +547,8 @@ function onDeviceReadyCreate() {
 
     latestPosition = position;
     $('#activeLocation').text("Now: " + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + " " + position.coords.accuracy + "m");
-    if ((position.coords.accuracy) < minCreatePointAccuracy) {
-      var newPathLocation = position.coords.longitude + " " + position.coords.latitude;
+    if ((position.coords.accuracy) < MIN_CREATE_POINT_ACCURACY) {
+    // need to have accuracy at this distance or smaller to create a point   var newPathLocation = position.coords.longitude + " " + position.coords.latitude;
       tour.pathpoints = tour.pathpoints || [];
       tour.pathpoints.push(newPathLocation);
       console.log(tour.pathpoints.length);
@@ -603,7 +596,6 @@ function onDeviceReadyCreate() {
 function logpp(js) {
   console.log(JSON.stringify(js, null, "  "));
 }
-
 
 $(document).ready(function() {
   // are we running in native app or in browser?
