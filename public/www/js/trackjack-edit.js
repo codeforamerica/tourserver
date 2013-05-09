@@ -303,13 +303,12 @@ function onDeviceReadyEdit() {
             currentPoint.textMediaItemID = media_item.id;
             $("#editTrackPOIDescription").val(textContents);
           });
-        } else if (mimeType.indexOf("audio") == 0 && (!$("#editTrackPOIAudioPlayer").jqmData("src"))) {
+        } else if (mimeType.indexOf("audio") == 0 && (!$("#editTrackPOIAudioPlayer").attr("src"))) {
           currentPoint.audioMediaItemID = media_item.id;
-          console.log("populating: " + ($("#editTrackPOIAudioPlayer").attr("src")));
           $("#editTrackPOIAudioPlayer").attr("src", mediaFiles[filename].fullPath);
           $("#editTrackPOIAudioPlayerContainer").show();
           if ($("#editTrackPOIAudioPlayerContainer .audioplayer").length == 0) {
-            $("audio").audioPlayer();
+            $("#editTrackPOIAudioPlayer").audioPlayer();
           }
         } else if (mimeType.indexOf("image") == 0 && (!$("#editTrackPOIImage").attr("src"))) {
           currentPoint.imageMediaItemID = media_item.id;
@@ -341,7 +340,7 @@ function recordPointAudio(event) {
     $("#editTrackPOIAudioPlayerContainer").show();
     console.log("checkpoint 1");
     if ($("#editTrackPOIAudioPlayerContainer .audioplayer").length == 0) {
-      $("audio").audioPlayer();
+      $("#editTrackPOIAudioPlayer").audioPlayer();
     }
     console.log("checkpoint 2");
   }

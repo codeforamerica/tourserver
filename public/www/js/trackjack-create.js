@@ -285,7 +285,7 @@ function onDeviceReadyCreate() {
         $("#createTrackAudioPlayer").attr("src", mediaFiles[i].fullPath);
         $("#createTrackAudioPlayerContainer").show();
         if ($("#createTrackAudioPlayerContainer .audioplayer").length == 0) {
-          $("audio").audioPlayer();
+          $("#createTrackAudioPlayer").audioPlayer();
         }
         currentPoint.interp_items[0].media_items_attributes.push(myAudioMediaItem);
       }

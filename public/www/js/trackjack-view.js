@@ -245,7 +245,7 @@ function onDeviceReadyView() {
           $("#newplayer").attr("src", mediaFiles[filename].fullPath);
           $("#new-musicplayer-container").show();
           if ($("#new-musicplayer-container .audioplayer").length == 0) {
-            $('audio').audioPlayer();
+            $('#newplayer').audioPlayer();
           }
         } else if (mimeType.indexOf("image") == 0) {
           $("#viewTrackPointImage").attr('src', mediaFiles[filename].fullPath);
