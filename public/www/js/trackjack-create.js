@@ -6,8 +6,6 @@ function onDeviceReadyCreate() {
   console.log("onDeviceReady-create");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
 
-  // var host = "http://127.0.0.1:3000";
-  var host = "http://trackserver-test.herokuapp.com";
   var MIN_CREATE_POINT_ACCURACY = 100; // GPS accuracy at this distance or smaller required to create a point
 
   var tour = {
@@ -383,8 +381,7 @@ function onDeviceReadyCreate() {
               if (myInterpItem.media_items_attributes) {
                 for (var k = 0; k < myInterpItem.media_items_attributes.length; k++) {
                   var myMediaItem = myInterpItem.media_items_attributes[k];
-                  console.log("myMediaItem: ");
-                  logpp(myMediaItem);
+                  
                   var uploadFunc = function(type) {
                     if (type.indexOf("image") == 0) {
                       return uploadPhoto;
@@ -394,12 +391,14 @@ function onDeviceReadyCreate() {
                       return uploadAudio;
                     }
                   }(myMediaItem.type);
+
                   var myCallback = function(myMediaItem) {
                     return function(response) {
                       myMediaItem = addMediaItemIDToTour(response, myMediaItem);
                       console.log("in upload.callback");
                     };
                   }(myMediaItem);
+                  
                   mediaSubmitParams.push({
                     data: myMediaItem.data,
                     mediaUploadFunc: uploadFunc,
@@ -441,15 +440,12 @@ function onDeviceReadyCreate() {
             }, "image/jpeg");
           });
         }
-        console.log(funcArray);
         async.series(funcArray, asyncCallback);
       }
     }
 
     function asyncCallback(err, results) {
       console.log("asyncCallback");
-      console.log(err);
-      console.log(results);
       submitTour(tour);
     }
 
@@ -518,17 +514,6 @@ function onDeviceReadyCreate() {
     }
   });
 
-  // Cancel the tour and reset everything
-  $('#createTrackMainPage').on('pagebeforechange', function(data) {
-    console.log(data);
-    if (confirm("Cancel Tour Recording?")) {
-      // resetTour();
-    } else {
-
-    }
-
-  });
-
   function startGeolocation() {
     geoWatchID = navigator.geolocation.watchPosition(geoSuccess, geoError, {
       enableHighAccuracy: true,
@@ -564,9 +549,6 @@ function onDeviceReadyCreate() {
   }
 
   function makeAPICall(callData, doneCallback) {
-    // if (!($.isEmptyObject(callData.data))) {
-    //   callData.data = JSON.stringify(callData.data);
-    // }
     var url = host + callData.path;
     var request = $.ajax({
       type: callData.type,
@@ -579,7 +561,6 @@ function onDeviceReadyCreate() {
       data: JSON.stringify(callData.data)
       //data: JSON.stringify(data)
     }).fail(function(jqXHR, textStatus, errorThrown) {
-      //$("#results").text("error: " + JSON.stringify(errorThrown));
       if (confirm("API Call Failed. Try again?") + JSON.stringify(callData.data)) {
         makeAPICall(callData, doneCallback);
       } else {
@@ -589,7 +570,6 @@ function onDeviceReadyCreate() {
       if (typeof doneCallback === 'function') {
         doneCallback.call(this, response);
       }
-      $("#results").text(JSON.stringify(response));
     });
   }
 }

@@ -3,9 +3,6 @@
 function onDeviceReadyEdit() {
   console.log("onDeviceReadyEdit");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
-  // change this to your server's IP
-  // var host = "http://127.0.0.1:3000";
-  var host = "http://trackserver-test.herokuapp.com";
   var currentEditingTour = {};
   var currentEditPointIndex = 0;
   var mediaFiles = {};
@@ -70,15 +67,14 @@ function onDeviceReadyEdit() {
         $tourListEntry.find(".editTrackListImage").attr("src", response[i].fullitem);
       }
 
-      //TODO: figure out why jqmdata doesn't work
-      $tourListEntry.data("tourid", response[i].id);
+      $tourListEntry.jqmData("tourid", response[i].id);
       //console.log($tourListEntry);
       $("#editTrackList").append($tourListEntry);
     }
     // class for tours in selectable list.
     // tour id should be in 'data-tourid' attribute
     $(".viewTrackListItem").click(function(event) {
-      var tourid = $(this).data('tourid');
+      var tourid = $(this).jqmData('tourid');
       moveToTourInfo(tourid);
     });
     $tourTemplate.remove();
@@ -270,9 +266,7 @@ function onDeviceReadyEdit() {
           console.log(mediaFiles[filename].fullPath);
           var $pointImage = $pointListEntry.find(".editTrackPOIListItemImage");
           if (mimeType.indexOf("image") == 0) {
-            console.log("setting list item image");
             $pointImage.attr("src", mediaFiles[filename].fullPath);
-            console.log($pointImage);
           }
         });
       });
@@ -293,8 +287,13 @@ function onDeviceReadyEdit() {
 
   // this repopulates the page with appropriate media items on every refresh.
 
+
   function populatePointInfoPage1() {
     console.log("populatePointInfoPage1");
+    $("#editTrackPOIDescription").val("");
+    $("#editTrackPOIImage").removeAttr("src");
+    $("#editTrackAudioPointPlay").removeData("src");
+    $("#editTrackPOIName").val("");
     var currentPoint = currentEditingTour.interest_points[currentEditPointIndex];
     $("#editTrackPOIName").val(currentPoint.name);
     $.each(currentPoint.interp_items, function(index, interp_item) {

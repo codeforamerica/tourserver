@@ -1,14 +1,16 @@
 "use strict";
 
+// Tourserver API host
+var host = "http://trackserver-test.herokuapp.com";
+// var host = "http://127.0.0.1:3000";
+
 function onDeviceReadyView() {
   console.log("onDeviceReady-view");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
-  // change this to your server's IP
-  var host = "http://trackserver-test.herokuapp.com";
-  // var host = "http://127.0.0.1:3000";
 
   var MIN_CHECK_LOCATION_ACCURACY = 20; // accuracy in meters required to trigger a point
   var POINT_TRIGGER_DISTANCE = 10; // distance in meters to trigger display of the next point
+  var METERS_TO_MILES = 0.000621371192
 
   var currentViewingTour = {};
   var mediaFiles = {};
@@ -19,6 +21,7 @@ function onDeviceReadyView() {
   stopGeolocation();
   getTourList();
 
+  $("#settingsPage").on('pagebeforeshow', stopGeolocation);
   $("#viewTrackListPage").on('pagebeforeshow', getTourList);
   $("#viewTrackInfoPage").on('pagebeforeshow', showTourInfo);
   $("#viewTrackLoadingPage").on('pagebeforeshow', loadMediaItems);
@@ -93,20 +96,19 @@ function onDeviceReadyView() {
       var $viewTrackDifficulty = $tourListEntry.find(".viewTrackDifficulty");
       $viewTrackDifficulty.text(response[i].difficulty);
       var $viewTrackDistance = $tourListEntry.find(".viewTrackDistance");
-      $viewTrackDistance.text(((response[i].tour_length) * 0.000621371192).toFixed(2));
+      $viewTrackDistance.text(((response[i].tour_length) * METERS_TO_MILES).toFixed(2));
       $tourListEntry.find(".viewTrackChapters").text(response[i].chapters.length + " chapters");
       console.log(response[i].fullitem);
       if (response[i].fullitem != "/cover_images/original/missing.png") {
         $tourListEntry.find(".viewTrackListImage").attr("src", response[i].fullitem);
       }
-      //TODO: figure out why jqmdata doesn't work
-      $tourListEntry.data("tourid", response[i].id);
+      $tourListEntry.jqmData("tourid", response[i].id);
       $("#viewTrackList").append($tourListEntry);
     }
     // class for tours in selectable list.
     // tour id should be in 'data-tourid' attribute
     $(".viewTrackListItem").click(function(event) {
-      var tourid = $(this).data('tourid');
+      var tourid = $(this).jqmData('tourid');
       moveToTourInfo(tourid);
     });
     $tourTemplate.remove();
@@ -330,8 +332,10 @@ function onDeviceReadyView() {
 
   function stopGeolocation() {
     console.log("stopGeolocation");
-    navigator.geolocation.clearWatch(geoWatchID);
-    geoWatchID = null;
+    if (geoWatchID != null) {
+      navigator.geolocation.clearWatch(geoWatchID);
+      geoWatchID = null;
+    }
   }
 
 
