@@ -281,9 +281,12 @@ function onDeviceReadyCreate() {
         };
         console.log("myAudioMediaItem");
         logpp(myAudioMediaItem);
+        console.log(mediaFiles[i].fullPath);
         $("#createTrackAudioPlayer").attr("src", mediaFiles[i].fullPath);
-        $("#createTrackAudioPlayer").show();
-        $("audio").audioPlayer();
+        $("#createTrackAudioPlayerContainer").show();
+        if ($("#createTrackAudioPlayerContainer .audioplayer").length == 0) {
+          $("audio").audioPlayer();
+        }
         currentPoint.interp_items[0].media_items_attributes.push(myAudioMediaItem);
       }
     }

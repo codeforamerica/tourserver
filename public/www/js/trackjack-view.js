@@ -1,8 +1,8 @@
 "use strict";
 
 // Tourserver API host
-var host = "http://trackserver-test.herokuapp.com";
-// var host = "http://127.0.0.1:3000";
+// var host = "http://trackserver-test.herokuapp.com";
+var host = "http://127.0.0.1:3000";
 
 function onDeviceReadyView() {
   console.log("onDeviceReady-view");
@@ -26,7 +26,7 @@ function onDeviceReadyView() {
   $("#viewTrackInfoPage").on('pagebeforeshow', showTourInfo);
   $("#viewTrackLoadingPage").on('pagebeforeshow', loadMediaItems);
   $("#viewTrackInstructionsPage").on('pagebeforeshow', startTour);
-  
+
   $("#viewTrackPointPage").on('pagebeforeshow', showCurrentInterestPoint);
   $("#skipInBetween").click(showCurrentInterestPoint);
 
@@ -211,7 +211,7 @@ function onDeviceReadyView() {
   function showCurrentInterestPoint() {
     console.log("showCurrentInterestPoint: " + currentViewPointIndex + " " + currentViewingTour.interest_points.length);
     stopGeolocation();
-    
+
     var currentPoint = currentViewingTour.interest_points[currentViewPointIndex];
     if (currentViewPointIndex == 0) {
       console.log("first point");
@@ -234,14 +234,19 @@ function onDeviceReadyView() {
       $.each(interp_item.media_items, function(index, media_item) {
         var mimeType = media_item.item_content_type;
         var filename = media_item.item_file_name;
+        console.log(mediaFiles[filename].fullPath);
         if (mimeType.indexOf("text") == 0) {
           getTextItem(filename, function(textContents) {
             $("#viewTrackPointDescription").html(textContents);
           });
         } else if (mimeType.indexOf("audio") == 0) {
+          console.log("populating view audio");
+          console.log(mediaFiles[filename].fullPath);
           $("#newplayer").attr("src", mediaFiles[filename].fullPath);
           $("#new-musicplayer-container").show();
-          $('audio').audioPlayer();
+          if ($("#new-musicplayer-container .audioplayer").length == 0) {
+            $('audio').audioPlayer();
+          }
         } else if (mimeType.indexOf("image") == 0) {
           $("#viewTrackPointImage").attr('src', mediaFiles[filename].fullPath);
         }
@@ -384,6 +389,7 @@ function logpp(js) {
 }
 
 //don't like using this. would like to get better distances via PostGIS
+
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2 - lat1); // deg2rad below
