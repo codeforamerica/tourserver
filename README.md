@@ -1,6 +1,8 @@
 # TourServer
 
-A server for creating and serving GPS-based, media-enhanced walking tours. PostGIS instance required.
+A server for creating and serving GPS-based, media-enhanced walking tours. PostGIS instance required. 
+
+NOTE: This project is still in a very early stage of development. For info about general usability, contact danavery@codeforamerica.org.
 
 Current REST API endpoints (GET, POST, and DELETE supported for all so far). Intended to return JSON. When a single item is requested, all containing objects are also returned in the item's object:
 
