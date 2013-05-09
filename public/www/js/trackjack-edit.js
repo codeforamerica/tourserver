@@ -27,7 +27,6 @@ function onDeviceReadyEdit() {
   $("#editTrackPOISubmit").click(uploadNewPointData);
   $("#editTrackRecordAudio").click(recordPointAudio);
   $("#editTrackInfoSave").click(uploadTourMetadata);
-  $("#editTrackAudioPointPlay").click(playAudio);
 
   function deleteTrack(event) {
     event.preventDefault();
@@ -292,8 +291,8 @@ function onDeviceReadyEdit() {
     console.log("populatePointInfoPage1");
     $("#editTrackPOIDescription").val("");
     $("#editTrackPOIImage").removeAttr("src");
-    $("#editTrackAudioPointPlay").removeData("src");
     $("#editTrackPOIName").val("");
+    $("editTrackAudioPlayerContainer").hide();
     var currentPoint = currentEditingTour.interest_points[currentEditPointIndex];
     $("#editTrackPOIName").val(currentPoint.name);
     $.each(currentPoint.interp_items, function(index, interp_item) {
@@ -308,7 +307,9 @@ function onDeviceReadyEdit() {
           });
         } else if (mimeType.indexOf("audio") == 0) {
           currentPoint.audioMediaItemID = media_item.id;
-          $("#editTrackAudioPointPlay").data("src", mediaFiles[filename].fullPath);
+          $("#editTrackAudioPlayer").attr("src", mediaFiles[filename].fullPath);
+          $("#editTrackAudioPlayerContainer").show();
+          $("audio").audioPlayer();
         } else if (mimeType.indexOf("image") == 0) {
           currentPoint.imageMediaItemID = media_item.id;
           $("#editTrackPOIImage").attr('src', mediaFiles[filename].fullPath);

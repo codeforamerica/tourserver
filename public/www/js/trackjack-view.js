@@ -211,6 +211,7 @@ function onDeviceReadyView() {
   function showCurrentInterestPoint() {
     console.log("showCurrentInterestPoint: " + currentViewPointIndex + " " + currentViewingTour.interest_points.length);
     stopGeolocation();
+    
     var currentPoint = currentViewingTour.interest_points[currentViewPointIndex];
     if (currentViewPointIndex == 0) {
       console.log("first point");
@@ -225,10 +226,10 @@ function onDeviceReadyView() {
       $(".viewTrackNextInBetween .ui-btn-text").text("Next");
       $(".viewTrackNextInBetween").attr("href", "#viewTrackInstructionsPage");
     }
-    var myAudio = null;
-    $("#viewTrackCurrentPointIndex").text(currentViewPointIndex + 1);
-    $("#viewTrackTotalPoints").text(currentViewingTour.interest_points.length);
-    $("#viewTrackPointName").text(currentPoint.name);
+    $("#new-musicplayer-container").hide();
+    $("#viewTrackCurrentPointIndex").text("").text(currentViewPointIndex + 1);
+    $("#viewTrackTotalPoints").text("").text(currentViewingTour.interest_points.length);
+    $("#viewTrackPointName").text("").text(currentPoint.name);
     $.each(currentPoint.interp_items, function(index, interp_item) {
       $.each(interp_item.media_items, function(index, media_item) {
         var mimeType = media_item.item_content_type;
@@ -239,7 +240,7 @@ function onDeviceReadyView() {
           });
         } else if (mimeType.indexOf("audio") == 0) {
           $("#newplayer").attr("src", mediaFiles[filename].fullPath);
-          $("#newplayer").show();
+          $("#new-musicplayer-container").show();
           $('audio').audioPlayer();
         } else if (mimeType.indexOf("image") == 0) {
           $("#viewTrackPointImage").attr('src', mediaFiles[filename].fullPath);
