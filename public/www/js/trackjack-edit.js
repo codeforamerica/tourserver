@@ -292,7 +292,7 @@ function onDeviceReadyEdit() {
     $("#editTrackPOIDescription").val("");
     $("#editTrackPOIImage").removeAttr("src");
     $("#editTrackPOIName").val("");
-    $("editTrackAudioPlayerContainer").hide();
+    $("#editTrackAudioPlayerContainer").hide();
     var currentPoint = currentEditingTour.interest_points[currentEditPointIndex];
     $("#editTrackPOIName").val(currentPoint.name);
     $.each(currentPoint.interp_items, function(index, interp_item) {
@@ -338,32 +338,14 @@ function onDeviceReadyEdit() {
 
     function audioCaptureSuccess(audioFiles) {
       console.log("captureSuccess");
-      $("#editTrackAudioPointPlay").data("src", audioFiles[0].fullPath);
+      $("#editTrackAudioPlayer").attr("src", audioFiles[0].fullPath);
+      $("#editTrackAudioPlayerContainer").show();
+      $("audio").audioPlayer();
     }
 
     function audioCaptureError(error) {
       alert("An error has occurred (recordAudio): Code = " + error.code);
     }
-  }
-
-  function audioSuccess() {
-    $("#viewTrackAudioPointPause").click(function(event) {
-      event.preventDefault();
-      myAudio.pause();
-    });
-    $("#viewTrackAudioPointRestart").click(function(event) {
-      event.preventDefault();
-      myAudio.seekTo(0);
-    });
-  }
-
-  function audioStatus(code) {
-    // may need this for control updates
-    console.log("Audio Status: " + code);
-  }
-
-  function audioError() {
-    console.log("Error: " + response);
   }
 
   function uploadNewPointData(event) {
