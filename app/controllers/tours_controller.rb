@@ -37,6 +37,7 @@ class ToursController < ApplicationController
   # GET /tours
   # GET /tours.json
   def index
+    headers['Last-Modified'] = Time.now.httpdate
     @tours = Tour.all
     @tours.each do |tour|
       tour["fullitem"] = tour.cover_image.url

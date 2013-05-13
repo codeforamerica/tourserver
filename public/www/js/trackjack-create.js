@@ -427,6 +427,7 @@ function onDeviceReadyCreate() {
             return function(callback) {
               curMediaItem.mediaUploadFunc(curMediaItem.data, function(response) {
                 console.log("seriesItemCallback");
+                $("#saveTrackProgress").append(" .");
                 curMediaItem.callback(response);
                 callback(null, "two");
               });
@@ -449,6 +450,7 @@ function onDeviceReadyCreate() {
 
     function asyncCallback(err, results) {
       console.log("asyncCallback");
+      $("#saveTrackProgress").html("");
       submitTour(tour);
     }
 

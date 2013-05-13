@@ -1,8 +1,9 @@
 "use strict";
 
 // Tourserver API host
-// var host = "http://trackserver-test.herokuapp.com";
-var host = "http://127.0.0.1:3000";
+// var host = "http://trackserver-dev.herokuapp.com";
+var host = "http://trackserver-test.herokuapp.com";
+// var host = "http://127.0.0.1:3000";
 
 function onDeviceReadyView() {
   console.log("onDeviceReady-view");
@@ -172,6 +173,7 @@ function onDeviceReadyView() {
               };
               makeAPICall(callData, function(response) {
                 downloadMediaItem(response, function(error, fileEntry) {
+                  $("#loadProgress").append(" .");
                   callback(error, fileEntry);
                 });
               });
@@ -186,6 +188,7 @@ function onDeviceReadyView() {
 
   function startPointSequence() {
     currentViewPointIndex = 0;
+    $("#loadProgress").html("");
     $.mobile.changePage($("#viewTrackInstructionsPage"));
     showInBetweenScreen();
   }
