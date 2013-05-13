@@ -51,11 +51,9 @@ function onDeviceReadyView() {
       console.log("last page");
     } else {
       currentViewPointIndex++;
-      $("#viewTrackPointName").val("");
-      $("#viewTrackPointDescription").val("");
-      $("#viewTrackPointImage").removeAttr("src");
-      $("#viewTrackAudioPointPlay").removeData("src");
+      clearPointElements();
     }
+
     $.mobile.changePage($(this).attr("href"), {
       transition: "slide"
     });
@@ -276,6 +274,7 @@ function onDeviceReadyView() {
     $("#viewTrackPointImage").removeAttr("src");
     $("#viewTrackPointDescription").val("");
     $("#newplayer").hide();
+    $("#newplayer").removeAttr("src");
   }
 
   function getTextItem(filename, CB) {
