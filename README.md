@@ -28,33 +28,31 @@ Future plans include a desktop-accessible track editing client.
 
 Heroku and RGeo have some trouble getting along. 
 
-1) You need to make binaries for geos and Proj available to your Heroku app.
+1a) You need to make binaries for geos and Proj available to your Heroku app.
 Follow setup instructions here:
 [https://github.com/jcamenisch/heroku-buildpack-rgeo](https://github.com/jcamenisch/heroku-buildpack-rgeo).
 
+1b) Include your S3 credentials in the heroku dev environment AWS_ACCESS_KEY, AWS_SECRET_ACCESS_KEY, and AWS_BUCKET.
+
+1c) (a) and (b), and other environment variables needs can be combined into one heroku command. For example: heroku config:set  --app {heroku_app_name} AWS_ACCESS_KEY_ID={...} AWS_BUCKET={...} AWS_SECRET_ACCESS_KEY={...} BUILDPACK_URL=http://github.com/jcamenisch/heroku-buildpack-rgeo.git DATABASE_URL=postgis://{dbuser}:{dbpassword}@{dbhost}:{dbport}/{dbname}
+
 2) `rake assets:precompile` seemed to be failing for a while before running `heroku labs:enable user-env-compile` to give it access to environment variables.
 
-3) It seems the best way to set up a production/staging external PostGIS to use with Heroku is manually, since RGeo's setup doesn't work well without a postgres schema path, and Heroku mangles database.yml--a simple `heroku run rake db:create` doesn't work. So, once you have a Postgres 9.x/PostGIS 2.0 instance set up (and your Heroku DATABASE_URL environment variable set to point to your PostGIS instance--*make sure it starts with 'postgis' and not 'postgres'!*) and a user named "trackserver"...
+3) Once you have a Postgres 9.x/PostGIS 2.0 instance set up (and your Heroku DATABASE_URL environment variable set to point to your PostGIS instance--*make sure it starts with 'postgis' and not 'postgres'!*) and a user named "trackserver".
 
 As a DB superuser:
 
-`CREATE DATABASE trackserver;`
+`CREATE SCHEMA postgis;`
 
-`\c trackserver`
+`ALTER DATABASE "{DBNAME}" SET search_path="public, postgis"`
 
-`GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO trackserver;`
+`CREATE EXTENSION postgis with SCHEMA postgis`
 
-`GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO trackserver;`
-
-`CREATE EXTENSION postgis;`
-
-`ALTER VIEW public.geometry_columns OWNER TO trackserver;`
-
-`ALTER VIEW public.geography_columns OWNER TO trackserver;`
-
-`ALTER TABLE public.spatial_ref_sys OWNER TO trackserver;`
+NEED TO VERIFY: For the db creation, RGeo likes a superuser postgis account, so the user in your DATABASE_URL needs to be one during DB creation. After the DB is created you can remove the superuser role from that Postgres account.
 
 Now, from inside your repo: 
 
-`heroku rake run db:migrate` 
+`heroku run rake db:create`
+
+`heroku run rake db:migrate` 
 
