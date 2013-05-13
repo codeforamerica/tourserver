@@ -34,7 +34,7 @@ Follow setup instructions here:
 
 1b) Include your S3 credentials in the heroku dev environment AWS_ACCESS_KEY, AWS_SECRET_ACCESS_KEY, and AWS_BUCKET.
 
-1c) (a) and (b), and other environment variables needs can be combined into one heroku command. For example: heroku config:set  --app {heroku_app_name} AWS_ACCESS_KEY_ID={...} AWS_BUCKET={...} AWS_SECRET_ACCESS_KEY={...} BUILDPACK_URL=http://github.com/jcamenisch/heroku-buildpack-rgeo.git DATABASE_URL=postgis://{dbuser}:{dbpassword}@{dbhost}:{dbport}/{dbname}
+1c) (a) and (b), and other environment variables needs can be combined into one heroku command. For example: `heroku config:set  --app {heroku_app_name} AWS_ACCESS_KEY_ID={...} AWS_BUCKET={...} AWS_SECRET_ACCESS_KEY={...} BUILDPACK_URL=http://github.com/jcamenisch/heroku-buildpack-rgeo.git DATABASE_URL=postgis://{dbuser}:{dbpassword}@{dbhost}:{dbport}/{dbname}`
 
 2) `rake assets:precompile` seemed to be failing for a while before running `heroku labs:enable user-env-compile` to give it access to environment variables.
 

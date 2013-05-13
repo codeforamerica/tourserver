@@ -7,7 +7,7 @@ function onDeviceReadyEdit() {
   var currentEditPointIndex = 0;
 
   var mediaFiles = {}; // key->media file name; value->PhoneGap fileEntry object 
-  
+
   var METERS_TO_MILES = 0.000621371192;
 
   setTimeout(function() {
@@ -315,73 +315,74 @@ function onDeviceReadyEdit() {
           $("#editTrackPOIImage").attr('src', mediaFiles[filename].fullPath);
         }
       });
-})
-}
+    })
+  }
 
-function clearPointInfoPage() {
-  $("#editTrackPOIDescription").val("");
-  $("#editTrackPOIImage").removeAttr("src");
-  $("#editTrackPOIName").val("");
-  $("#editTrackPOIAudioPlayerContainer").hide();
-  $("#editTrackPOIAudioPlayer").removeAttr("src");
-}
+  function clearPointInfoPage() {
+    $("#editTrackPOIDescription").val("");
+    $("#editTrackPOIImage").removeAttr("src");
+    $("#editTrackPOIName").val("");
+    $("#editTrackPOIAudioPlayerContainer").hide();
+    $("#editTrackPOIAudioPlayer").removeAttr("src");
+  }
 
-function recordPointAudio(event) {
-  navigator.device.capture.captureAudio(audioCaptureSuccess, audioCaptureError, {
-    limit: 1
-  });
+  function recordPointAudio(event) {
+    navigator.device.capture.captureAudio(audioCaptureSuccess, audioCaptureError, {
+      limit: 1
+    });
 
-  function audioCaptureSuccess(audioFiles) {
-    console.log("captureSuccess");
-    console.log(audioFiles);
-    $("#editTrackPOIAudioPlayer").attr("src", audioFiles[0].fullPath);
-    console.log("changing: ")
-    console.log($("#editTrackPOIAudioPlayer").attr("src"));
-    $("#editTrackPOIAudioPlayerContainer").show();
-    console.log("checkpoint 1");
-    if ($("#editTrackPOIAudioPlayerContainer .audioplayer").length == 0) {
-      $("#editTrackPOIAudioPlayer").audioPlayer();
+    function audioCaptureSuccess(audioFiles) {
+      console.log("captureSuccess");
+      console.log(audioFiles);
+      $("#editTrackPOIAudioPlayer").attr("src", audioFiles[0].fullPath);
+      console.log("changing: ")
+      console.log($("#editTrackPOIAudioPlayer").attr("src"));
+      $("#editTrackPOIAudioPlayerContainer").show();
+      console.log("checkpoint 1");
+      if ($("#editTrackPOIAudioPlayerContainer .audioplayer").length == 0) {
+        $("#editTrackPOIAudioPlayer").audioPlayer();
+      }
+      console.log("checkpoint 2");
     }
-    console.log("checkpoint 2");
+
+    function audioCaptureError(error) {
+      alert("An error has occurred (recordAudio): Code = " + error.code);
+    }
   }
 
-  function audioCaptureError(error) {
-    alert("An error has occurred (recordAudio): Code = " + error.code);
-  }
-}
-
-function uploadNewPointData(event) {
-  console.log("uploadNewPointData");
-  var pointData = {};
-  var myCurrentPoint = currentEditingTour.interest_points[currentEditPointIndex];
-  var myInterpItemID = myCurrentPoint.interp_items[0].id;
-  pointData.name = $("#editTrackPOIName").val();
-  pointData.id = myCurrentPoint.id;
-  pointData.description = $("#editTrackPOIDescription").val();
-  pointData.imageMediaItemID = myCurrentPoint.imageMediaItemID;
-  pointData.audioMediaItemID = myCurrentPoint.audioMediaItemID;
-  pointData.textMediaItemID = myCurrentPoint.textMediaItemID;
-  uploadPointImage($("#editTrackPOIImage").attr("src"), function() {
-    uploadPointAudio($("#editTrackPOIAudioPlayer").attr("src"), function() {
-      uploadPointText($("#editTrackPOIDescription").val(), function() {
-        uploadPointMetadata(function() {
-          alert("Point metadata saved");
-          $("#editTrackPOIName").val('');
-          $("#editTrackPOIDescription").val('');
-          $("#editTrackPOIImage").removeAttr("src");
-          $("#editTrackPOIAudioPlayer").removeData("src");
-          moveToTourInfo(currentEditingTour.id);
+  function uploadNewPointData(event) {
+    console.log("uploadNewPointData");
+    var pointData = {};
+    var myCurrentPoint = currentEditingTour.interest_points[currentEditPointIndex];
+    var myInterpItemID = myCurrentPoint.interp_items[0].id;
+    pointData.name = $("#editTrackPOIName").val();
+    pointData.id = myCurrentPoint.id;
+    pointData.description = $("#editTrackPOIDescription").val();
+    pointData.imageMediaItemID = myCurrentPoint.imageMediaItemID;
+    pointData.audioMediaItemID = myCurrentPoint.audioMediaItemID;
+    pointData.textMediaItemID = myCurrentPoint.textMediaItemID;
+    uploadPointImage($("#editTrackPOIImage").attr("src"), function() {
+      uploadPointAudio($("#editTrackPOIAudioPlayer").attr("src"), function() {
+        uploadPointText($("#editTrackPOIDescription").val(), function() {
+          uploadPointMetadata(function() {
+            alert("Point metadata saved");
+            $("#editTrackPOIName").val('');
+            $("#editTrackPOIDescription").val('');
+            $("#editTrackPOIImage").removeAttr("src");
+            $("#editTrackPOIAudioPlayer").removeData("src");
+            moveToTourInfo(currentEditingTour.id);
+          });
         });
       });
     });
-  });
-  return;
+    return;
 
     // upload image at imageURI
     // set the ID to the current pointData.imageMediaItemID
     // if the ID already exists, we're replacing an existing image, the response is empty,
     //  and we keep the existing imageMediaItemID
     // if it doesn't, a new record will be created, and we set pointData.imageMediaItemID to the new ID
+
     function uploadPointImage(imageURI, doneCallback) {
       console.log("uploadPointImage");
       if (imageURI) {

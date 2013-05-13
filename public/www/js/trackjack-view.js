@@ -408,6 +408,7 @@ function deg2rad(deg) {
 }
 
 $(document).ready(function() {
+  FastClick.attach(document.body);
   // are we running in native app or in browser?
   window.isphone = false;
   if (document.URL.indexOf("http://") == -1) {
