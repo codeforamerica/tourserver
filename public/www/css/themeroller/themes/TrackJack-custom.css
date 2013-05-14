@@ -211,7 +211,7 @@
 }
 */
 #createTrackImageDiv {
-  width: 288%;
+  width: 288px;
   height: 288px;
   background-color: #fbfbfb;
   border: 1px solid #b8b8b8;
@@ -229,7 +229,7 @@
   border: 1px solid #b8b8b8;
 }
 
-#CreateTrackPOIImage {
+#createTrackPOIImage {
     width: 288px;
     height: 288px;
 }
