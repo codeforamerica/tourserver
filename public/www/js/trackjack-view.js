@@ -72,7 +72,8 @@ function onDeviceReadyView() {
     }
     else {
       $.mobile.changePage($("#viewTrackInfoPage"), {
-        transition: "slide"
+        transition: "slide",
+        reverse: true
       });
     }
     console.log(currentViewPointIndex);
@@ -222,7 +223,7 @@ function onDeviceReadyView() {
   function showCurrentInterestPoint() {
     console.log("showCurrentInterestPoint: " + currentViewPointIndex + " " + currentViewingTour.interest_points.length);
     stopGeolocation();
-
+    clearPointElements();
     var currentPoint = currentViewingTour.interest_points[currentViewPointIndex];
     if (currentViewPointIndex == 0) {
       console.log("first point");
@@ -272,7 +273,7 @@ function onDeviceReadyView() {
   function clearPointElements() {
     $("#viewTrackPointName").val("");
     $("#viewTrackPointImage").removeAttr("src");
-    $("#viewTrackPointDescription").val("");
+    $("#viewTrackPointDescription").html("");
     $("#newplayer").hide();
     $("#newplayer").removeAttr("src");
   }
