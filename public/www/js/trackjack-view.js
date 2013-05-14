@@ -8,7 +8,10 @@ var host = "http://trackserver-test.herokuapp.com";
 function onDeviceReadyView() {
   console.log("onDeviceReady-view");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
-
+  var pathLayer = null;
+  var map = L.map('viewTrackMapDiv', {zoomControl: false});
+  L.tileLayer.provider('MapBox.codeforamerica.map-4urpxezk').addTo(map);
+  map.attributionControl.setPrefix("");
   var MIN_CHECK_LOCATION_ACCURACY = 20; // accuracy in meters required to trigger a point
   var POINT_TRIGGER_DISTANCE = 10; // distance in meters to trigger display of the next point
   var METERS_TO_MILES = 0.000621371192;
@@ -25,6 +28,7 @@ function onDeviceReadyView() {
   $("#settingsPage").on('pagebeforeshow', stopGeolocation);
   $("#viewTrackListPage").on('pagebeforeshow', getTourList);
   $("#viewTrackInfoPage").on('pagebeforeshow', showTourInfo);
+  $("#viewTrackInfoPage").on('pageshow', setMap);
   $("#viewTrackLoadingPage").on('pagebeforeshow', loadMediaItems);
   $("#viewTrackInstructionsPage").on('pagebeforeshow', startTour);
 
@@ -133,6 +137,7 @@ function onDeviceReadyView() {
       type: "GET",
       path: "/tours/" + tourid + ".json"
     };
+
     makeAPICall(callData, function(response) {
       currentViewingTour = response;
       $.mobile.changePage($("#viewTrackInfoPage"), {
@@ -157,6 +162,18 @@ function onDeviceReadyView() {
     }
 
     $(".viewTrackChapters").text(currentViewingTour.interest_points.length + " chapters");
+  }
+
+  function setMap() {
+    map.invalidateSize();
+    var wkt = new Wkt.Wkt();
+    wkt.read(currentViewingTour.path);
+    if (pathLayer) {
+      map.removeLayer(pathLayer);
+    }
+    pathLayer = wkt.toObject({ weight: 2, smoothFactor: 5.0});
+    pathLayer.addTo(map);
+    map.fitBounds(pathLayer.getBounds());
   }
 
   function startTour(event) {

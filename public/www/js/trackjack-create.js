@@ -6,7 +6,7 @@ function onDeviceReadyCreate() {
   console.log("onDeviceReady-create");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
 
-  var MIN_CREATE_POINT_ACCURACY = 100; // GPS accuracy at this distance or smaller required to create a point
+  var MIN_CREATE_POINT_ACCURACY = 20; // GPS accuracy at this distance or smaller required to create a point
 
   var tour = {
     interest_points: []
@@ -536,7 +536,7 @@ function onDeviceReadyCreate() {
     }
 
     latestPosition = position;
-    $('#activeLocation').text("Now: " + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + " " + position.coords.accuracy + "m");
+    // $('#activeLocation').text("Now: " + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + " " + position.coords.accuracy + "m");
     if ((position.coords.accuracy) < MIN_CREATE_POINT_ACCURACY) {
       // need to have accuracy at this distance or smaller to create a point   var newPathLocation = position.coords.longitude + " " + position.coords.latitude;
       var newPathLocation = position.coords.longitude + " " + position.coords.latitude;

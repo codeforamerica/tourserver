@@ -23,6 +23,11 @@
   <script src="js/audioplayer.js"></script>
   <script src="js/fastclick.js"></script>
 
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+  <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+  <script src="js/wicket.js"></script>
+  <script src="js/wicket-leaflet.js"></script>
+  <script src="js/leaflet-providers.js"></script>
 
 <!-- User-generated css -->
   <style type="text/css">
@@ -241,6 +246,7 @@
       </div>
       <div data-role="content">
           <div class="image-map-container">
+             <div style="height: 220px;" id="viewTrackMapDiv"></div>
               <div class="image-map-label-container">
                   <h class="viewTrackDistance">
                     [#]
@@ -257,7 +263,9 @@
                     [#]
                   </h>     
               </div>
-              <img class="viewTrackMap" src="https://maps.googleapis.com/maps/api/staticmap?center=boston, oh&amp;zoom=9&amp;size=288x200&amp;markers=Towpath Trailhead|Bike and Hike Trail&amp;sensor=false";/>
+
+
+              <!-- <img class="viewTrackMap" src="https://maps.googleapis.com/maps/api/staticmap?center=boston, oh&amp;zoom=9&amp;size=288x200&amp;markers=Towpath Trailhead|Bike and Hike Trail&amp;sensor=false";/> -->
           </div>
           <div class="textbox-white">
 
@@ -271,11 +279,6 @@
           </div>
               <div class="image-map-container">
                   <div class="image-map-label-container">
-
- <!--I have reservations about requiring that the track creator include an image of the starting point. +AJW 
-
-    It could be something that is just left blank -KL-->
-
                       <h> Starting Location</h>
                   </div>
                   <img id="viewTrackImage" src="img/EmptyPhoto-288x200.png"/>
