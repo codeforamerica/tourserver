@@ -273,6 +273,7 @@ function onDeviceReadyView() {
   function clearPointElements() {
     $("#viewTrackPointName").val("");
     $("#viewTrackPointImage").removeAttr("src");
+    $("#viewTrackPointImage").attr("src", "img/EmptyPhoto-288x250.png");
     $("#viewTrackPointDescription").html("");
     $("#newplayer").hide();
     $("#newplayer").removeAttr("src");
