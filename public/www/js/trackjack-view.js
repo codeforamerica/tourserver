@@ -11,7 +11,7 @@ function onDeviceReadyView() {
 
   var MIN_CHECK_LOCATION_ACCURACY = 20; // accuracy in meters required to trigger a point
   var POINT_TRIGGER_DISTANCE = 10; // distance in meters to trigger display of the next point
-  var METERS_TO_MILES = 0.000621371192
+  var METERS_TO_MILES = 0.000621371192;
 
   var currentViewingTour = {};
   var mediaFiles = {};
@@ -204,10 +204,10 @@ function onDeviceReadyView() {
 
   function showInBetweenScreen() {
     console.log("showInBetweenScreen");
-    if (geoWatchID == null) {
+    if (geoWatchID === null) {
       startGeolocation();
     }
-    if (currentViewPointIndex == 0) {
+    if (currentViewPointIndex === 0) {
       $("#viewTrackFirstInBetweenText").show();
       $("#viewTrackInBetweenText").hide();
     } else {
@@ -225,7 +225,7 @@ function onDeviceReadyView() {
     stopGeolocation();
     clearPointElements();
     var currentPoint = currentViewingTour.interest_points[currentViewPointIndex];
-    if (currentViewPointIndex == 0) {
+    if (currentViewPointIndex === 0) {
       console.log("first point");
       $(".viewTrackNextInBetween .ui-btn-text").text("Next");
       $(".viewTrackNextInBetween").attr("href", "#viewTrackInstructionsPage");
@@ -247,19 +247,19 @@ function onDeviceReadyView() {
         var mimeType = media_item.item_content_type;
         var filename = media_item.item_file_name;
         console.log(mediaFiles[filename].fullPath);
-        if (mimeType.indexOf("text") == 0) {
+        if (mimeType.indexOf("text") === 0) {
           getTextItem(filename, function(textContents) {
             $("#viewTrackPointDescription").html(textContents);
           });
-        } else if (mimeType.indexOf("audio") == 0) {
+        } else if (mimeType.indexOf("audio") === 0) {
           console.log("populating view audio");
           console.log(mediaFiles[filename].fullPath);
           $("#newplayer").attr("src", mediaFiles[filename].fullPath);
           $("#new-musicplayer-container").show();
-          if ($("#new-musicplayer-container .audioplayer").length == 0) {
+          if ($("#new-musicplayer-container .audioplayer").length === 0) {
             $('#newplayer').audioPlayer();
           }
-        } else if (mimeType.indexOf("image") == 0) {
+        } else if (mimeType.indexOf("image") === 0) {
           $("#viewTrackPointImage").attr('src', mediaFiles[filename].fullPath);
         }
       });
@@ -284,7 +284,7 @@ function onDeviceReadyView() {
     var fileEntry = mediaFiles[filename];
     reader.onloadend = function(evt) {
       CB(evt.target.result);
-    }
+    };
     fileEntry.file(function(myFile) {
       reader.readAsText(myFile);
     });
@@ -359,14 +359,14 @@ function onDeviceReadyView() {
 
   function stopGeolocation() {
     console.log("stopGeolocation");
-    if (geoWatchID != null) {
+    if (geoWatchID !== null) {
       navigator.geolocation.clearWatch(geoWatchID);
       geoWatchID = null;
     }
   }
 
 
-  function geoSuccess(position, UICallback) {
+  function geoSuccess(position, uiCallback) {
     var latestPosition = position;
     $("#accuracy").html("GPS Accuracy: " + latestPosition.coords.accuracy + "m");
 
@@ -382,8 +382,8 @@ function onDeviceReadyView() {
       var distanceToNextPointMiles = distanceToNextPoint * 0.000621371192;
       distanceToNextPointMiles = distanceToNextPointMiles.toFixed(2);
       $('.viewTrackDistanceToPoint').text(distanceToNextPointMiles);
-      if (typeof UICallback === "function") {
-        UICallback();
+      if (typeof uiCallback === "function") {
+        uiCallback();
       }
       if (distanceToNextPoint < POINT_TRIGGER_DISTANCE) {
         console.log("distance trigger");
@@ -422,7 +422,7 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 }
 
 function deg2rad(deg) {
-  return deg * (Math.PI / 180)
+  return deg * (Math.PI / 180);
 }
 
 $(document).ready(function() {

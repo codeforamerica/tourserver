@@ -298,24 +298,24 @@ function onDeviceReadyEdit() {
         var mimeType = media_item.item_content_type;
         var filename = media_item.item_file_name;
 
-        if (mimeType.indexOf("text") == 0 && (!$("#editTrackPOIDescription").val())) {
+        if (mimeType.indexOf("text") === 0 && (!$("#editTrackPOIDescription").val())) {
           getTextItem(filename, function(textContents) {
             currentPoint.textMediaItemID = media_item.id;
             $("#editTrackPOIDescription").val(textContents);
           });
-        } else if (mimeType.indexOf("audio") == 0 && (!$("#editTrackPOIAudioPlayer").attr("src"))) {
+        } else if (mimeType.indexOf("audio") === 0 && (!$("#editTrackPOIAudioPlayer").attr("src"))) {
           currentPoint.audioMediaItemID = media_item.id;
           $("#editTrackPOIAudioPlayer").attr("src", mediaFiles[filename].fullPath);
           $("#editTrackPOIAudioPlayerContainer").show();
-          if ($("#editTrackPOIAudioPlayerContainer .audioplayer").length == 0) {
+          if ($("#editTrackPOIAudioPlayerContainer .audioplayer").length === 0) {
             $("#editTrackPOIAudioPlayer").audioPlayer();
           }
-        } else if (mimeType.indexOf("image") == 0 && (!$("#editTrackPOIImage").attr("src"))) {
+        } else if (mimeType.indexOf("image") === 0 && (!$("#editTrackPOIImage").attr("src"))) {
           currentPoint.imageMediaItemID = media_item.id;
           $("#editTrackPOIImage").attr('src', mediaFiles[filename].fullPath);
         }
       });
-    })
+    });
   }
 
   function clearPointInfoPage() {
@@ -335,11 +335,11 @@ function onDeviceReadyEdit() {
       console.log("captureSuccess");
       console.log(audioFiles);
       $("#editTrackPOIAudioPlayer").attr("src", audioFiles[0].fullPath);
-      console.log("changing: ")
+      console.log("changing: ");
       console.log($("#editTrackPOIAudioPlayer").attr("src"));
       $("#editTrackPOIAudioPlayerContainer").show();
       console.log("checkpoint 1");
-      if ($("#editTrackPOIAudioPlayerContainer .audioplayer").length == 0) {
+      if ($("#editTrackPOIAudioPlayerContainer .audioplayer").length === 0) {
         $("#editTrackPOIAudioPlayer").audioPlayer();
       }
       console.log("checkpoint 2");
@@ -423,7 +423,7 @@ function onDeviceReadyEdit() {
             if (r.response) {
               var response = JSON.parse(r.response);
               logpp(response);
-              logpp(response.id)
+              logpp(response.id);
               if (!pointData.audioMediaItemID) {
                 console.log("looking for new text item ID");
                 pointData.audioMediaItemID = response.id;
@@ -516,7 +516,7 @@ function onDeviceReadyEdit() {
           data: {
             interp_item_id: myInterpItemID
           }
-        }
+        };
         logpp(callData);
         makeAPICall(callData, doneCallback);
       } else {
@@ -533,7 +533,7 @@ function onDeviceReadyEdit() {
           data: {
             interp_item_id: myInterpItemID
           }
-        }
+        };
         logpp(callData);
         makeAPICall(callData, doneCallback);
       } else {
@@ -550,7 +550,7 @@ function onDeviceReadyEdit() {
           data: {
             interp_item_id: myInterpItemID
           }
-        }
+        };
         logpp(callData);
         makeAPICall(callData, doneCallback);
       } else {
@@ -579,7 +579,7 @@ function onDeviceReadyEdit() {
 
     function gotFileWriter(writer) {
       console.log("writer.filename: ");
-      console.log(writer.fileName)
+      console.log(writer.fileName);
       writer.onwriteend = function(evt) {
         console.log("evt");
         logpp(evt);
@@ -598,7 +598,7 @@ function onDeviceReadyEdit() {
     var fileEntry = mediaFiles[filename];
     reader.onloadend = function(evt) {
       CB(evt.target.result);
-    }
+    };
     fileEntry.file(function(myFile) {
       reader.readAsText(myFile);
     });

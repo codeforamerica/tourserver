@@ -125,7 +125,7 @@ function onDeviceReadyCreate() {
 
   function coverImageSuccess(photoURL) {
     $("#createTrackImage").attr("src", photoURL);
-    tour.cover_image_url = photoURL
+    tour.cover_image_url = photoURL;
     $.mobile.changePage($("#createTrackInputPage2"));
   }
 
@@ -261,7 +261,7 @@ function onDeviceReadyCreate() {
 
     function uploadFail(error) {
       alert("An error has occurred (uploadMedia:): Code = " + error.code + "(" + mediaURI + ")");
-      if (confirm("uploadMedia Failed. Try again?") + JSON.stringify(callData.data)) {
+      if (confirm("uploadMedia Failed. Try again?")) {
         uploadMedia(mediaURI, uploadCallback, mimeType);
       } else {
         // silent fail!
@@ -284,7 +284,7 @@ function onDeviceReadyCreate() {
         console.log(mediaFiles[i].fullPath);
         $("#createTrackAudioPlayer").attr("src", mediaFiles[i].fullPath);
         $("#createTrackAudioPlayerContainer").show();
-        if ($("#createTrackAudioPlayerContainer .audioplayer").length == 0) {
+        if ($("#createTrackAudioPlayerContainer .audioplayer").length === 0) {
           $("#createTrackAudioPlayer").audioPlayer();
         }
         currentPoint.interp_items[0].media_items_attributes.push(myAudioMediaItem);
@@ -359,7 +359,7 @@ function onDeviceReadyCreate() {
         callData = {
           type: "post",
           path: "/tours.json"
-        }
+        };
       }
       callData.data = reformatTourForSubmission(tour);
       makeAPICall(callData, function() {
@@ -368,7 +368,7 @@ function onDeviceReadyCreate() {
           transition: "slide"
         });
       });
-    };
+    }
 
     function submitMediaItems(tour) {
       console.log("submitMediaItems");
@@ -386,11 +386,11 @@ function onDeviceReadyCreate() {
                   var myMediaItem = myInterpItem.media_items_attributes[k];
                   
                   var uploadFunc = function(type) {
-                    if (type.indexOf("image") == 0) {
+                    if (type.indexOf("image") === 0) {
                       return uploadPhoto;
-                    } else if (type.indexOf("text") == 0) {
+                    } else if (type.indexOf("text") === 0) {
                       return writeAndUploadText;
-                    } else if (type.indexOf("audio") == 0) {
+                    } else if (type.indexOf("audio") === 0) {
                       return uploadAudio;
                     }
                   }(myMediaItem.type);
@@ -431,7 +431,7 @@ function onDeviceReadyCreate() {
                 curMediaItem.callback(response);
                 callback(null, "two");
               });
-            }
+            };
           }(curMediaItem);
           funcArray.push(myMediaUploadArrayItem);
         }
@@ -440,7 +440,7 @@ function onDeviceReadyCreate() {
             uploadCoverImage($("#createTrackImage").attr("src"), function(response) {
               console.log("finalSeriesCallback");
               addTourIDToTour(response);
-              callback(null, "three")
+              callback(null, "three");
             }, "image/jpeg");
           });
         }
@@ -521,7 +521,7 @@ function onDeviceReadyCreate() {
 
   function startGeolocation() {
     geoWatchID = navigator.geolocation.watchPosition(geoSuccess, geoError, {
-      enableHighAccuracy: true,
+      enableHighAccuracy: true
     });
   }
 
