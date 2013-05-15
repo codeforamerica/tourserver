@@ -68,6 +68,7 @@ function onDeviceReadyCreate() {
 
   function startNewPoint(event) {
     console.log("createTrackAddPoint");
+    clearCurrentPoint();
     //click on the interest_point create button,
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
       enableHighAccuracy: true,
@@ -329,6 +330,7 @@ function onDeviceReadyCreate() {
     $('#createTrackPOIDescription').val('');
     $('#createTrackPOIImage').attr("src", "");
     $('#createTrackAudioPlayer').removeAttr("src");
+    $('#createTrackAudioPlayerContainer').hide();
     currentPoint = {};
   }
 

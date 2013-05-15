@@ -5,12 +5,14 @@
 var host = "http://trackserver-test.herokuapp.com";
 // var host = "http://127.0.0.1:3000";
 
+var MAPBOX_MAP_ID = "codeforamerica.map-4urpxezk"
+
 function onDeviceReadyView() {
   console.log("onDeviceReady-view");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
   var pathLayer = null;
   var map = L.map('viewTrackMapDiv', {zoomControl: false});
-  L.tileLayer.provider('MapBox.codeforamerica.map-4urpxezk').addTo(map);
+  L.tileLayer.provider('MapBox.' + MAPBOX_MAP_ID).addTo(map);
   map.attributionControl.setPrefix("");
   var MIN_CHECK_LOCATION_ACCURACY = 20; // accuracy in meters required to trigger a point
   var POINT_TRIGGER_DISTANCE = 10; // distance in meters to trigger display of the next point
