@@ -6,7 +6,7 @@ function onDeviceReadyCreate() {
   console.log("onDeviceReady-create");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
 
-  var MIN_CREATE_POINT_ACCURACY = 20; // GPS accuracy at this distance or smaller required to create a point
+  var MIN_CREATE_POINT_ACCURACY = 30; // GPS accuracy at this distance or smaller required to create a point
 
   var tour = {
     interest_points: []

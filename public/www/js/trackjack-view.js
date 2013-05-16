@@ -5,7 +5,7 @@
 var host = "http://trackserver-test.herokuapp.com";
 // var host = "http://127.0.0.1:3000";
 
-var MAPBOX_MAP_ID = "codeforamerica.map-4urpxezk"
+var MAPBOX_MAP_ID = "codeforamerica.map-4urpxezk";
 
 function onDeviceReadyView() {
   console.log("onDeviceReady-view");

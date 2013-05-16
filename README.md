@@ -1,6 +1,6 @@
 # TourServer
 
-A server for creating and serving GPS-based, media-enhanced walking tours. PostGIS instance required. 
+A server for GPS-based, media-enhanced walking tours, designed for Summit County, Ohio by the Code for America 2013 Parks and Tech team. PostGIS instance required. 
 
 NOTE: This project is still in a very early stage of development. For info about general usability, contact danavery@codeforamerica.org.
 
@@ -18,9 +18,9 @@ Current REST API endpoints (GET, POST, and DELETE supported for all so far). Int
 
 `/public/api_demo.html` - Shows some basic canned use of the TourServer API
 
-## Tour client
+## TrackJack client
 
-The current mobile track viewing/creation client code is in public/www. It will only work in a PhoneGap mobile application. To create a mobile tour client, [create a PhoneGap project](http://docs.phonegap.com/en/2.6.0/guide_getting-started_index.md.html#Getting%20Started%20Guides) and copy the public/www directory in place of the PhoneGap project www directory.
+The current mobile track viewing/creation client code is in public/www. It will only work in a PhoneGap mobile application. To create a mobile tour client, [create a PhoneGap project](http://docs.phonegap.com/en/2.7.0/guide_getting-started_index.md.html#Getting%20Started%20Guides) and copy the public/www directory in place of the PhoneGap project www directory.
 
 Future plans include a desktop-accessible track editing client.
 
