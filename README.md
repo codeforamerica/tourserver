@@ -18,13 +18,13 @@ Current REST API endpoints (GET, POST, and DELETE supported for all so far). Int
 
 `/public/api_demo.html` - Shows some basic canned use of the TourServer API
 
-## TrackJack client
+## Installing smartphone TrackJack client
 
-The current mobile track viewing/creation client code is in public/www. It will only work in a PhoneGap mobile application. To create a mobile tour client, [create a PhoneGap project](http://docs.phonegap.com/en/2.7.0/guide_getting-started_index.md.html#Getting%20Started%20Guides) and copy the public/www directory in place of the PhoneGap project www directory.
+The current mobile track viewing/creation client code is in public/www. It will only work in a PhoneGap mobile application. To create a mobile tour client, [create a PhoneGap project](http://docs.phonegap.com/en/2.7.0/guide_getting-started_index.md.html#Getting%20Started%20Guides) and copy the public/www directory in place of the PhoneGap project `www` directory.
 
 Future plans include a desktop-accessible track editing client.
 
-## Heroku/PostGIS setup
+## Installing on Heroku with PostGIS
 
 Heroku and RGeo have some trouble getting along. 
 
@@ -32,7 +32,7 @@ Heroku and RGeo have some trouble getting along.
 Follow setup instructions here:
 [https://github.com/jcamenisch/heroku-buildpack-rgeo](https://github.com/jcamenisch/heroku-buildpack-rgeo).
 
-1b) Include your S3 credentials in the heroku dev environment AWS_ACCESS_KEY, AWS_SECRET_ACCESS_KEY, and AWS_BUCKET.
+1b) Include your S3 credentials in the heroku dev environment `AWS_ACCESS_KEY`, `AWS_SECRET_ACCESS_KEY`, and `AWS_BUCKET`.
 
 1c) (a) and (b), and other environment variables needs can be combined into one heroku command. For example: `heroku config:set  --app {heroku_app_name} AWS_ACCESS_KEY_ID={...} AWS_BUCKET={...} AWS_SECRET_ACCESS_KEY={...} BUILDPACK_URL=http://github.com/jcamenisch/heroku-buildpack-rgeo.git DATABASE_URL=postgis://{dbuser}:{dbpassword}@{dbhost}:{dbport}/{dbname}`
 
