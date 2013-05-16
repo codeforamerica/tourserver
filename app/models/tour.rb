@@ -1,6 +1,6 @@
 class Tour < ActiveRecord::Base
   attr_accessible :difficulty, :name, :path, :tourtime, :interest_points_attributes, 
-    :tour_length, :description, :cover_image, :cover_image_file_name
+    :tour_length, :description, :cover_image, :cover_image_file_name, :fullitem
 
   has_attached_file :cover_image
 
@@ -14,6 +14,10 @@ class Tour < ActiveRecord::Base
     path.length
   end
 
+  def fullitem
+    cover_image.url
+  end
+  
   accepts_nested_attributes_for :interest_points
 
 

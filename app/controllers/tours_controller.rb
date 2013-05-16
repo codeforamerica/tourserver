@@ -40,13 +40,13 @@ class ToursController < ApplicationController
     headers['Last-Modified'] = Time.now.httpdate
     @tours = Tour.all
     @tours.each do |tour|
-      tour["fullitem"] = tour.cover_image.url
+      # tour["fullitem"] = tour.cover_image.url
     end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @tours, 
         :include => {:chapters => {:include => :interest_point}},
-        :methods => :tour_length
+        :methods => [:tour_length, :fullitem]
       }
     end
   end
@@ -57,12 +57,12 @@ class ToursController < ApplicationController
     @tour = Tour.find(params[:id])
 
     @show_tour = @tour.clone
-    @show_tour["fullitem"] = @show_tour.cover_image.url
+    # @show_tour["fullitem"] = @show_tour.cover_image.url
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @show_tour, 
         :include => {:interest_points => {:include => {:interp_items => {:include => :media_items} } }},
-        :methods => :tour_length
+        :methods => [:tour_length, :fullitem]
       }
     end
   end
