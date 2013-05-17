@@ -1,4 +1,4 @@
-"use strict";
+/*global L, Wkt, async, FileTransfer*/
 
 // Tourserver API host
 // var host = "http://trackserver-dev.herokuapp.com";
@@ -8,6 +8,7 @@ var host = "http://trackserver-test.herokuapp.com";
 var MAPBOX_MAP_ID = "codeforamerica.map-4urpxezk";
 
 function onDeviceReadyView() {
+  "use strict";
   console.log("onDeviceReady-view");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
   var pathLayer = null;

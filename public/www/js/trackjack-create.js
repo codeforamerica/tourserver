@@ -52,7 +52,7 @@ function onDeviceReadyCreate() {
   $("#cancelPoint").click(cancelNewPoint);
   $("#createTrackPOISubmit").click(saveNewPoint);
   $("#createTrackReportError").click(hideErrorReportButton);
-  // $("#createTrackCancelTrackSubmit").click(deleteCurrentTour);
+  $("#createTrackCancelTrackSubmit").click(deleteCurrentTour);
 
   function startRecording(event) {
     if ($("#createTrackName").val()) {
@@ -70,6 +70,18 @@ function onDeviceReadyCreate() {
   }
 
   // add point
+
+  function deleteCurrentTour() {
+    if (tour.id) {
+      callData = {
+        type: "delete",
+        path: "/tours/" + tour.id + ".json"
+      };
+    }
+    makeAPICall(callData, function() {
+
+    });
+  }
 
   function startNewPoint(event) {
     console.log("createTrackAddPoint");
@@ -593,6 +605,7 @@ function onDeviceReadyCreate() {
 
   function setErrorButtonMailto(ajaxObject, jqXHR) {
     var errorMailto = "mailto:" + ERROR_SUBMISSION_ADDRESS + "?subject=TrackJack Tour Submission Error&";
+    var emailIntro = "If you have a moment, let us know what happened here. Thanks!\n\n\n------------------------------------------\n";
     errorMailto += "body=" + encodeURIComponent(JSON.stringify(ajaxObject));
     errorMailto += "----" + encodeURIComponent(JSON.stringify(jqXHR));
     $("#createTrackReportError").attr("href", errorMailto);
@@ -602,7 +615,7 @@ function onDeviceReadyCreate() {
   function hideErrorReportButton() {
     $("#createTrackReportErrorDiv").hide();
   }
-  
+
 }
 
 
