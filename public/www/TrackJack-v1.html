@@ -29,6 +29,7 @@
   <script src="js/wicket-leaflet.js"></script>
   <script src="js/leaflet-providers.js"></script>
 
+  <script src="js/jquery.ajax-retry.min.js"></script>
 <!-- User-generated css -->
   <style type="text/css">
 
@@ -1031,7 +1032,7 @@
               <div id="textbox-text-trackupload">
                   <p>You've created an entire track for your audience to walk. They will pass by the Places you've created, experience the lessons you've left for them, and have the opportunity to learn a little bit more about the amazing world around them. And remember, you can always come back and improve your work later.</p>
 
-                  <p>Tap "Submit Your Track", and we'll upload your work for other people to enjoy. It may take a minute, but don't worry. If you're afraid yout track wasn't save, you can tap "Submit" again.</p>
+                  <p>Tap "Submit Your Track", and we'll upload your work for other people to enjoy. It may take a minute, but don't worry. </p>
               </div>
           </div>
           <a data-role="button" data-transition="fade" data-theme="c" href="#createTrackSavingPage" id="createTrackUpload">
@@ -1072,11 +1073,18 @@
           </h3>
       </div>
       <div data-role="content" >
+        <a id="createTrackCancelTrackSubmit" data-role="button" data-direction="reverse" data-transition="slide" data-theme="b" href="#createTrackUploadPage" class="createTrackUploadImageCamera">
+              Cancel Track Submission
+          </a>
+        <div id="createTrackReportErrorDiv" style="display: none;">
+          <a id="createTrackReportError" data-role="button" data-theme="b" href="#">Email Error Report</a>
+        </div>
         <div class="loading">
           <span>Saving your track . . .</span>
           <span id="saveTrackProgress"></span>
           <p>This may take a few minutes. </p>
         </div>
+        
       </div>
       <div data-role="footer" data-position="fixed" data-id="myfooter" data-id="nav" data-theme="a" data-tap-toggle="false">
         <div data-role="navbar">

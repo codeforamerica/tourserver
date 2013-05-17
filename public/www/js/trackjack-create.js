@@ -1,12 +1,16 @@
-"use strict";
+/* global: host*/
 
 // track creation code for TrackJack mobile app
 
 function onDeviceReadyCreate() {
+  "use strict";
   console.log("onDeviceReady-create");
   $("#location").text(window.isphone ? "Phone" : "Not Phone");
 
-  var MIN_CREATE_POINT_ACCURACY = 30; // GPS accuracy at this distance or smaller required to create a point
+  var MIN_CREATE_POINT_ACCURACY = 66; // GPS accuracy at this distance or smaller required to create a point
+  var ERROR_SUBMISSION_ADDRESS = "danavery@codeforamerica.org";
+  var AJAX_RETRY_TIMEOUT = 20000;
+  var AJAX_RETRY_ATTEMPTS = 2;
 
   var tour = {
     interest_points: []
@@ -36,7 +40,8 @@ function onDeviceReadyCreate() {
   // #createTrackPOIDescription - Description of current point
   // #createTrackPOIImage - Image for current point
 
-  $('#createTrackSavingPage').on('pagebeforeshow', uploadTour);
+  $('#createTrackSavingPage').on('pageshow', uploadTour);
+  $('#createTrackUploadPage').on('pagebeforeshow', stopGeolocation);
   $('#createTrackStartRecording').click(startRecording);
   $("#createTrackAddPoint").click(startNewPoint);
   $("#createTrackUploadImageCamera").click(saveCoverImageFromCamera);
@@ -46,8 +51,8 @@ function onDeviceReadyCreate() {
   $("#createTrackRecordAudio").click(recordAudio);
   $("#cancelPoint").click(cancelNewPoint);
   $("#createTrackPOISubmit").click(saveNewPoint);
-
-  // start Tour button
+  $("#createTrackReportError").click(hideErrorReportButton);
+  // $("#createTrackCancelTrackSubmit").click(deleteCurrentTour);
 
   function startRecording(event) {
     if ($("#createTrackName").val()) {
@@ -342,7 +347,7 @@ function onDeviceReadyCreate() {
   function uploadTour(event) {
 
     console.log("uploadTour");
-    stopGeolocation();
+
     // submitMediaItems calls submitTour on completion
     submitMediaItems(tour);
     logpp(tour);
@@ -350,6 +355,7 @@ function onDeviceReadyCreate() {
 
     function submitTour(tour) {
       console.log("submitTour");
+
       var callData;
       // there's no pre-exisitng tour record if there's been no cover image upload
       if (tour.id) {
@@ -386,7 +392,7 @@ function onDeviceReadyCreate() {
               if (myInterpItem.media_items_attributes) {
                 for (var k = 0; k < myInterpItem.media_items_attributes.length; k++) {
                   var myMediaItem = myInterpItem.media_items_attributes[k];
-                  
+
                   var uploadFunc = function(type) {
                     if (type.indexOf("image") === 0) {
                       return uploadPhoto;
@@ -403,7 +409,7 @@ function onDeviceReadyCreate() {
                       console.log("in upload.callback");
                     };
                   }(myMediaItem);
-                  
+
                   mediaSubmitParams.push({
                     data: myMediaItem.data,
                     mediaUploadFunc: uploadFunc,
@@ -474,9 +480,10 @@ function onDeviceReadyCreate() {
 
     function reformatTourForSubmission(tour) {
       console.log("reformatTourForSubmission");
+      var formattedTour = $.extend(true, {}, tour);
       // reformatting for Rails. It likes nested resource names to end with _attributes.
-      for (var i = 0; i < tour.interest_points.length; i++) {
-        var myPoint = tour.interest_points[i];
+      for (var i = 0; i < formattedTour.interest_points.length; i++) {
+        var myPoint = formattedTour.interest_points[i];
         if (myPoint.interp_items) {
           for (var j = 0; j < myPoint.interp_items.length; j++) {
             var myInterpItem = myPoint.interp_items[j];
@@ -494,18 +501,18 @@ function onDeviceReadyCreate() {
         myPoint.interp_items_attributes = myPoint.interp_items;
         delete myPoint.interp_items;
       }
-      if (tour.interest_points) {
-        tour.interest_points_attributes = tour.interest_points;
-        delete tour.interest_points;
+      if (formattedTour.interest_points) {
+        formattedTour.interest_points_attributes = formattedTour.interest_points;
+        delete formattedTour.interest_points;
       }
 
-      if (tour.cover_image_url) {
+      if (formattedTour.cover_image_url) {
 
       }
       // make the heartbeat WKT path
-      tour.path = "LINESTRING" + "(" + tour.pathpoints.join(", ") + ")";
+      formattedTour.path = "LINESTRING" + "(" + tour.pathpoints.join(", ") + ")";
       console.log("end reformatTourForSubmission");
-      return tour;
+      return formattedTour;
     }
 
   }
@@ -556,30 +563,49 @@ function onDeviceReadyCreate() {
   }
 
   function makeAPICall(callData, doneCallback) {
+    console.log("makeAPICall");
+    $("#createTrackReportErrorDiv").hide();
     var url = host + callData.path;
     var request = $.ajax({
       type: callData.type,
       url: url,
+      timeout: AJAX_RETRY_TIMEOUT,
       dataType: "json",
       contentType: "application/json; charset=utf-8",
       //beforeSend: function(xhr) {
       //  xhr.setRequestHeader("Accept", "application/json")
       //},
       data: JSON.stringify(callData.data)
-      //data: JSON.stringify(data)
+    }).retry({
+      times: AJAX_RETRY_ATTEMPTS,
+      timeout: AJAX_RETRY_TIMEOUT
     }).fail(function(jqXHR, textStatus, errorThrown) {
-      if (confirm("API Call Failed. Try again?") + JSON.stringify(callData.data)) {
-        makeAPICall(callData, doneCallback);
-      } else {
-        // silent fail!
-      }
+      alert("We're having trouble submitting your tour. You may be able to try again in a few minutes. Click the button to send us an error report!");
+      // add email of "this" here
+      setErrorButtonMailto(this, jqXHR);
     }).done(function(response, textStatus, jqXHR) {
+      console.log("done");
       if (typeof doneCallback === 'function') {
         doneCallback.call(this, response);
       }
     });
   }
+
+  function setErrorButtonMailto(ajaxObject, jqXHR) {
+    var errorMailto = "mailto:" + ERROR_SUBMISSION_ADDRESS + "?subject=TrackJack Tour Submission Error&";
+    errorMailto += "body=" + encodeURIComponent(JSON.stringify(ajaxObject));
+    errorMailto += "----" + encodeURIComponent(JSON.stringify(jqXHR));
+    $("#createTrackReportError").attr("href", errorMailto);
+    $("#createTrackReportErrorDiv").show();
+  }
+
+  function hideErrorReportButton() {
+    $("#createTrackReportErrorDiv").hide();
+  }
+  
 }
+
+
 
 function logpp(js) {
   console.log(JSON.stringify(js, null, "  "));
