@@ -606,7 +606,7 @@ function onDeviceReadyCreate() {
   function setErrorButtonMailto(ajaxObject, jqXHR) {
     var errorMailto = "mailto:" + ERROR_SUBMISSION_ADDRESS + "?subject=TrackJack Tour Submission Error&";
     var emailIntro = "If you have a moment, let us know what happened here. Thanks!\n\n\n------------------------------------------\n";
-    errorMailto += "body=" + encodeURIComponent(JSON.stringify(ajaxObject));
+    errorMailto += "body=" + encodeURIComponent(emailIntro) + encodeURIComponent(JSON.stringify(ajaxObject));
     errorMailto += "----" + encodeURIComponent(JSON.stringify(jqXHR));
     $("#createTrackReportError").attr("href", errorMailto);
     $("#createTrackReportErrorDiv").show();
