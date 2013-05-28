@@ -39,12 +39,10 @@ class ToursController < ApplicationController
   def index
     headers['Last-Modified'] = Time.now.httpdate
     @tours = Tour.all
-    @tours.each do |tour|
-      # tour["fullitem"] = tour.cover_image.url
-    end
+    @tour.select! { |tour| tour.name }
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @tours, 
+      format.json { render :json => @tours, 
         :include => {:chapters => {:include => :interest_point}},
         :methods => [:tour_length, :fullitem]
       }

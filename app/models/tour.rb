@@ -11,7 +11,9 @@ class Tour < ActiveRecord::Base
   has_many :interest_points, :through => :chapters, :order => 'chapters.position';
 
   def tour_length
-    path.length
+    if path
+      path.length
+    end
   end
 
   def fullitem
