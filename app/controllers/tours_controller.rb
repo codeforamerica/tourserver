@@ -39,7 +39,7 @@ class ToursController < ApplicationController
   def index
     headers['Last-Modified'] = Time.now.httpdate
     @tours = Tour.all
-    @tour.select! { |tour| tour.name }
+    @tours.select! { |tour| tour.name }
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @tours, 
